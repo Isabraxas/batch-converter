@@ -1,0 +1,7 @@
+database:
+  jdbc-driver: org.postgresql.Driver
+  url: jdbc:postgresql://postgres.lab.viridian.cc:5432/viridian
+  user: viridian
+  password: sesamo
+server:
+  port: 8087

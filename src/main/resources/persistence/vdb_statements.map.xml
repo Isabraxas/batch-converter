@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data-map xmlns="http://cayenne.apache.org/schema/9/modelMap"
+	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xsi:schemaLocation="http://cayenne.apache.org/schema/9/modelMap http://cayenne.apache.org/schema/9/modelMap.xsd"
+	 project-version="9">
+	<property name="defaultPackage" value="cc.viridian.servicebatchconverter"/>
+	<db-entity name="FORMAT">
+		<db-attribute name="ATTRIBUTES" type="LONGVARCHAR"/>
+		<db-attribute name="ID" type="INTEGER" isPrimaryKey="true" isMandatory="true"/>
+		<db-attribute name="NAME" type="VARCHAR" length="40"/>
+		<db-attribute name="TIME_CREATE" type="TIMESTAMP"/>
+		<db-attribute name="TIME_MODIFY" type="TIMESTAMP"/>
+		<db-attribute name="USR_CREATE" type="VARCHAR" length="40"/>
+		<db-attribute name="USR_MODIFY" type="VARCHAR" length="40"/>
+	</db-entity>
+	<db-entity name="SEND">
+		<db-attribute name="ATTRIBUTES" type="LONGVARCHAR"/>
+		<db-attribute name="ID" type="INTEGER" isPrimaryKey="true" isMandatory="true"/>
+		<db-attribute name="NAME" type="VARCHAR" length="40"/>
+		<db-attribute name="TIME_CREATE" type="TIMESTAMP"/>
+		<db-attribute name="TIME_MODIFY" type="TIMESTAMP"/>
+		<db-attribute name="USR_CREATE" type="VARCHAR" length="40"/>
+		<db-attribute name="USR_MODIFY" type="VARCHAR" length="40"/>
+	</db-entity>
+	<db-entity name="STATEMENT_DETAIL">
+		<db-attribute name="ACCOUNT_CODE" type="VARCHAR" length="20"/>
+		<db-attribute name="ACCOUNT_CURRENCY" type="CHAR" length="3"/>
+		<db-attribute name="ACCOUNT_TYPE" type="VARCHAR" length="20"/>
+		<db-attribute name="AMOUNT" type="NUMERIC" length="15" scale="2"/>
+		<db-attribute name="ANNOTATION" type="VARCHAR" length="200"/>
+		<db-attribute name="BALANCE" type="NUMERIC" length="15" scale="2"/>
+		<db-attribute name="BRANCH_CHANNEL" type="VARCHAR" length="60"/>
+		<db-attribute name="DATE" type="CHAR" length="8"/>
+		<db-attribute name="DEBIT_CREDIT" type="CHAR" length="1"/>
+		<db-attribute name="ID" type="INTEGER" isPrimaryKey="true" isMandatory="true"/>
+		<db-attribute name="LOCAL_DATE_TIME" type="TIMESTAMP"/>
+		<db-attribute name="REFERENCE_NUMBER" type="VARCHAR" length="20"/>
+		<db-attribute name="SECONDARY_INFO" type="VARCHAR" length="250"/>
+		<db-attribute name="TRANSACTION_CODE" type="VARCHAR" length="20"/>
+		<db-attribute name="TRANSACTION_DESC" type="VARCHAR" length="60"/>
+		<db-attribute name="TRN_ID" type="VARCHAR" length="30"/>
+	</db-entity>
+	<db-entity name="STATEMENT_HEADER">
+		<db-attribute name="ACCOUNT_ADDRESS" type="VARCHAR" length="200"/>
+		<db-attribute name="ACCOUNT_BRANCH" type="VARCHAR" length="60"/>
+		<db-attribute name="ACCOUNT_CODE" type="VARCHAR" length="20"/>
+		<db-attribute name="ACCOUNT_CURRENCY" type="CHAR" length="3"/>
+		<db-attribute name="ACCOUNT_NAME" type="VARCHAR" length="200"/>
+		<db-attribute name="ACCOUNT_TYPE" type="VARCHAR" length="20"/>
+		<db-attribute name="BALANCE_END" type="NUMERIC" length="15" scale="2"/>
+		<db-attribute name="BALANCE_INITIAL" type="NUMERIC" length="15" scale="2"/>
+		<db-attribute name="CUSTOMER_CODE" type="VARCHAR" length="20"/>
+		<db-attribute name="DATE_FROM" type="DATE"/>
+		<db-attribute name="DATE_TO" type="DATE"/>
+		<db-attribute name="ID" type="INTEGER" isPrimaryKey="true" isMandatory="true"/>
+		<db-attribute name="MESSAGE" type="VARCHAR" length="250"/>
+		<db-attribute name="STATEMENT_TITLE" type="VARCHAR" length="60"/>
+	</db-entity>
+	<db-entity name="STATEMENT_JOB">
+		<db-attribute name="ACCOUNT_CODE" type="VARCHAR" length="20"/>
+		<db-attribute name="ACCOUNT_CURRENCY" type="VARCHAR" length="3"/>
+		<db-attribute name="ACCOUNT_TYPE" type="VARCHAR" length="20"/>
+		<db-attribute name="ADAPTER_COREBANK" type="VARCHAR" length="20"/>
+		<db-attribute name="ADAPTER_FORMAT" type="VARCHAR" length="20"/>
+		<db-attribute name="ADAPTER_SEND" type="VARCHAR" length="20"/>
+		<db-attribute name="COREBANK_ERROR_CODE" type="VARCHAR" length="20"/>
+		<db-attribute name="COREBANK_ERROR_DESC" type="VARCHAR" length="250"/>
+		<db-attribute name="COREBANK_RETRIES" type="INTEGER"/>
+		<db-attribute name="COREBANK_TRY_AGAIN_AT" type="TIMESTAMP"/>
+		<db-attribute name="CUSTOMER_CODE" type="VARCHAR" length="20"/>
+		<db-attribute name="FREQUENCY" type="VARCHAR" length="10"/>
+		<db-attribute name="ID" type="INTEGER" isPrimaryKey="true" isMandatory="true"/>
+		<db-attribute name="PROCESS_DATE_FROM" type="DATE"/>
+		<db-attribute name="PROCESS_DATE_TO" type="DATE"/>
+		<db-attribute name="SENDER_ERROR_CODE" type="VARCHAR" length="20"/>
+		<db-attribute name="SENDER_ERROR_DESC" type="VARCHAR" length="250"/>
+		<db-attribute name="SENDER_RETRIES" type="INTEGER"/>
+		<db-attribute name="SENDER_TRY_AGAIN_AT" type="TIMESTAMP"/>
+		<db-attribute name="SEND_RECIPIENT" type="VARCHAR" length="255"/>
+		<db-attribute name="STATUS" type="CHAR" length="20"/>
+		<db-attribute name="TIME_CREATE_JOB" type="TIMESTAMP"/>
+		<db-attribute name="TIME_END_JOB" type="TIMESTAMP"/>
+		<db-attribute name="TIME_START_JOB" type="TIMESTAMP"/>
+	</db-entity>
+	<db-entity name="STATEMENT_MAIN">
+		<db-attribute name="ACCOUNT_CODE" type="VARCHAR" length="20"/>
+		<db-attribute name="ACCOUNT_CURRENCY" type="CHAR" length="3"/>
+		<db-attribute name="ACCOUNT_TYPE" type="VARCHAR" length="20"/>
+		<db-attribute name="ADAPTER_COREBANK" type="VARCHAR" length="20"/>
+		<db-attribute name="ADAPTER_FORMAT" type="VARCHAR" length="20"/>
+		<db-attribute name="ADAPTER_SEND" type="VARCHAR" length="20"/>
+		<db-attribute name="CUSTOMER_CODE" type="VARCHAR" length="20"/>
+		<db-attribute name="CUSTOMER_NAME" type="VARCHAR" length="200"/>
+		<db-attribute name="ENABLED" type="BOOLEAN"/>
+		<db-attribute name="FREQUENCY" type="CHAR" length="10"/>
+		<db-attribute name="ID" type="INTEGER" isPrimaryKey="true" isMandatory="true"/>
+		<db-attribute name="OVERWRITTEN_BY_BANK" type="BOOLEAN"/>
+		<db-attribute name="SEND_RECIPIENT" type="VARCHAR" length="255"/>
+		<db-attribute name="TIME_CREATE" type="TIMESTAMP"/>
+		<db-attribute name="TIME_MODIFY" type="TIMESTAMP"/>
+		<db-attribute name="USR_CREATE" type="VARCHAR" length="40"/>
+		<db-attribute name="USR_MODIFY" type="VARCHAR" length="40"/>
+	</db-entity>
+	<obj-entity name="Format" className="cc.viridian.servicebatchconverter.persistence.Format" dbEntityName="FORMAT">
+		<obj-attribute name="attributes" type="java.lang.String" db-attribute-path="ATTRIBUTES"/>
+		<obj-attribute name="name" type="java.lang.String" db-attribute-path="NAME"/>
+		<obj-attribute name="timeCreate" type="java.time.LocalDateTime" db-attribute-path="TIME_CREATE"/>
+		<obj-attribute name="timeModify" type="java.time.LocalDateTime" db-attribute-path="TIME_MODIFY"/>
+		<obj-attribute name="usrCreate" type="java.lang.String" db-attribute-path="USR_CREATE"/>
+		<obj-attribute name="usrModify" type="java.lang.String" db-attribute-path="USR_MODIFY"/>
+	</obj-entity>
+	<obj-entity name="Send" className="cc.viridian.servicebatchconverter.persistence.Send" dbEntityName="SEND">
+		<obj-attribute name="attributes" type="java.lang.String" db-attribute-path="ATTRIBUTES"/>
+		<obj-attribute name="name" type="java.lang.String" db-attribute-path="NAME"/>
+		<obj-attribute name="timeCreate" type="java.time.LocalDateTime" db-attribute-path="TIME_CREATE"/>
+		<obj-attribute name="timeModify" type="java.time.LocalDateTime" db-attribute-path="TIME_MODIFY"/>
+		<obj-attribute name="usrCreate" type="java.lang.String" db-attribute-path="USR_CREATE"/>
+		<obj-attribute name="usrModify" type="java.lang.String" db-attribute-path="USR_MODIFY"/>
+	</obj-entity>
+	<obj-entity name="StatementHeader" className="cc.viridian.servicebatchconverter.persistence.StatementHeader" dbEntityName="STATEMENT_HEADER">
+		<obj-attribute name="accountAddress" type="java.lang.String" db-attribute-path="ACCOUNT_ADDRESS"/>
+		<obj-attribute name="accountBranch" type="java.lang.String" db-attribute-path="ACCOUNT_BRANCH"/>
+		<obj-attribute name="accountCode" type="java.lang.String" db-attribute-path="ACCOUNT_CODE"/>
+		<obj-attribute name="accountCurrency" type="java.lang.String" db-attribute-path="ACCOUNT_CURRENCY"/>
+		<obj-attribute name="accountName" type="java.lang.String" db-attribute-path="ACCOUNT_NAME"/>
+		<obj-attribute name="accountType" type="java.lang.String" db-attribute-path="ACCOUNT_TYPE"/>
+		<obj-attribute name="balanceEnd" type="java.math.BigDecimal" db-attribute-path="BALANCE_END"/>
+		<obj-attribute name="balanceInitial" type="java.math.BigDecimal" db-attribute-path="BALANCE_INITIAL"/>
+		<obj-attribute name="customerCode" type="java.lang.String" db-attribute-path="CUSTOMER_CODE"/>
+		<obj-attribute name="dateFrom" type="java.time.LocalDate" db-attribute-path="DATE_FROM"/>
+		<obj-attribute name="dateTo" type="java.time.LocalDate" db-attribute-path="DATE_TO"/>
+		<obj-attribute name="message" type="java.lang.String" db-attribute-path="MESSAGE"/>
+		<obj-attribute name="statementTitle" type="java.lang.String" db-attribute-path="STATEMENT_TITLE"/>
+	</obj-entity>
+	<obj-entity name="StatementDetail" className="cc.viridian.servicebatchconverter.persistence.StatementDetail" dbEntityName="STATEMENT_DETAIL">
+		<obj-attribute name="accountCode" type="java.lang.String" db-attribute-path="ACCOUNT_CODE"/>
+		<obj-attribute name="accountCurrency" type="java.lang.String" db-attribute-path="ACCOUNT_CURRENCY"/>
+		<obj-attribute name="accountType" type="java.lang.String" db-attribute-path="ACCOUNT_TYPE"/>
+		<obj-attribute name="amount" type="java.math.BigDecimal" db-attribute-path="AMOUNT"/>
+		<obj-attribute name="annotation" type="java.lang.String" db-attribute-path="ANNOTATION"/>
+		<obj-attribute name="balance" type="java.math.BigDecimal" db-attribute-path="BALANCE"/>
+		<obj-attribute name="date" type="java.lang.String" db-attribute-path="DATE"/>
+		<obj-attribute name="debitCredit" type="java.lang.String" db-attribute-path="DEBIT_CREDIT"/>
+		<obj-attribute name="localDateTime" type="java.time.LocalDate" db-attribute-path="LOCAL_DATE_TIME"/>
+		<obj-attribute name="referenceNumber" type="java.lang.String" db-attribute-path="REFERENCE_NUMBER"/>
+		<obj-attribute name="secondaryInfo" type="java.lang.String" db-attribute-path="SECONDARY_INFO"/>
+		<obj-attribute name="transactionCode" type="java.lang.String" db-attribute-path="TRANSACTION_CODE"/>
+		<obj-attribute name="transactionDesc" type="java.lang.String" db-attribute-path="TRANSACTION_DESC"/>
+	</obj-entity>
+	<obj-entity name="StatementJob" className="cc.viridian.servicebatchconverter.persistence.StatementJob" dbEntityName="STATEMENT_JOB">
+		<obj-attribute name="accountCode" type="java.lang.String" db-attribute-path="ACCOUNT_CODE"/>
+		<obj-attribute name="accountCurrency" type="java.lang.String" db-attribute-path="ACCOUNT_CURRENCY"/>
+		<obj-attribute name="accountType" type="java.lang.String" db-attribute-path="ACCOUNT_TYPE"/>
+		<obj-attribute name="adapterCorebank" type="java.lang.String" db-attribute-path="ADAPTER_COREBANK"/>
+		<obj-attribute name="adapterFormat" type="java.lang.String" db-attribute-path="ADAPTER_FORMAT"/>
+		<obj-attribute name="adapterSend" type="java.lang.String" db-attribute-path="ADAPTER_SEND"/>
+		<obj-attribute name="corebankErrorCode" type="java.lang.String" db-attribute-path="COREBANK_ERROR_CODE"/>
+		<obj-attribute name="corebankErrorDesc" type="java.lang.String" db-attribute-path="COREBANK_ERROR_DESC"/>
+		<obj-attribute name="corebankRetries" type="int" db-attribute-path="COREBANK_RETRIES"/>
+		<obj-attribute name="corebankTryAgainAt" type="java.time.LocalDateTime" db-attribute-path="COREBANK_TRY_AGAIN_AT"/>
+		<obj-attribute name="customerCode" type="java.lang.String" db-attribute-path="CUSTOMER_CODE"/>
+		<obj-attribute name="frequency" type="java.lang.String" db-attribute-path="FREQUENCY"/>
+		<obj-attribute name="processDateFrom" type="java.time.LocalDate" db-attribute-path="PROCESS_DATE_FROM"/>
+		<obj-attribute name="processDateTo" type="java.time.LocalDate" db-attribute-path="PROCESS_DATE_TO"/>
+		<obj-attribute name="sendRecipient" type="java.lang.String" db-attribute-path="SEND_RECIPIENT"/>
+		<obj-attribute name="senderErrorCode" type="java.lang.String" db-attribute-path="SENDER_ERROR_CODE"/>
+		<obj-attribute name="senderErrorDesc" type="java.lang.String" db-attribute-path="SENDER_ERROR_DESC"/>
+		<obj-attribute name="senderRetries" type="int" db-attribute-path="SENDER_RETRIES"/>
+		<obj-attribute name="senderTryAgainAt" type="java.time.LocalDateTime" db-attribute-path="SENDER_TRY_AGAIN_AT"/>
+		<obj-attribute name="status" type="java.lang.String" db-attribute-path="STATUS"/>
+		<obj-attribute name="timeCreateJob" type="java.time.LocalDateTime" db-attribute-path="TIME_CREATE_JOB"/>
+		<obj-attribute name="timeEndJob" type="java.time.LocalDateTime" db-attribute-path="TIME_END_JOB"/>
+		<obj-attribute name="timeStartJob" type="java.time.LocalDateTime" db-attribute-path="TIME_START_JOB"/>
+	</obj-entity>
+	<obj-entity name="StatementMain" className="cc.viridian.servicebatchconverter.persistence.StatementMain" dbEntityName="STATEMENT_MAIN">
+		<obj-attribute name="accountCode" type="java.lang.String" db-attribute-path="ACCOUNT_CODE"/>
+		<obj-attribute name="accountCurrency" type="java.lang.String" db-attribute-path="ACCOUNT_CURRENCY"/>
+		<obj-attribute name="accountType" type="java.lang.String" db-attribute-path="ACCOUNT_TYPE"/>
+		<obj-attribute name="adapterCorebank" type="java.lang.String" db-attribute-path="ADAPTER_COREBANK"/>
+		<obj-attribute name="adapterFormat" type="java.lang.String" db-attribute-path="ADAPTER_FORMAT"/>
+		<obj-attribute name="adapterSend" type="java.lang.String" db-attribute-path="ADAPTER_SEND"/>
+		<obj-attribute name="customerCode" type="java.lang.String" db-attribute-path="CUSTOMER_CODE"/>
+		<obj-attribute name="customerName" type="java.lang.String" db-attribute-path="CUSTOMER_NAME"/>
+		<obj-attribute name="enabled" type="boolean" db-attribute-path="ENABLED"/>
+		<obj-attribute name="frequency" type="java.lang.String" db-attribute-path="FREQUENCY"/>
+		<obj-attribute name="overwrittenByBank" type="boolean" db-attribute-path="OVERWRITTEN_BY_BANK"/>
+		<obj-attribute name="sendRecipient" type="java.lang.String" db-attribute-path="SEND_RECIPIENT"/>
+		<obj-attribute name="timeCreate" type="java.time.LocalDateTime" db-attribute-path="TIME_CREATE"/>
+		<obj-attribute name="timeModify" type="java.time.LocalDateTime" db-attribute-path="TIME_MODIFY"/>
+		<obj-attribute name="usrCreate" type="java.lang.String" db-attribute-path="USR_CREATE"/>
+		<obj-attribute name="usrModify" type="java.lang.String" db-attribute-path="USR_MODIFY"/>
+	</obj-entity>
+</data-map>
