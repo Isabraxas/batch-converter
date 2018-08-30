@@ -1,5 +1,6 @@
 package cc.viridian.servicebatchconverter.service;
 
+import cc.viridian.servicebatchconverter.Utils.FormatUtil;
 import cc.viridian.servicebatchconverter.payload.DetailPayload;
 import cc.viridian.servicebatchconverter.payload.HeaderPayload;
 import cc.viridian.servicebatchconverter.payload.StatementPayload;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ParseStatement {
+public class ParseStatementsFileService {
 
     Integer dateSize = null;
     Integer descSize = null;
@@ -89,6 +90,8 @@ public class ParseStatement {
         return statementPayloadList;
     }
 
+
+
     private HeaderPayload fillStatementAccountHeader(final String line, final HeaderPayload headerPayload) {
         HeaderPayload statementHeader = headerPayload;
         String[] splitLine;
@@ -96,39 +99,48 @@ public class ParseStatement {
         if (line.contains("Bank")) {
 
             splitLine = line.split(": ");
-            statementHeader.setAccountBranch(splitLine[1]);
+            statementHeader.setAccountBranch(FormatUtil.parseToNull(splitLine[1]));
         }
+
         if (line.contains("Address")) {
 
             splitLine = line.split(": ");
-            statementHeader.setAccountAddress(splitLine[1]);
+            statementHeader.setAccountAddress(FormatUtil.parseToNull(splitLine[1]));
         }
+
         if (line.contains("Statement")) {
 
-            splitLine = line.split(": ");
-            String[] dates = splitLine[1].split(" - ");
-            String[] dateForm = dates[0].split("-");
-            String[] dateTo = dates[1].split("-");
+            if(!line.contains("null")) {
+                splitLine = line.split(": ");
+                String[] dates = splitLine[1].split(" - ");
+                String[] dateForm = dates[0].split("-");
+                String[] dateTo = dates[1].split("-");
 
-            statementHeader.setDateFrom(LocalDate.of(Integer.valueOf(dateForm[0]),
-                                                     Integer.valueOf(dateForm[1]),
-                                                     Integer.valueOf(dateForm[2])
-            ));
+                statementHeader.setDateFrom(LocalDate.of(Integer.valueOf(dateForm[0]),
+                                                         Integer.valueOf(dateForm[1]),
+                                                         Integer.valueOf(dateForm[2])
+                ));
 
-            statementHeader.setDateTo(LocalDate.of(Integer.valueOf(dateTo[0]),
-                                                   Integer.valueOf(dateTo[1]),
-                                                   Integer.valueOf(dateTo[2])
-            ));
+                statementHeader.setDateTo(LocalDate.of(Integer.valueOf(dateTo[0]),
+                                                       Integer.valueOf(dateTo[1]),
+                                                       Integer.valueOf(dateTo[2])
+                ));
+            }else {
+                statementHeader.setDateFrom(null);
+                statementHeader.setDateTo(null);
+            }
         }
+
         if (line.contains("Customer")) {
 
             splitLine = line.split(": ");
-            statementHeader.setCustomerCode(splitLine[1]);
+            statementHeader.setCustomerCode(FormatUtil.parseToNull(splitLine[1]));
         }
+
         if (line.contains("Account")) {
 
             splitLine = line.split(": ");
-            statementHeader.setAccountCode(splitLine[1]);
+            statementHeader.setAccountCode(FormatUtil.parseToNull(splitLine[1]));
         }
 
         return statementHeader;

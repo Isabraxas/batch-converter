@@ -11,4 +11,9 @@ public class FormatUtil {
         String rS= s.substring(0,1);
         return rS;
     }
+
+    public static String parseToNull(final String s){
+        String rS = s.contains("null")? null : s;
+        return rS;
+    }
 }

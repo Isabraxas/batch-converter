@@ -5,3 +5,7 @@ database:
   password: sesamo
 server:
   port: 8087
+
+##### Custom properties ####
+file.path: /home/isvar/Documents/statement/service-batch-converter/src/main/resources/Files/Statement_1998-01-01_2017-12-31.prn
+

@@ -8,6 +8,7 @@ import cc.viridian.servicebatchconverter.persistence.StatementDetail;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.cayenne.ObjectContext;
 import org.apache.cayenne.configuration.server.ServerRuntime;
+import org.apache.cayenne.query.SQLExec;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -50,6 +51,19 @@ public class StatementDetailRepository {
         context.commitChanges();
 
 
+    }
+
+    public int deleteStatementDetail(DetailPayload body){
+        log.info("Deleteing StatementDetail");
+        ObjectContext context = mainServerRuntime.newContext();
+
+        int delete = SQLExec
+            .query("DELETE FROM STATEMENT_DETAIL\n" +
+                       "WHERE ACCOUNT_CODE = #bind($accCode)")
+            .paramsArray(body.getAccountCode())
+            .update(context);
+
+        return delete;
     }
 
     private DetailPayload reformatDetail(final DetailPayload body){

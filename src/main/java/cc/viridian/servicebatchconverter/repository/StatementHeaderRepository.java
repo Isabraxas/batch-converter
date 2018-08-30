@@ -35,6 +35,19 @@ public class StatementHeaderRepository {
 
     }
 
+    public int deleteByCustomer(HeaderPayload body) {
+        log.info("Deleteing StatementHeader");
+        ObjectContext context = mainServerRuntime.newContext();
+
+        int delete = SQLExec
+            .query("DELETE FROM STATEMENT_HEADER\n" +
+                       "WHERE CUSTOMER_CODE = #bind($cusCode)")
+            .paramsArray(body.getCustomerCode())
+            .update(context);
+
+        return delete;
+    }
+
     public void saveStatementHeader(HeaderPayload body) {
 
         ObjectContext context = mainServerRuntime.newContext();
@@ -59,5 +72,6 @@ public class StatementHeaderRepository {
 
 
     }
+
 
 }
