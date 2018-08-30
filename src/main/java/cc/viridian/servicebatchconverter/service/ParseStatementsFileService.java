@@ -40,15 +40,17 @@ public class ParseStatementsFileService {
         Integer colSum = 0;
 
         HeaderPayload statementHeader = new HeaderPayload();
+        System.out.print("LINE:");
 
         while ((line = b.readLine()) != null) {
 
             DetailPayload detail = new DetailPayload();
             currentLine++;
+            System.out.print(", "+currentLine);
 
             if (!line.contains("-----------------") && !line.equals("")) {
 
-                System.out.println(line);
+                //System.out.println(line);
 
                 //Try fill the Header
                 statementHeader = this.fillStatementAccountHeader(line, statementHeader);
@@ -71,9 +73,9 @@ public class ParseStatementsFileService {
             }
 
             statement.setHeader(statementHeader);
-            System.out.println("HEADER: " + statementHeader);
+            //System.out.println("HEADER: " + statementHeader);
             statement.setDetails(detailList);
-            System.out.println("DETAILS: " + detailList);
+            //System.out.println("DETAILS: " + detailList);
 
             if (line.contains("-----------------")) {
 
@@ -87,6 +89,7 @@ public class ParseStatementsFileService {
         }
         b.close();
 
+        System.out.print("\n");
         return statementPayloadList;
     }
 
