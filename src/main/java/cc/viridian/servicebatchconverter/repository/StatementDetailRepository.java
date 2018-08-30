@@ -1,7 +1,5 @@
 package cc.viridian.servicebatchconverter.repository;
 
-
-
 import cc.viridian.servicebatchconverter.Utils.FormatUtil;
 import cc.viridian.servicebatchconverter.payload.DetailPayload;
 import cc.viridian.servicebatchconverter.persistence.StatementDetail;
@@ -22,7 +20,6 @@ public class StatementDetailRepository {
         this.mainServerRuntime = mainServerRuntime;
     }
 
-
     public void saveStatementDetail(DetailPayload body) {
 
         ObjectContext context = mainServerRuntime.newContext();
@@ -30,7 +27,7 @@ public class StatementDetailRepository {
         log.info("Saving new Header in DB ");
         StatementDetail statementDetail = context.newObject(StatementDetail.class);
         //Reformat
-        body=this.reformatDetail(body);
+        body = this.reformatDetail(body);
 
         statementDetail.setAccountCode(body.getAccountCode());
         statementDetail.setAccountCurrency(body.getAccountCurrency());
@@ -47,13 +44,10 @@ public class StatementDetailRepository {
         statementDetail.setTransactionCode(body.getTransactionCode());
         statementDetail.setTransactionDesc(body.getTransactionDesc());
 
-
         context.commitChanges();
-
-
     }
 
-    public int deleteStatementDetail(DetailPayload body){
+    public int deleteStatementDetail(DetailPayload body) {
         log.info("Deleteing StatementDetail");
         ObjectContext context = mainServerRuntime.newContext();
 
@@ -66,17 +60,16 @@ public class StatementDetailRepository {
         return delete;
     }
 
-    private DetailPayload reformatDetail(final DetailPayload body){
+    private DetailPayload reformatDetail(final DetailPayload body) {
         DetailPayload detailPayload = body;
 
         //Date 8 chars
-        String newDate= FormatUtil.parseDateDBformat(detailPayload.getDate(),"-");
+        String newDate = FormatUtil.parseDateDBformat(detailPayload.getDate(), "-");
         detailPayload.setDate(newDate);
         //Debit-Credit
-        String newOp= FormatUtil.getInitialChar(detailPayload.getDebitCredit());
+        String newOp = FormatUtil.getInitialChar(detailPayload.getDebitCredit());
         detailPayload.setDebitCredit(newOp);
 
         return detailPayload;
     }
-
 }

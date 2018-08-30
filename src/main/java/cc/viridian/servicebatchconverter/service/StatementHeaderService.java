@@ -17,15 +17,15 @@ public class StatementHeaderService {
         this.headerRepository = headerRepository;
     }
 
-    public String insertToDatabase(List<StatementPayload> statementPayloadList){
+    public String insertToDatabase(List<StatementPayload> statementPayloadList) {
 
-          statementPayloadList.stream().forEach( statementPayload ->
-                                                   this.headerRepository
-                                                       .saveStatementHeader(statementPayload.getHeader()) );
-          return "PARSED";
+        statementPayloadList.stream().forEach(statementPayload ->
+                                                  this.headerRepository
+                                                      .saveStatementHeader(statementPayload.getHeader()));
+        return "PARSED";
     }
 
-    public int deleteByCustomer(final String customerCode){
+    public int deleteByCustomer(final String customerCode) {
         HeaderPayload headerPayload = new HeaderPayload();
         headerPayload.setCustomerCode(customerCode);
         return headerRepository.deleteByCustomer(headerPayload);

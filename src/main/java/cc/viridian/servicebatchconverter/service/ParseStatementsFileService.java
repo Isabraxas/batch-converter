@@ -24,7 +24,7 @@ public class ParseStatementsFileService {
     Integer amountSize = null;
     Integer operationSize = null;
 
-    public List<StatementPayload> parseContent(String filePath) throws FileNotFoundException, IOException {
+    public List<StatementPayload> parseContent(final String filePath) throws FileNotFoundException, IOException {
         FileReader f = new FileReader(filePath);
         BufferedReader b = new BufferedReader(f);
 
@@ -46,7 +46,7 @@ public class ParseStatementsFileService {
 
             DetailPayload detail = new DetailPayload();
             currentLine++;
-            System.out.print(", "+currentLine);
+            System.out.print(", " + currentLine);
 
             if (!line.contains("-----------------") && !line.equals("")) {
 
@@ -59,7 +59,7 @@ public class ParseStatementsFileService {
                 startReadDetails = this.setSizeColumnsOfStatementAccountDetailHeader(line, startReadDetails);
 
                 //Fill statement details
-                if (startReadDetails == true) {
+                if (startReadDetails) {
                     detail = this.fillStatementAccountLog(line, detail, statementHeader);
                     if (detail != null) {
                         detailList.add(detail);
@@ -67,7 +67,7 @@ public class ParseStatementsFileService {
                 }
 
                 //Set Total amount
-                if (startReadDetails == false) {
+                if (!startReadDetails) {
                     this.setTotalAmount(line, statementHeader);
                 }
             }
@@ -93,8 +93,6 @@ public class ParseStatementsFileService {
         return statementPayloadList;
     }
 
-
-
     private HeaderPayload fillStatementAccountHeader(final String line, final HeaderPayload headerPayload) {
         HeaderPayload statementHeader = headerPayload;
         String[] splitLine;
@@ -113,7 +111,7 @@ public class ParseStatementsFileService {
 
         if (line.contains("Statement")) {
 
-            if(!line.contains("null")) {
+            if (!line.contains("null")) {
                 splitLine = line.split(": ");
                 String[] dates = splitLine[1].split(" - ");
                 String[] dateForm = dates[0].split("-");
@@ -128,7 +126,7 @@ public class ParseStatementsFileService {
                                                        Integer.valueOf(dateTo[1]),
                                                        Integer.valueOf(dateTo[2])
                 ));
-            }else {
+            } else {
                 statementHeader.setDateFrom(null);
                 statementHeader.setDateTo(null);
             }
@@ -167,7 +165,9 @@ public class ParseStatementsFileService {
         return rStartReadDetails;
     }
 
-    private DetailPayload fillStatementAccountLog(final String line, final DetailPayload detailPayload, final HeaderPayload headerPayload) {
+    private DetailPayload fillStatementAccountLog(final String line,
+                                                  final DetailPayload detailPayload,
+                                                  final HeaderPayload headerPayload) {
         DetailPayload detail = detailPayload;
         HeaderPayload statementHeader = headerPayload;
         Integer colSum = 0;

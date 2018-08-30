@@ -34,7 +34,7 @@ public class CayenneAutoConfiguration {
 
             ServerRuntime serverRuntime = ServerRuntime.builder()
                 .addConfig("persistence/cayenne-statement.xml")
-                .jdbcDriver( jdbcDriver)
+                .jdbcDriver(jdbcDriver)
                 .url(url)
                 .user(user)
                 .password(password)

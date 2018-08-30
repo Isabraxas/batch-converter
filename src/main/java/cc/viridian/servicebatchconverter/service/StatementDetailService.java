@@ -17,17 +17,17 @@ public class StatementDetailService {
         this.detailRepository = detailRepository;
     }
 
-    public String insertToDatabase(List<StatementPayload> statementPayloadList){
+    public String insertToDatabase(List<StatementPayload> statementPayloadList) {
 
-       statementPayloadList.stream().forEach( statementPayload
+        statementPayloadList.stream().forEach(statementPayload
                                                   -> statementPayload.getDetails().stream()
-                                                                   .forEach( detail
-                                                                                 -> this.detailRepository
-                                                                       .saveStatementDetail(detail) ) );
+                                                                     .forEach(detail
+                                                                                  -> this.detailRepository
+                                                                         .saveStatementDetail(detail)));
         return "PARSED";
     }
 
-    public int deleteByAccount(final String accountCode){
+    public int deleteByAccount(final String accountCode) {
         DetailPayload detailPayload = new DetailPayload();
         detailPayload.setAccountCode(accountCode);
         return detailRepository.deleteStatementDetail(detailPayload);

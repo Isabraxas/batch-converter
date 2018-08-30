@@ -5,7 +5,6 @@ import cc.viridian.servicebatchconverter.service.ParseStatementsFileService;
 import cc.viridian.servicebatchconverter.service.StatementDetailService;
 import cc.viridian.servicebatchconverter.service.StatementHeaderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -24,22 +23,26 @@ public class BatchConverterMenu {
     @Autowired
     private ParseStatementsFileService parseStatementsFileService;
 
-    public void ini(String baseFilePath){
+    private List<StatementPayload> statementPayloadList = new ArrayList<StatementPayload>();
+
+    public void ini(String baseFilePath) {
 
         Scanner sn = new Scanner(System.in);
         boolean salir = false;
         int opcion; //Guardaremos la opcion del usuario
         String filePath = baseFilePath;
-        List<StatementPayload> statementPayloadList = new ArrayList<StatementPayload>();
+        //List<StatementPayload> statementPayloadList = new ArrayList<StatementPayload>();
 
         while (!salir) {
 
+            System.out.println("\n******************************************");
             System.out.println("1. Parsear archivo local");
             System.out.println("2. Alamacenar los statement headers");
             System.out.println("3. Alamacenar los statement details");
             System.out.println("4. Alamacenar toda la lista de statements");
             System.out.println("5. Usar archivo de prueba para almacenar los statements en la base de datos");
             System.out.println("6. Salir");
+            System.out.println("******************************************");
 
             try {
 
@@ -50,9 +53,9 @@ public class BatchConverterMenu {
                     case 1:
                         System.out.println("Has seleccionado la opcion 1");
 
-                            System.out.print("Escribe la ruta del archivo: ");
-                            filePath = sn.next();
-                            statementPayloadList = parseStatementsFileService.parseContent(filePath);
+                        System.out.print("Escribe la ruta del archivo: ");
+                        filePath = sn.next();
+                        statementPayloadList = parseStatementsFileService.parseContent(filePath);
                         break;
 
                     case 2:
@@ -80,11 +83,9 @@ public class BatchConverterMenu {
                     case 5:
                         System.out.println("Has seleccionado la opcion 5");
 
-                            statementPayloadList = parseStatementsFileService.parseContent(baseFilePath);
-                            statementHeaderService.insertToDatabase(statementPayloadList);
-                            statementDetailService.insertToDatabase(statementPayloadList);
-                            //int rowsDeleted = statementDetailService.deleteByAccount("A00010002");
-                            //log.info("EXECUTING : delete statements: " + rowsDeleted);
+                        useTestFile(baseFilePath);
+                        //int rowsDeleted = statementDetailService.deleteByAccount("A00010002");
+                        //log.info("EXECUTING : delete statements: " + rowsDeleted);
                         break;
 
                     case 6:
@@ -93,7 +94,6 @@ public class BatchConverterMenu {
 
                     default:
                         System.out.println("\nSolo números entre 1 y 6\n");
-
                 }
             } catch (InputMismatchException e) {
                 System.out.println("\nDebes insertar un número\n");
@@ -104,10 +104,11 @@ public class BatchConverterMenu {
                 e.printStackTrace();
             }
         }
-
-
     }
 
-
-
+    public void useTestFile(final String baseFilePath) throws IOException {
+        statementPayloadList = parseStatementsFileService.parseContent(baseFilePath);
+        statementHeaderService.insertToDatabase(statementPayloadList);
+        statementDetailService.insertToDatabase(statementPayloadList);
+    }
 }
