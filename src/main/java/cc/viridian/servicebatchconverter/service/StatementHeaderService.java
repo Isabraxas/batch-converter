@@ -2,6 +2,7 @@ package cc.viridian.servicebatchconverter.service;
 
 import cc.viridian.servicebatchconverter.payload.HeaderPayload;
 import cc.viridian.servicebatchconverter.payload.StatementPayload;
+import cc.viridian.servicebatchconverter.persistence.StatementHeader;
 import cc.viridian.servicebatchconverter.repository.StatementHeaderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import java.util.List;
 public class StatementHeaderService {
 
     private StatementHeaderRepository headerRepository;
+    private Integer count = 0;
 
     @Autowired
     public StatementHeaderService(StatementHeaderRepository headerRepository) {
@@ -29,5 +31,20 @@ public class StatementHeaderService {
         HeaderPayload headerPayload = new HeaderPayload();
         headerPayload.setCustomerCode(customerCode);
         return headerRepository.deleteByCustomer(headerPayload);
+    }
+
+    public Integer insertOneInToDatabase(HeaderPayload headerPayload) {
+        this.headerRepository.saveStatementHeader(headerPayload);
+        count++;
+        return count;
+    }
+
+    public Boolean exist(HeaderPayload headerPayload){
+        StatementHeader statementHeader = this.headerRepository.getOneStatementHeader(headerPayload);
+        if (statementHeader != null) {
+            return true;
+        }else {
+            return false;
+        }
     }
 }

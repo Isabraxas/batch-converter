@@ -4,6 +4,8 @@ import cc.viridian.servicebatchconverter.Utils.FormatUtil;
 import cc.viridian.servicebatchconverter.payload.DetailPayload;
 import cc.viridian.servicebatchconverter.payload.HeaderPayload;
 import cc.viridian.servicebatchconverter.payload.StatementPayload;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -14,9 +16,12 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
+@Slf4j
 @Service
 public class ParseStatementsFileService {
+
+    @Autowired
+    private StatementHeaderService statementHeaderService;
 
     Integer dateSize = null;
     Integer descSize = null;
@@ -80,6 +85,12 @@ public class ParseStatementsFileService {
             if (line.contains("-----------------")) {
 
                 statementPayloadList.add(statement);
+
+                if(statementHeaderService.exist(statementHeader)) {
+                    statementHeaderService.insertOneInToDatabase(statementHeader);
+                }else {
+                    log.error("El statement header ya existe: "+ statementHeader.toString());
+                }
 
                 statement = new StatementPayload();
                 statementHeader = new HeaderPayload();

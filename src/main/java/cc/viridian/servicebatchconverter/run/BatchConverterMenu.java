@@ -36,10 +36,10 @@ public class BatchConverterMenu {
         while (!salir) {
 
             System.out.println("\n******************************************");
-            System.out.println("1. Parsear archivo local");
-            System.out.println("2. Alamacenar los statement headers");
-            System.out.println("3. Alamacenar los statement details");
-            System.out.println("4. Alamacenar toda la lista de statements");
+            System.out.println("1. Parsear archivo un local");
+            System.out.println("2. Almacenar los statement headers");
+            System.out.println("3. Almacenar los statement details");
+            System.out.println("4. Almacenar toda la lista de statements");
             System.out.println("5. Usar archivo de prueba para almacenar los statements en la base de datos");
             System.out.println("6. Salir");
             System.out.println("******************************************");
@@ -106,7 +106,8 @@ public class BatchConverterMenu {
         }
     }
 
-    public void useTestFile(final String baseFilePath) throws IOException {
+    public void useTestFile(String baseFilePath) throws IOException {
+        baseFilePath = "/home/isvar/Documents/statement/service-batch-converter/target/classes/files/Statement_1998-01-01_2017-12-31.prn";
         statementPayloadList = parseStatementsFileService.parseContent(baseFilePath);
         statementHeaderService.insertToDatabase(statementPayloadList);
         statementDetailService.insertToDatabase(statementPayloadList);

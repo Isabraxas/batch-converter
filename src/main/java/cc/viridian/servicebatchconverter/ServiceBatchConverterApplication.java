@@ -31,8 +31,9 @@ public class ServiceBatchConverterApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) {
-		log.info("EXECUTING : command line runner");
 
+		log.info("EXECUTING : command line runner");
+		baseFilePath= ServiceBatchConverterApplication.class.getResource("/files/Statement_1998-01-01_2017-12-31.prn").getPath();
 		log.info("EXECUTING : Batch converter menu");
 		batchConverterMenu.ini(baseFilePath);
 

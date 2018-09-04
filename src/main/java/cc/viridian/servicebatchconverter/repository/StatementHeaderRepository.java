@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.cayenne.ObjectContext;
 import org.apache.cayenne.configuration.server.ServerRuntime;
 import org.apache.cayenne.query.SQLExec;
+import org.apache.cayenne.query.SQLSelect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -29,6 +30,19 @@ public class StatementHeaderRepository {
                 "INSERT INTO STATEMENT_HEADER(ACCOUNT_CODE,CUSTOMER_CODE,ID) VALUES (#bind($hAcc),#bind($hCtc),#bind($hId))")
             .paramsArray(body.getAccountCode(), body.getCustomerCode(), body.getId())
             .update(context);
+    }
+
+    public StatementHeader getOneStatementHeader(HeaderPayload body) {
+
+        ObjectContext context = mainServerRuntime.newContext();
+
+        log.info("Select Header in DB ");
+        StatementHeader statementHeader = SQLSelect
+            .query(StatementHeader.class, "SELECT * FROM STATEMENT_HEADER WHERE ACCOUNT_CODE=#bind($AccCode)"
+                    +" AND CUSTOMER_CODE=#bind($CustCode)")
+            .paramsArray(body.getAccountCode(), body.getCustomerCode())
+            .selectFirst(context);
+        return statementHeader;
     }
 
     public int deleteByCustomer(HeaderPayload body) {
