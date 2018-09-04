@@ -3,6 +3,7 @@ package cc.viridian.servicebatchconverter.repository;
 import cc.viridian.servicebatchconverter.payload.HeaderPayload;
 import cc.viridian.servicebatchconverter.persistence.StatementHeader;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.cayenne.DataRow;
 import org.apache.cayenne.ObjectContext;
 import org.apache.cayenne.configuration.server.ServerRuntime;
 import org.apache.cayenne.query.SQLExec;
@@ -37,11 +38,24 @@ public class StatementHeaderRepository {
         ObjectContext context = mainServerRuntime.newContext();
 
         log.info("Select Header in DB ");
-        StatementHeader statementHeader = SQLSelect
+        /*StatementHeader statementHeader = SQLSelect
             .query(StatementHeader.class, "SELECT * FROM STATEMENT_HEADER WHERE ACCOUNT_CODE=#bind($AccCode)"
                     +" AND CUSTOMER_CODE=#bind($CustCode)")
-            .paramsArray(body.getAccountCode(), body.getCustomerCode())
-            .selectFirst(context);
+            .query(StatementHeader.class, "SELECT * FROM STATEMENT_HEADER WHERE ACCOUNT_CODE='A00010001' AND CUSTOMER_CODE='C00010001'")
+            //.paramsArray(body.getAccountCode(), body.getCustomerCode())
+            .selectFirst(context);*/
+        Integer id= 400;
+        DataRow dataRow=SQLSelect.dataRowQuery("SELECT ACCOUNT_ADDRESS FROM STATEMENT_HEADER WHERE ID = " + id)
+                        .selectFirst(context);
+        StatementHeader statementHeader = new StatementHeader();
+        String address= dataRow.get("account_address").toString();
+        statementHeader.setAccountAddress(dataRow.get("account_address").toString());
+        /*statementHeader.setAccountBranch();
+        statementHeader.setAccountCode();
+        statementHeader.setCustomerCode();
+        statementHeader.setDateFrom();
+        statementHeader.setDateTo();
+        statementHeader.setStatementTitle();*/
         return statementHeader;
     }
 

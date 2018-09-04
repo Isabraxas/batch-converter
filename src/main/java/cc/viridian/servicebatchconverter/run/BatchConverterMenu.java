@@ -1,5 +1,6 @@
 package cc.viridian.servicebatchconverter.run;
 
+import cc.viridian.servicebatchconverter.hash.HashCode;
 import cc.viridian.servicebatchconverter.payload.StatementPayload;
 import cc.viridian.servicebatchconverter.service.ParseStatementsFileService;
 import cc.viridian.servicebatchconverter.service.StatementDetailService;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -41,7 +43,8 @@ public class BatchConverterMenu {
             System.out.println("3. Almacenar los statement details");
             System.out.println("4. Almacenar toda la lista de statements");
             System.out.println("5. Usar archivo de prueba para almacenar los statements en la base de datos");
-            System.out.println("6. Salir");
+            System.out.println("6. Probar funcion hashde resumen");
+            System.out.println("7. Salir");
             System.out.println("******************************************");
 
             try {
@@ -89,6 +92,39 @@ public class BatchConverterMenu {
                         break;
 
                     case 6:
+                        System.out.println("Has seleccionado la opcion 5");
+                        String filePathLocalPrn= "/home/isvar/Documents/statement/service-batch-converter" +
+                            "/src/main/resources/files/Statement_1998-01-01_2017-12-31.prn";
+                        String filePathExternalPrn= "/home/isvar/Documents/Fix-dummy-bank/vdbanco_viridian" +
+                            "/src/main/resources/Files/Statement_Is_test.prn";
+                        String filePathExternalPrn2= "/home/isvar/Documents/Fix-dummy-bank/vdbanco_viridian" +
+                            "/src/main/resources/Files/Statement_1998-01-01_2017-12-31.prn";
+
+                        try {
+                            String hashLocal= HashCode.getCodigoHash(filePathLocalPrn);
+                            System.out.println("Hash MD5 de archivo local: "+ hashLocal);
+                            System.out.println("Hash MD5 de archivo externo1: "+ HashCode
+                                .getCodigoHash(filePathExternalPrn));
+                            System.out.println("Hash MD5 de archivo externo2: "+ HashCode
+                                .getCodigoHash(filePathExternalPrn2) + "\n");
+
+                            System.out.println("Comparando archivo externo1 contra hash: "+ HashCode
+                                .compareFileWithHash(filePathExternalPrn, hashLocal));
+                            System.out.println("Comparando archivo externo1 contra archivo local: "+ HashCode
+                                .compareFileWithFile(filePathExternalPrn, filePathLocalPrn));
+
+                            System.out.println("Comparando archivo externo2 contra hash: "+ HashCode
+                                .compareFileWithHash(filePathExternalPrn2, hashLocal));
+                            System.out.println("Comparando archivo externo2 contra archivo local: "+ HashCode
+                                .compareFileWithFile(filePathExternalPrn2, filePathLocalPrn));
+
+                        } catch (NoSuchAlgorithmException e) {
+                            e.printStackTrace();
+                        }
+
+                        break;
+
+                    case 7:
                         salir = true;
                         break;
 
@@ -102,13 +138,20 @@ public class BatchConverterMenu {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
             }
         }
     }
 
     public void useTestFile(String baseFilePath) throws IOException {
-        baseFilePath = "/home/isvar/Documents/statement/service-batch-converter/target/classes/files/Statement_1998-01-01_2017-12-31.prn";
-        statementPayloadList = parseStatementsFileService.parseContent(baseFilePath);
+        //baseFilePath = "/home/isvar/Documents/statement/service-batch-converter/target/classes/files/Statement_1998-01-01_2017-12-31.prn";
+        //TODO Fix try catch here
+        try {
+            statementPayloadList = parseStatementsFileService.parseContent(baseFilePath);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
         statementHeaderService.insertToDatabase(statementPayloadList);
         statementDetailService.insertToDatabase(statementPayloadList);
     }

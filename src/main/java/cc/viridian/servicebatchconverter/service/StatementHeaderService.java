@@ -12,6 +12,7 @@ import java.util.List;
 public class StatementHeaderService {
 
     private StatementHeaderRepository headerRepository;
+    private String currentFilePath;
     private Integer count = 0;
 
     @Autowired
@@ -46,5 +47,13 @@ public class StatementHeaderService {
         }else {
             return false;
         }
+    }
+
+    public String getCurrentFilePath() {
+        return currentFilePath;
+    }
+
+    public void setCurrentFilePath(String currentFilePath) {
+        this.currentFilePath = currentFilePath;
     }
 }

@@ -1,6 +1,7 @@
 package cc.viridian.servicebatchconverter.service;
 
 import cc.viridian.servicebatchconverter.Utils.FormatUtil;
+import cc.viridian.servicebatchconverter.hash.HashCode;
 import cc.viridian.servicebatchconverter.payload.DetailPayload;
 import cc.viridian.servicebatchconverter.payload.HeaderPayload;
 import cc.viridian.servicebatchconverter.payload.StatementPayload;
@@ -12,6 +13,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -29,7 +31,8 @@ public class ParseStatementsFileService {
     Integer amountSize = null;
     Integer operationSize = null;
 
-    public List<StatementPayload> parseContent(final String filePath) throws FileNotFoundException, IOException {
+    public List<StatementPayload> parseContent(final String filePath)
+        throws FileNotFoundException, IOException, NoSuchAlgorithmException {
         FileReader f = new FileReader(filePath);
         BufferedReader b = new BufferedReader(f);
 
@@ -84,7 +87,12 @@ public class ParseStatementsFileService {
 
             if (line.contains("-----------------")) {
 
-                statementPayloadList.add(statement);
+                //TODO crear un hash para el archivo y guardarlo en el header statement_title
+                String hash= HashCode.getCodigoHash(filePath);
+                statementHeader.setStatementTitle(hash);
+
+                //statementPayloadList.add(statement);
+                statementHeaderService.insertOneInToDatabase(statementHeader);
 
                 if(statementHeaderService.exist(statementHeader)) {
                     statementHeaderService.insertOneInToDatabase(statementHeader);
@@ -92,6 +100,8 @@ public class ParseStatementsFileService {
                     log.error("El statement header ya existe: "+ statementHeader.toString());
                 }
 
+                //TODO compareFileWithFile hash del archivo con los hash ya lmacenados en la base de datos
+                //TODO si se repite lazar una exception y no guardar nada.
                 statement = new StatementPayload();
                 statementHeader = new HeaderPayload();
                 detailList = new ArrayList<DetailPayload>();
