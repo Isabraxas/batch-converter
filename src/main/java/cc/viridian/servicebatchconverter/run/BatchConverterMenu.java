@@ -39,12 +39,10 @@ public class BatchConverterMenu {
 
             System.out.println("\n******************************************");
             System.out.println("1. Parsear archivo un local");
-            System.out.println("2. Almacenar los statement headers");
-            System.out.println("3. Almacenar los statement details");
-            System.out.println("4. Almacenar toda la lista de statements");
-            System.out.println("5. Usar archivo de prueba para almacenar los statements en la base de datos");
-            System.out.println("6. Probar funcion hash de resumen");
-            System.out.println("7. Salir");
+            System.out.println("2. Almacenar toda la lista de statements");
+            System.out.println("3. Usar archivo de prueba para almacenar los statements en la base de datos");
+            System.out.println("4. Probar funcion hash de resumen");
+            System.out.println("5. Salir");
             System.out.println("******************************************");
 
             try {
@@ -65,34 +63,19 @@ public class BatchConverterMenu {
                         System.out.println("Has seleccionado la opcion 2");
                         statementPayloadList = parseStatementsFileService.parseContent(filePath);
                         statementHeaderService.insertToDatabase(statementPayloadList);
-                        System.out.println("Headers almacenados");
+                        System.out.println("Statemets almacenados");
                         break;
 
                     case 3:
                         System.out.println("Has seleccionado la opcion 3");
-                        statementPayloadList = parseStatementsFileService.parseContent(filePath);
-                        statementDetailService.insertToDatabase(statementPayloadList);
-                        System.out.println("Details almacenados");
-                        break;
-
-                    case 4:
-                        System.out.println("Has seleccionado la opcion 4");
-                        statementPayloadList = parseStatementsFileService.parseContent(filePath);
-                        statementHeaderService.insertToDatabase(statementPayloadList);
-                        statementDetailService.insertToDatabase(statementPayloadList);
-                        System.out.println("Statemets almacenados");
-                        break;
-
-                    case 5:
-                        System.out.println("Has seleccionado la opcion 5");
 
                         useTestFile(baseFilePath);
                         //int rowsDeleted = statementDetailService.deleteByAccount("A00010002");
                         //log.info("EXECUTING : delete statements: " + rowsDeleted);
                         break;
 
-                    case 6:
-                        System.out.println("Has seleccionado la opcion 5");
+                    case 4:
+                        System.out.println("Has seleccionado la opcion 4");
                         String filePathLocalPrn= "/home/isvar/Documents/statement/service-batch-converter" +
                             "/src/main/resources/files/Statement_1998-01-01_2017-12-31.prn";
                         String filePathExternalPrn= "/home/isvar/Documents/Fix-dummy-bank/vdbanco_viridian" +
@@ -124,12 +107,12 @@ public class BatchConverterMenu {
 
                         break;
 
-                    case 7:
+                    case 5:
                         salir = true;
                         break;
 
                     default:
-                        System.out.println("\nSolo números entre 1 y 6\n");
+                        System.out.println("\nSolo números entre 1 y 5\n");
                 }
             } catch (InputMismatchException e) {
                 System.out.println("\nDebes insertar un número\n");
@@ -153,6 +136,5 @@ public class BatchConverterMenu {
             e.printStackTrace();
         }
         statementHeaderService.insertToDatabase(statementPayloadList);
-        statementDetailService.insertToDatabase(statementPayloadList);
     }
 }

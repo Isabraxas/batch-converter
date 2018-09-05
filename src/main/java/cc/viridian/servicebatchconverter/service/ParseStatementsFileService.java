@@ -89,13 +89,13 @@ public class ParseStatementsFileService {
 
                 //TODO crear un hash para el archivo y guardarlo en el header statement_title
                 String hash= HashCode.getCodigoHash(filePath);
-                statementHeader.setStatementTitle(hash);
+                statementHeader.setFileHash(hash);
 
                 //statementPayloadList.add(statement);
 
                 //TODO guardar en la base de datos
                 if(!statementHeaderService.exist(statementHeader)) {
-                    statementHeaderService.insertOneInToDatabase(statementHeader);
+                    statementHeaderService.insertOneInToDatabase(statementHeader, detailList);
                 }else {
                     log.error("El statement header ya existe: "+ statementHeader.toString());
                 }

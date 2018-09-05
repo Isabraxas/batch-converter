@@ -53,6 +53,7 @@
 		<db-attribute name="CUSTOMER_CODE" type="VARCHAR" length="20"/>
 		<db-attribute name="DATE_FROM" type="DATE"/>
 		<db-attribute name="DATE_TO" type="DATE"/>
+		<db-attribute name="FILE_HASH" type="VARCHAR" length="250"/>
 		<db-attribute name="ID" type="INTEGER" isPrimaryKey="true" isMandatory="true"/>
 		<db-attribute name="MESSAGE" type="VARCHAR" length="250"/>
 		<db-attribute name="STATEMENT_TITLE" type="VARCHAR" length="60"/>
@@ -69,6 +70,8 @@
 		<db-attribute name="COREBANK_RETRIES" type="INTEGER"/>
 		<db-attribute name="COREBANK_TRY_AGAIN_AT" type="TIMESTAMP"/>
 		<db-attribute name="CUSTOMER_CODE" type="VARCHAR" length="20"/>
+		<db-attribute name="FORMATTER_ERROR_CODE" type="VARCHAR" length="20"/>
+		<db-attribute name="FORMATTER_ERROR_DESC" type="VARCHAR" length="250"/>
 		<db-attribute name="FREQUENCY" type="VARCHAR" length="10"/>
 		<db-attribute name="ID" type="INTEGER" isPrimaryKey="true" isMandatory="true"/>
 		<db-attribute name="PROCESS_DATE_FROM" type="DATE"/>
@@ -131,6 +134,7 @@
 		<obj-attribute name="customerCode" type="java.lang.String" db-attribute-path="CUSTOMER_CODE"/>
 		<obj-attribute name="dateFrom" type="java.time.LocalDate" db-attribute-path="DATE_FROM"/>
 		<obj-attribute name="dateTo" type="java.time.LocalDate" db-attribute-path="DATE_TO"/>
+		<obj-attribute name="fileHash" type="java.lang.String" db-attribute-path="FILE_HASH"/>
 		<obj-attribute name="message" type="java.lang.String" db-attribute-path="MESSAGE"/>
 		<obj-attribute name="statementTitle" type="java.lang.String" db-attribute-path="STATEMENT_TITLE"/>
 	</obj-entity>
@@ -146,6 +150,8 @@
 		<obj-attribute name="corebankRetries" type="int" db-attribute-path="COREBANK_RETRIES"/>
 		<obj-attribute name="corebankTryAgainAt" type="java.time.LocalDateTime" db-attribute-path="COREBANK_TRY_AGAIN_AT"/>
 		<obj-attribute name="customerCode" type="java.lang.String" db-attribute-path="CUSTOMER_CODE"/>
+		<obj-attribute name="formatterErrorCode" type="java.lang.String" db-attribute-path="FORMATTER_ERROR_CODE"/>
+		<obj-attribute name="formatterErrorDesc" type="java.lang.String" db-attribute-path="FORMATTER_ERROR_DESC"/>
 		<obj-attribute name="frequency" type="java.lang.String" db-attribute-path="FREQUENCY"/>
 		<obj-attribute name="processDateFrom" type="java.time.LocalDate" db-attribute-path="PROCESS_DATE_FROM"/>
 		<obj-attribute name="processDateTo" type="java.time.LocalDate" db-attribute-path="PROCESS_DATE_TO"/>
@@ -183,6 +189,5 @@
 	<db-relationship name="HeaderDetail" source="STATEMENT_HEADER" target="STATEMENT_DETAIL" toMany="true">
 		<db-attribute-pair source="ID" target="FK_HEADER"/>
 	</db-relationship>
-	<obj-relationship name="detailHeader" source="StatementDetail" target="StatementHeader" deleteRule="Nullify" db-relationship-path="detailHeader"/>
 	<obj-relationship name="headerDetail" source="StatementHeader" target="StatementDetail" deleteRule="Deny" db-relationship-path="HeaderDetail"/>
 </data-map>

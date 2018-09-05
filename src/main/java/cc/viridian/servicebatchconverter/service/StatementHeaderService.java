@@ -1,5 +1,6 @@
 package cc.viridian.servicebatchconverter.service;
 
+import cc.viridian.servicebatchconverter.payload.DetailPayload;
 import cc.viridian.servicebatchconverter.payload.HeaderPayload;
 import cc.viridian.servicebatchconverter.payload.StatementPayload;
 import cc.viridian.servicebatchconverter.persistence.StatementHeader;
@@ -22,9 +23,10 @@ public class StatementHeaderService {
 
     public String insertToDatabase(List<StatementPayload> statementPayloadList) {
 
-        statementPayloadList.stream().forEach(statementPayload ->
+ /*       statementPayloadList.stream().forEach(statementPayload ->
                                                   this.headerRepository
                                                       .saveStatementHeader(statementPayload.getHeader()));
+*/
         return "PARSED";
     }
 
@@ -36,6 +38,12 @@ public class StatementHeaderService {
 
     public Integer insertOneInToDatabase(HeaderPayload headerPayload) {
         this.headerRepository.saveStatementHeader(headerPayload);
+        count++;
+        return count;
+    }
+
+    public Integer insertOneInToDatabase(HeaderPayload headerPayload, List<DetailPayload> detailPayloadList) {
+        this.headerRepository.saveStatementHeader(headerPayload, detailPayloadList);
         count++;
         return count;
     }

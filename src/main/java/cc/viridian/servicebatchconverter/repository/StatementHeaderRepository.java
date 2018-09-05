@@ -1,11 +1,14 @@
 package cc.viridian.servicebatchconverter.repository;
 
 import cc.viridian.servicebatchconverter.Utils.FormatUtil;
+import cc.viridian.servicebatchconverter.payload.DetailPayload;
 import cc.viridian.servicebatchconverter.payload.HeaderPayload;
+import cc.viridian.servicebatchconverter.persistence.StatementDetail;
 import cc.viridian.servicebatchconverter.persistence.StatementHeader;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.cayenne.DataRow;
 import org.apache.cayenne.ObjectContext;
+import org.apache.cayenne.ObjectId;
 import org.apache.cayenne.configuration.server.ServerRuntime;
 import org.apache.cayenne.query.SQLExec;
 import org.apache.cayenne.query.SQLSelect;
@@ -17,6 +20,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.List;
 
 @Slf4j
 @Repository
@@ -39,6 +43,8 @@ public class StatementHeaderRepository {
             .paramsArray(body.getAccountCode(), body.getCustomerCode(), body.getId())
             .update(context);
     }
+
+
 
     public StatementHeader getOneStatementHeader(HeaderPayload body) {
 
@@ -71,9 +77,8 @@ public class StatementHeaderRepository {
             Date dateTo = (Date) dataRow.get("date_to");
             LocalDate localDateTo = FormatUtil.parseDateToLocalDate(dateTo);
             statementHeader.setDateTo(localDateTo);
-            statementHeader.setStatementTitle(dataRow.get("statement_title").toString());
-
-        }catch (NullPointerException nullp){
+            statementHeader.setFileHash(dataRow.get("file_hash").toString());
+        } catch (NullPointerException nullp) {
             statementHeader = null;
             log.error(nullp.getMessage());
             //nullp.printStackTrace();
@@ -114,6 +119,50 @@ public class StatementHeaderRepository {
         statementHeader.setDateTo(body.getDateTo());
         statementHeader.setMessage(body.getMessage());
         statementHeader.setStatementTitle(body.getStatementTitle());
+
+        context.commitChanges();
+    }
+
+    public void saveStatementHeader(HeaderPayload body, List<DetailPayload> detailPayloadList) {
+
+        ObjectContext context = mainServerRuntime.newContext();
+
+        log.info("Saving new Header in DB ");
+        StatementHeader statementHeader = context.newObject(StatementHeader.class);
+
+        statementHeader.setAccountAddress(body.getAccountAddress());
+        statementHeader.setAccountBranch(body.getAccountBranch());
+        statementHeader.setAccountCode(body.getAccountCode());
+        statementHeader.setAccountCurrency(body.getAccountCurrency());
+        statementHeader.setAccountType(body.getAccountType());
+        statementHeader.setBalanceEnd(body.getBalanceEnd());
+        statementHeader.setBalanceInitial(body.getBalanceInitial());
+        statementHeader.setCustomerCode(body.getCustomerCode());
+        statementHeader.setDateFrom(body.getDateFrom());
+        statementHeader.setDateTo(body.getDateTo());
+        statementHeader.setMessage(body.getMessage());
+        statementHeader.setStatementTitle(body.getStatementTitle());
+        statementHeader.setFileHash(body.getFileHash());
+
+        detailPayloadList.stream().forEach(detailPayload -> {
+            StatementDetail statementDetail = new StatementDetail();
+            statementDetail.setAccountCode(detailPayload.getAccountCode());
+            statementDetail.setAccountCurrency(detailPayload.getAccountCurrency());
+            statementDetail.setAccountType(detailPayload.getAccountType());
+            statementDetail.setAmount(detailPayload.getAmount());
+            statementDetail.setAnnotation(detailPayload.getAnnotation());
+            statementDetail.setBalance(detailPayload.getBalance());
+            statementDetail.setBranchChannel(detailPayload.getBranchChannel());
+            statementDetail.setDate(FormatUtil.parseDateDBformat(detailPayload.getDate(), "-"));
+            statementDetail.setDebitCredit(FormatUtil.getInitialChar(detailPayload.getDebitCredit()));
+            statementDetail.setLocalDateTime(detailPayload.getLocalDateTime());
+            statementDetail.setReferenceNumber(detailPayload.getReferenceNumber());
+            statementDetail.setSecondaryInfo(detailPayload.getSecondaryInfo());
+            statementDetail.setTransactionCode(detailPayload.getTransactionCode());
+            statementDetail.setTransactionDesc(detailPayload.getTransactionDesc());
+
+            statementHeader.addToHeaderDetail(statementDetail);
+        });
 
         context.commitChanges();
     }
