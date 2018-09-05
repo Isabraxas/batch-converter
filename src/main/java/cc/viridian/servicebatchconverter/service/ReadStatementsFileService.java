@@ -18,9 +18,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
 @Slf4j
 @Service
-public class ParseStatementsFileService {
+public class ReadStatementsFileService {
 
     @Autowired
     private StatementHeaderService statementHeaderService;
@@ -31,7 +32,7 @@ public class ParseStatementsFileService {
     Integer amountSize = null;
     Integer operationSize = null;
 
-    public List<StatementPayload> parseContent(final String filePath)
+    public List<StatementPayload> readContent(final String filePath)
         throws FileNotFoundException, IOException, NoSuchAlgorithmException {
         FileReader f = new FileReader(filePath);
         BufferedReader b = new BufferedReader(f);
@@ -49,6 +50,11 @@ public class ParseStatementsFileService {
 
         HeaderPayload statementHeader = new HeaderPayload();
         System.out.print("LINE:");
+
+
+        //TODO crear un hash para el archivo y guardarlo en el header statement_title
+        String hash= HashCode.getCodigoHash(filePath);
+
 
         while ((line = b.readLine()) != null) {
 
@@ -87,21 +93,15 @@ public class ParseStatementsFileService {
 
             if (line.contains("-----------------")) {
 
-                //TODO crear un hash para el archivo y guardarlo en el header statement_title
-                String hash= HashCode.getCodigoHash(filePath);
-                statementHeader.setStatementTitle(hash);
-
-                //statementPayloadList.add(statement);
+                                //statementPayloadList.add(statement);
 
                 //TODO guardar en la base de datos
-                if(!statementHeaderService.exist(statementHeader)) {
-                    statementHeaderService.insertOneInToDatabase(statementHeader);
-                }else {
+                if(statementHeaderService.exist(statementHeader)) {
                     log.error("El statement header ya existe: "+ statementHeader.toString());
                 }
 
-                //TODO compareFileWithFile hash del archivo con los hash ya lmacenados en la base de datos
-                //TODO si se repite lazar una exception y no guardar nada.
+                //TODO compareFileWithFile hash del archivo con los hash ya almacenados en la base de datos
+                //TODO si se repite lanzar una exception y no guardar nada.
                 statement = new StatementPayload();
                 statementHeader = new HeaderPayload();
                 detailList = new ArrayList<DetailPayload>();

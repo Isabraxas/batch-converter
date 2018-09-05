@@ -1,5 +1,11 @@
 package cc.viridian.servicebatchconverter.Utils;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
+
 public class FormatUtil {
     public static String parseDateDBformat(final String date, final String separator) {
         String rDate = null;
@@ -17,4 +23,11 @@ public class FormatUtil {
         String rS = s.contains("null") ? null : s;
         return rS;
     }
+
+    public static LocalDate parseDateToLocalDate(final Date date) {
+        Instant instant = Instant.ofEpochMilli(date.getTime());
+        LocalDate localDate = LocalDateTime.ofInstant(instant, ZoneId.systemDefault()).toLocalDate();
+        return localDate;
+    }
+
 }

@@ -43,7 +43,7 @@ public class BatchConverterMenu {
             System.out.println("3. Almacenar los statement details");
             System.out.println("4. Almacenar toda la lista de statements");
             System.out.println("5. Usar archivo de prueba para almacenar los statements en la base de datos");
-            System.out.println("6. Probar funcion hashde resumen");
+            System.out.println("6. Probar funcion hash de resumen");
             System.out.println("7. Salir");
             System.out.println("******************************************");
 
