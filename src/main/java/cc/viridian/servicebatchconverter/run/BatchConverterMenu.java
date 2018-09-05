@@ -33,6 +33,7 @@ public class BatchConverterMenu {
         boolean salir = false;
         int opcion; //Guardaremos la opcion del usuario
         String filePath = baseFilePath;
+        String message = "";
         //List<StatementPayload> statementPayloadList = new ArrayList<StatementPayload>();
 
         while (!salir) {
@@ -43,6 +44,7 @@ public class BatchConverterMenu {
             System.out.println("3. Usar archivo de prueba para almacenar los statements en la base de datos");
             System.out.println("4. Probar funcion hash de resumen");
             System.out.println("5. Salir");
+            System.out.println(message);
             System.out.println("******************************************");
 
             try {
@@ -57,6 +59,13 @@ public class BatchConverterMenu {
                         System.out.print("Escribe la ruta del archivo: ");
                         filePath = sn.next();
                         statementPayloadList = parseStatementsFileService.parseContent(filePath);
+                        String hashCodeFile = HashCode.getCodigoHash(filePath);
+                        Boolean isSaved = this.statementHeaderService.existFileHash(hashCodeFile);
+                        if (isSaved) {
+                            message = "El hash del archivo no coincide con ningun registro almacenado";
+                        } else {
+                            message = "El hash del archivo coincide con un registro almacenado";
+                        }
                         break;
 
                     case 2:
@@ -76,31 +85,30 @@ public class BatchConverterMenu {
 
                     case 4:
                         System.out.println("Has seleccionado la opcion 4");
-                        String filePathLocalPrn= "/home/isvar/Documents/statement/service-batch-converter" +
+                        String filePathLocalPrn = "/home/isvar/Documents/statement/service-batch-converter" +
                             "/src/main/resources/files/Statement_1998-01-01_2017-12-31.prn";
-                        String filePathExternalPrn= "/home/isvar/Documents/Fix-dummy-bank/vdbanco_viridian" +
+                        String filePathExternalPrn = "/home/isvar/Documents/Fix-dummy-bank/vdbanco_viridian" +
                             "/src/main/resources/Files/Statement_Is_test.prn";
-                        String filePathExternalPrn2= "/home/isvar/Documents/Fix-dummy-bank/vdbanco_viridian" +
+                        String filePathExternalPrn2 = "/home/isvar/Documents/Fix-dummy-bank/vdbanco_viridian" +
                             "/src/main/resources/Files/Statement_1998-01-01_2017-12-31.prn";
 
                         try {
-                            String hashLocal= HashCode.getCodigoHash(filePathLocalPrn);
-                            System.out.println("Hash MD5 de archivo local: "+ hashLocal);
-                            System.out.println("Hash MD5 de archivo externo1: "+ HashCode
+                            String hashLocal = HashCode.getCodigoHash(filePathLocalPrn);
+                            System.out.println("Hash MD5 de archivo local: " + hashLocal);
+                            System.out.println("Hash MD5 de archivo externo1: " + HashCode
                                 .getCodigoHash(filePathExternalPrn));
-                            System.out.println("Hash MD5 de archivo externo2: "+ HashCode
+                            System.out.println("Hash MD5 de archivo externo2: " + HashCode
                                 .getCodigoHash(filePathExternalPrn2) + "\n");
 
-                            System.out.println("Comparando archivo externo1 contra hash: "+ HashCode
+                            System.out.println("Comparando archivo externo1 contra hash: " + HashCode
                                 .compareFileWithHash(filePathExternalPrn, hashLocal));
-                            System.out.println("Comparando archivo externo1 contra archivo local: "+ HashCode
+                            System.out.println("Comparando archivo externo1 contra archivo local: " + HashCode
                                 .compareFileWithFile(filePathExternalPrn, filePathLocalPrn));
 
-                            System.out.println("Comparando archivo externo2 contra hash: "+ HashCode
+                            System.out.println("Comparando archivo externo2 contra hash: " + HashCode
                                 .compareFileWithHash(filePathExternalPrn2, hashLocal));
-                            System.out.println("Comparando archivo externo2 contra archivo local: "+ HashCode
+                            System.out.println("Comparando archivo externo2 contra archivo local: " + HashCode
                                 .compareFileWithFile(filePathExternalPrn2, filePathLocalPrn));
-
                         } catch (NoSuchAlgorithmException e) {
                             e.printStackTrace();
                         }

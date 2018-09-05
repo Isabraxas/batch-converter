@@ -57,6 +57,15 @@ public class StatementHeaderService {
         }
     }
 
+    public Boolean existFileHash(String hashCode){
+        StatementHeader statementHeader = this.headerRepository.getOneStatementHeaderByFileHash(hashCode);
+        if (statementHeader != null) {
+            return true;
+        }else {
+            return false;
+        }
+    }
+
     public String getCurrentFilePath() {
         return currentFilePath;
     }

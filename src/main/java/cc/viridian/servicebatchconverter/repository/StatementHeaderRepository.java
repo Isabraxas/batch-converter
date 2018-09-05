@@ -46,6 +46,41 @@ public class StatementHeaderRepository {
 
 
 
+    public StatementHeader getOneStatementHeaderByFileHash(String hashCode) {
+
+        ObjectContext context = mainServerRuntime.newContext();
+
+        log.info("Select Header in DB ");
+        DataRow dataRow = SQLSelect.dataRowQuery("SELECT * FROM STATEMENT_HEADER WHERE "
+                                                     + "FILE_HASH=#bind($FileHash)")
+                                   .paramsArray(hashCode)
+                                   .selectFirst(context);
+        StatementHeader statementHeader = new StatementHeader();
+
+        try {
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+            statementHeader.setAccountAddress(dataRow.get("account_address").toString());
+            statementHeader.setAccountBranch(dataRow.get("account_branch").toString());
+            statementHeader.setAccountCode(dataRow.get("account_code").toString());
+            statementHeader.setCustomerCode(dataRow.get("customer_code").toString());
+            Date dateFrom = (Date) dataRow.get("date_from");
+            LocalDate localDateFrom = FormatUtil.parseDateToLocalDate(dateFrom);
+            statementHeader.setDateFrom(localDateFrom);
+            Date dateTo = (Date) dataRow.get("date_to");
+            LocalDate localDateTo = FormatUtil.parseDateToLocalDate(dateTo);
+            statementHeader.setDateTo(localDateTo);
+            statementHeader.setFileHash(dataRow.get("file_hash").toString());
+        } catch (NullPointerException nullp) {
+            statementHeader = null;
+            log.error(nullp.getMessage());
+            //nullp.printStackTrace();
+        }
+
+        return statementHeader;
+    }
+
     public StatementHeader getOneStatementHeader(HeaderPayload body) {
 
         ObjectContext context = mainServerRuntime.newContext();
