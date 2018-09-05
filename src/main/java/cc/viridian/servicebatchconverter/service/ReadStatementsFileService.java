@@ -4,7 +4,9 @@ import cc.viridian.servicebatchconverter.Utils.FormatUtil;
 import cc.viridian.servicebatchconverter.hash.HashCode;
 import cc.viridian.servicebatchconverter.payload.DetailPayload;
 import cc.viridian.servicebatchconverter.payload.HeaderPayload;
+import cc.viridian.servicebatchconverter.payload.ReadFileResponse;
 import cc.viridian.servicebatchconverter.payload.StatementPayload;
+import cc.viridian.servicebatchconverter.persistence.StatementDetail;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,10 @@ public class ReadStatementsFileService {
 
     @Autowired
     private StatementHeaderService statementHeaderService;
+    @Autowired
+    private StatementDetailService statementDetailService;
+
+
 
     Integer dateSize = null;
     Integer descSize = null;
@@ -32,18 +38,18 @@ public class ReadStatementsFileService {
     Integer amountSize = null;
     Integer operationSize = null;
 
-    public List<StatementPayload> readContent(final String filePath)
+    public ReadFileResponse readContent(final String filePath)
         throws FileNotFoundException, IOException, NoSuchAlgorithmException {
         FileReader f = new FileReader(filePath);
         BufferedReader b = new BufferedReader(f);
 
+        ReadFileResponse readFileResponse = new ReadFileResponse();
         String line;
 
         Integer currentLine = 0;
 
         StatementPayload statement = new StatementPayload();
         List<DetailPayload> detailList = new ArrayList<DetailPayload>();
-        List<StatementPayload> statementPayloadList = new ArrayList<StatementPayload>();
         Integer i = 0;
         Boolean startReadDetails = false;
         Integer colSum = 0;
@@ -51,10 +57,13 @@ public class ReadStatementsFileService {
         HeaderPayload statementHeader = new HeaderPayload();
         System.out.print("LINE:");
 
-
         //TODO crear un hash para el archivo y guardarlo en el header statement_title
-        String hash= HashCode.getCodigoHash(filePath);
-
+        String hash = HashCode.getCodigoHash(filePath);
+        //TODO compareFileWithFile hash del archivo con los hash ya almacenados en la base de datos
+        //TODO si se repite lanzar una exception y no guardar nada.
+        String hashCodeFile= HashCode.getCodigoHash(filePath);
+        Boolean isSaved = this.statementHeaderService.existFileHash(hashCodeFile);
+        readFileResponse.setHashExist(isSaved);
 
         while ((line = b.readLine()) != null) {
 
@@ -93,15 +102,22 @@ public class ReadStatementsFileService {
 
             if (line.contains("-----------------")) {
 
-                                //statementPayloadList.add(statement);
 
-                //TODO guardar en la base de datos
-                if(statementHeaderService.exist(statementHeader)) {
-                    log.error("El statement header ya existe: "+ statementHeader.toString());
+                //TODO comprobar si ya existe alguno de los headers
+                if (statementHeaderService.exist(statementHeader)) {
+                    readFileResponse.incrementDuplicatedHeaders();
+                    log.error("El statement header ya existe: " + statementHeader.toString());
                 }
+                //TODO comprobar si ya existe alguno de los details
+                detailList.stream().forEach(detailP -> {
+                    if(statementDetailService.exist(detailP)){
+                        readFileResponse.incrementDuplicatedDetails();
+                        log.error("El statement detail ya existe: " + detailP.toString());
+                    }
+                });
 
-                //TODO compareFileWithFile hash del archivo con los hash ya almacenados en la base de datos
-                //TODO si se repite lanzar una exception y no guardar nada.
+                //TODO generar una respuesta adecuada
+
                 statement = new StatementPayload();
                 statementHeader = new HeaderPayload();
                 detailList = new ArrayList<DetailPayload>();
@@ -111,7 +127,7 @@ public class ReadStatementsFileService {
         b.close();
 
         System.out.print("\n");
-        return statementPayloadList;
+        return readFileResponse;
     }
 
     private HeaderPayload fillStatementAccountHeader(final String line, final HeaderPayload headerPayload) {

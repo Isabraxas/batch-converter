@@ -2,6 +2,8 @@ package cc.viridian.servicebatchconverter.service;
 
 import cc.viridian.servicebatchconverter.payload.DetailPayload;
 import cc.viridian.servicebatchconverter.payload.StatementPayload;
+import cc.viridian.servicebatchconverter.persistence.StatementDetail;
+import cc.viridian.servicebatchconverter.persistence.StatementHeader;
 import cc.viridian.servicebatchconverter.repository.StatementDetailRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,15 @@ public class StatementDetailService {
                                                                                   -> this.detailRepository
                                                                          .saveStatementDetail(detail)));
         return "PARSED";
+    }
+
+    public Boolean exist(DetailPayload detailPayload){
+        StatementDetail statementDetail= this.detailRepository.getOneStatementDetail(detailPayload);
+        if (statementDetail != null) {
+            return true;
+        }else {
+            return false;
+        }
     }
 
     public int deleteByAccount(final String accountCode) {

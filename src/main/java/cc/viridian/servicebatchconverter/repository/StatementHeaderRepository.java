@@ -59,8 +59,6 @@ public class StatementHeaderRepository {
 
         try {
 
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
             statementHeader.setAccountAddress(dataRow.get("account_address").toString());
             statementHeader.setAccountBranch(dataRow.get("account_branch").toString());
             statementHeader.setAccountCode(dataRow.get("account_code").toString());
@@ -99,8 +97,6 @@ public class StatementHeaderRepository {
         StatementHeader statementHeader = new StatementHeader();
 
         try {
-
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
             statementHeader.setAccountAddress(dataRow.get("account_address").toString());
             statementHeader.setAccountBranch(dataRow.get("account_branch").toString());

@@ -1,8 +1,10 @@
 package cc.viridian.servicebatchconverter.run;
 
 import cc.viridian.servicebatchconverter.hash.HashCode;
+import cc.viridian.servicebatchconverter.payload.ReadFileResponse;
 import cc.viridian.servicebatchconverter.payload.StatementPayload;
 import cc.viridian.servicebatchconverter.service.ParseStatementsFileService;
+import cc.viridian.servicebatchconverter.service.ReadStatementsFileService;
 import cc.viridian.servicebatchconverter.service.StatementDetailService;
 import cc.viridian.servicebatchconverter.service.StatementHeaderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,8 @@ public class BatchConverterMenu {
     private StatementDetailService statementDetailService;
     @Autowired
     private ParseStatementsFileService parseStatementsFileService;
+    @Autowired
+    private ReadStatementsFileService readStatementsFileService;
 
     private List<StatementPayload> statementPayloadList = new ArrayList<StatementPayload>();
 
@@ -58,13 +62,16 @@ public class BatchConverterMenu {
 
                         System.out.print("Escribe la ruta del archivo: ");
                         filePath = sn.next();
-                        statementPayloadList = parseStatementsFileService.parseContent(filePath);
-                        String hashCodeFile = HashCode.getCodigoHash(filePath);
-                        Boolean isSaved = this.statementHeaderService.existFileHash(hashCodeFile);
-                        if (isSaved) {
-                            message = "El hash del archivo no coincide con ningun registro almacenado";
+                        System.out.print("Leyendo archivo ...");
+                        ReadFileResponse readFileResponse = this.readStatementsFileService.readContent(filePath);
+                        if (readFileResponse.getHashExist()) {
+                            message = "El hash del archivo no coincide con ningun registro almacenado \n"
+                                        +"pero exiten "+readFileResponse.getDuplicatedHeaders()+" headers duplicados\n"
+                                        +" con "+readFileResponse.getDuplicatedDetails()+" details duplicados\n";
                         } else {
-                            message = "El hash del archivo coincide con un registro almacenado";
+                            message = "El hash del archivo coincide con un registro almacenado \n"
+                                +"y exiten "+readFileResponse.getDuplicatedHeaders()+" headers duplicados\n"
+                                +" con "+readFileResponse.getDuplicatedDetails()+" details duplicados\n";
                         }
                         break;
 
