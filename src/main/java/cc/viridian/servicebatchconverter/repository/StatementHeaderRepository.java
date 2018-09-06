@@ -92,6 +92,25 @@ public class StatementHeaderRepository {
         return this.checkDataRowToStatemenHeader(dataRow);
     }
 
+    public HeaderPayload getOneStatementHeaderPayload(HeaderPayload body) {
+
+        ObjectContext context = mainServerRuntime.newContext();
+
+        log.info("Select Header in DB ");
+        DataRow dataRow = SQLSelect.dataRowQuery("SELECT * FROM STATEMENT_HEADER WHERE "
+                                                     + "ACCOUNT_CODE=#bind($AccCode)"
+                                                     + " AND CUSTOMER_CODE=#bind($CustCode)"
+                                                     + " AND DATE_FROM =#bind($DateFrom)"
+                                                     + " AND DATE_TO =#bind($DateTo)")
+                                   .paramsArray(body.getAccountCode()
+                                       , body.getCustomerCode()
+                                       , body.getDateFrom()
+                                       , body.getDateTo())
+                                   .selectFirst(context);
+
+        return this.checkDataRowToHeaderPayload(dataRow);
+    }
+
     public int deleteByCustomer(HeaderPayload body) {
         log.info("Deleteing StatementHeader");
         ObjectContext context = mainServerRuntime.newContext();
@@ -231,5 +250,71 @@ public class StatementHeaderRepository {
         }
 
         return statementHeader;
+    }
+
+
+    public HeaderPayload checkDataRowToHeaderPayload(DataRow dataRow) {
+
+        HeaderPayload headerPayload = new HeaderPayload();
+
+        if (dataRow != null) {
+            headerPayload.setAccountCode(
+                (dataRow.get("account_code") != null) ? dataRow.get("account_code").toString()
+                    : headerPayload.getAccountCode());
+
+            Date dateFrom = (dataRow.get("date_from") != null) ? (Date) dataRow.get("date_from") : null;
+            headerPayload.setDateFrom((dateFrom != null) ? FormatUtil.parseDateToLocalDate(dateFrom)
+                                            : headerPayload.getDateFrom());
+
+            Date dateTo = (dataRow.get("date_to") != null) ? (Date) dataRow.get("date_to") : null;
+            headerPayload.setDateTo((dateTo != null) ? FormatUtil.parseDateToLocalDate(dateTo)
+                                          : headerPayload.getDateTo());
+
+            headerPayload.setAccountAddress((dataRow.get("account_adders") != null) ?
+                                                  dataRow.get("account_adders").toString()
+                                                  : headerPayload.getAccountAddress());
+
+            headerPayload.setAccountBranch((dataRow.get("account_branch") != null) ?
+                                                 dataRow.get("account_branch").toString()
+                                                 : headerPayload.getAccountBranch());
+
+            headerPayload.setAccountCurrency((dataRow.get("account_currency") != null) ?
+                                                   dataRow.get("account_currency").toString()
+                                                   : headerPayload.getAccountCurrency());
+
+            headerPayload.setAccountType(
+                (dataRow.get("account_type") != null) ? dataRow.get("account_type").toString()
+                    : headerPayload.getAccountType());
+
+            headerPayload.setBalanceEnd((dataRow.get("balance_end") != null) ? (BigDecimal) dataRow.get("balance_end")
+                                              : headerPayload.getBalanceEnd());
+
+            headerPayload.setBalanceInitial((dataRow.get("balance_initial") != null) ?
+                                                  (BigDecimal) dataRow.get("balance_initial")
+                                                  : headerPayload.getBalanceInitial());
+
+            headerPayload.setCustomerCode((dataRow.get("customer_code") != null) ?
+                                                dataRow.get("customer_code").toString()
+                                                : headerPayload.getCustomerCode());
+
+            headerPayload.setMessage((dataRow.get("message") != null) ? dataRow.get("message").toString()
+                                           : headerPayload.getMessage());
+
+            headerPayload.setStatementTitle((dataRow.get("statement_title") != null) ?
+                                                  dataRow.get("statement_title").toString()
+                                                  : headerPayload.getStatementTitle());
+
+            headerPayload.setFileHash((dataRow.get("file_hash") != null) ?
+                                            dataRow.get("file_hash").toString()
+                                            : headerPayload.getFileHash());
+
+            headerPayload.setId((dataRow.get("id") != null) ?
+                                    (Integer) dataRow.get("id")
+                                    : headerPayload.getId());
+        } else {
+            headerPayload = null;
+        }
+
+        return headerPayload;
     }
 }

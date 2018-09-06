@@ -30,5 +30,6 @@ public class DetailPayload {
     public String transactionCode;
     public String transactionDesc;
     public String trnId;
+    public Integer id;
 
 }
