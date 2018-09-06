@@ -24,6 +24,8 @@ public class ParseStatementsFileService {
 
     @Autowired
     private StatementHeaderService statementHeaderService;
+    @Autowired
+    private StatementDetailService statementDetailService;
 
     Integer dateSize = null;
     Integer descSize = null;
@@ -81,9 +83,7 @@ public class ParseStatementsFileService {
             }
 
             statement.setHeader(statementHeader);
-            //System.out.println("HEADER: " + statementHeader);
             statement.setDetails(detailList);
-            //System.out.println("DETAILS: " + detailList);
 
             if (line.contains("-----------------")) {
 
@@ -91,17 +91,21 @@ public class ParseStatementsFileService {
                 String hash= HashCode.getCodigoHash(filePath);
                 statementHeader.setFileHash(hash);
 
-                //statementPayloadList.add(statement);
-
                 //TODO guardar en la base de datos
                 if(!statementHeaderService.exist(statementHeader)) {
                     statementHeaderService.insertOneInToDatabase(statementHeader, detailList);
                 }else {
                     log.error("El statement header ya existe: "+ statementHeader.toString());
+                    //TODO comprobar si ya existe alguno de los details y guardarlos si no existen
+                    HeaderPayload finalStatementHeader = statementHeader;
+                    detailList.stream().forEach(detailP -> {
+                        if(!statementDetailService.exist(detailP)){
+                            statementDetailService.insertOneInToDatabase(detailP, finalStatementHeader);
+                            log.warn("El statement detail ya existe: " + detailP.toString());
+                        }
+                    });
                 }
 
-                //TODO compareFileWithFile hash del archivo con los hash ya lmacenados en la base de datos
-                //TODO si se repite lazar una exception y no guardar nada.
                 statement = new StatementPayload();
                 statementHeader = new HeaderPayload();
                 detailList = new ArrayList<DetailPayload>();

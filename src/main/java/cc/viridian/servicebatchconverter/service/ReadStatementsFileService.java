@@ -57,10 +57,8 @@ public class ReadStatementsFileService {
         HeaderPayload statementHeader = new HeaderPayload();
         System.out.print("LINE:");
 
-        //TODO crear un hash para el archivo y guardarlo en el header statement_title
+        //TODO crear un hash para el archivo y verificar si existe o no
         String hash = HashCode.getCodigoHash(filePath);
-        //TODO compareFileWithFile hash del archivo con los hash ya almacenados en la base de datos
-        //TODO si se repite lanzar una exception y no guardar nada.
         String hashCodeFile= HashCode.getCodigoHash(filePath);
         Boolean isSaved = this.statementHeaderService.existFileHash(hashCodeFile);
         readFileResponse.setHashExist(isSaved);
@@ -102,21 +100,20 @@ public class ReadStatementsFileService {
 
             if (line.contains("-----------------")) {
 
-
+            //TODO generar una respuesta adecuada
                 //TODO comprobar si ya existe alguno de los headers
                 if (statementHeaderService.exist(statementHeader)) {
                     readFileResponse.incrementDuplicatedHeaders();
-                    log.error("El statement header ya existe: " + statementHeader.toString());
+                    log.warn("El statement header ya existe: " + statementHeader.toString());
                 }
                 //TODO comprobar si ya existe alguno de los details
                 detailList.stream().forEach(detailP -> {
                     if(statementDetailService.exist(detailP)){
                         readFileResponse.incrementDuplicatedDetails();
-                        log.error("El statement detail ya existe: " + detailP.toString());
+                        log.warn("El statement detail ya existe: " + detailP.toString());
                     }
                 });
 
-                //TODO generar una respuesta adecuada
 
                 statement = new StatementPayload();
                 statementHeader = new HeaderPayload();

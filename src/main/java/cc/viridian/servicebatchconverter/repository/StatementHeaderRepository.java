@@ -8,17 +8,13 @@ import cc.viridian.servicebatchconverter.persistence.StatementHeader;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.cayenne.DataRow;
 import org.apache.cayenne.ObjectContext;
-import org.apache.cayenne.ObjectId;
 import org.apache.cayenne.configuration.server.ServerRuntime;
 import org.apache.cayenne.query.SQLExec;
 import org.apache.cayenne.query.SQLSelect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import java.time.Instant;
+import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
@@ -43,8 +39,6 @@ public class StatementHeaderRepository {
             .paramsArray(body.getAccountCode(), body.getCustomerCode(), body.getId())
             .update(context);
     }
-
-
 
     public StatementHeader getOneStatementHeaderByFileHash(String hashCode) {
 
@@ -94,28 +88,8 @@ public class StatementHeaderRepository {
                                        , body.getDateFrom()
                                        , body.getDateTo())
                                    .selectFirst(context);
-        StatementHeader statementHeader = new StatementHeader();
 
-        try {
-
-            statementHeader.setAccountAddress(dataRow.get("account_address").toString());
-            statementHeader.setAccountBranch(dataRow.get("account_branch").toString());
-            statementHeader.setAccountCode(dataRow.get("account_code").toString());
-            statementHeader.setCustomerCode(dataRow.get("customer_code").toString());
-            Date dateFrom = (Date) dataRow.get("date_from");
-            LocalDate localDateFrom = FormatUtil.parseDateToLocalDate(dateFrom);
-            statementHeader.setDateFrom(localDateFrom);
-            Date dateTo = (Date) dataRow.get("date_to");
-            LocalDate localDateTo = FormatUtil.parseDateToLocalDate(dateTo);
-            statementHeader.setDateTo(localDateTo);
-            statementHeader.setFileHash(dataRow.get("file_hash").toString());
-        } catch (NullPointerException nullp) {
-            statementHeader = null;
-            log.error(nullp.getMessage());
-            //nullp.printStackTrace();
-        }
-
-        return statementHeader;
+        return this.checkDataRowToStatemenHeader(dataRow);
     }
 
     public int deleteByCustomer(HeaderPayload body) {
@@ -196,5 +170,66 @@ public class StatementHeaderRepository {
         });
 
         context.commitChanges();
+    }
+
+    public StatementHeader checkDataRowToStatemenHeader(DataRow dataRow) {
+
+        StatementHeader statementHeader = new StatementHeader();
+
+        if (dataRow != null) {
+            statementHeader.setAccountCode(
+                (dataRow.get("account_code") != null) ? dataRow.get("account_code").toString()
+                    : statementHeader.getAccountCode());
+
+            Date dateFrom = (dataRow.get("date_from") != null) ? (Date) dataRow.get("date_from") : null;
+            statementHeader.setDateFrom((dateFrom != null) ? FormatUtil.parseDateToLocalDate(dateFrom)
+                                            : statementHeader.getDateFrom());
+
+            Date dateTo = (dataRow.get("date_to") != null) ? (Date) dataRow.get("date_to") : null;
+            statementHeader.setDateTo((dateTo != null) ? FormatUtil.parseDateToLocalDate(dateTo)
+                                          : statementHeader.getDateTo());
+
+            statementHeader.setAccountAddress((dataRow.get("account_adders") != null) ?
+                                                  dataRow.get("account_adders").toString()
+                                                  : statementHeader.getAccountAddress());
+
+            statementHeader.setAccountBranch((dataRow.get("account_branch") != null) ?
+                                                 dataRow.get("account_branch").toString()
+                                                 : statementHeader.getAccountBranch());
+
+            statementHeader.setAccountCurrency((dataRow.get("account_currency") != null) ?
+                                                   dataRow.get("account_currency").toString()
+                                                   : statementHeader.getAccountCurrency());
+
+            statementHeader.setAccountType(
+                (dataRow.get("account_type") != null) ? dataRow.get("account_type").toString()
+                    : statementHeader.getAccountType());
+
+            statementHeader.setBalanceEnd((dataRow.get("balance_end") != null) ? (BigDecimal) dataRow.get("balance_end")
+                                              : statementHeader.getBalanceEnd());
+
+            statementHeader.setBalanceInitial((dataRow.get("balance_initial") != null) ?
+                                                  (BigDecimal) dataRow.get("balance_initial")
+                                                  : statementHeader.getBalanceInitial());
+
+            statementHeader.setCustomerCode((dataRow.get("customer_code") != null) ?
+                                                dataRow.get("customer_code").toString()
+                                                : statementHeader.getCustomerCode());
+
+            statementHeader.setMessage((dataRow.get("message") != null) ? dataRow.get("message").toString()
+                                           : statementHeader.getMessage());
+
+            statementHeader.setStatementTitle((dataRow.get("statement_title") != null) ?
+                                                  dataRow.get("statement_title").toString()
+                                                  : statementHeader.getStatementTitle());
+
+            statementHeader.setFileHash((dataRow.get("file_hash") != null) ?
+                                            dataRow.get("file_hash").toString()
+                                            : statementHeader.getFileHash());
+        } else {
+            statementHeader = null;
+        }
+
+        return statementHeader;
     }
 }

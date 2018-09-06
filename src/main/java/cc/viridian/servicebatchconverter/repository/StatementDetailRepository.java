@@ -2,6 +2,7 @@ package cc.viridian.servicebatchconverter.repository;
 
 import cc.viridian.servicebatchconverter.Utils.FormatUtil;
 import cc.viridian.servicebatchconverter.payload.DetailPayload;
+import cc.viridian.servicebatchconverter.payload.HeaderPayload;
 import cc.viridian.servicebatchconverter.persistence.StatementDetail;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.cayenne.DataRow;
@@ -11,10 +12,7 @@ import org.apache.cayenne.query.SQLExec;
 import org.apache.cayenne.query.SQLSelect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Slf4j
@@ -35,41 +33,18 @@ public class StatementDetailRepository {
         DataRow dataRow = SQLSelect.dataRowQuery("SELECT * FROM STATEMENT_DETAIL WHERE "
                                                      + "ACCOUNT_CODE=#bind($AccCode)"
                                                      + " AND DEBIT_CREDIT=#bind($DebitCredit)"
-                                         //            + " AND LOCAL_DATE_TIME =#bind($DateTime)"
+                                                     //            + " AND LOCAL_DATE_TIME =#bind($DateTime)"
                                                      + " AND REFERENCE_NUMBER =#bind($RefNum)")
                                    .paramsArray(body.getAccountCode()
                                        , FormatUtil.getInitialChar(body.getDebitCredit())
-                                       //, body.getLocalDateTime()
+                                                //, body.getLocalDateTime()
                                        , body.getReferenceNumber())
                                    .selectFirst(context);
-        StatementDetail statementDetail = new StatementDetail();
 
-        try {
-
-            statementDetail.setAccountCode(dataRow.get("account_code").toString());
-            statementDetail.setDate(dataRow.get("date").toString());
-            statementDetail.setDebitCredit(dataRow.get("debit_credit").toString());
-
-            //TODO hacer util funcion
-            Date date= (Date) dataRow.get("local_date_time");
-            Instant instant = Instant.ofEpochMilli(date.getTime());
-            LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
-            statementDetail.setLocalDateTime(localDateTime);
-
-            statementDetail.setReferenceNumber(dataRow.get("reference_number").toString());
-            statementDetail.setSecondaryInfo(dataRow.get("secondary_info").toString());
-
-
-        } catch (NullPointerException nullp) {
-            statementDetail = null;
-            log.error(nullp.getMessage());
-
-        }
-
-        return statementDetail;
+        return this.checkDataRowToStatemenDetail(dataRow);
     }
 
-    public void saveStatementDetail(DetailPayload body) {
+    public void saveStatementDetail(DetailPayload body , HeaderPayload headerPayload) {
 
         ObjectContext context = mainServerRuntime.newContext();
 
@@ -92,6 +67,9 @@ public class StatementDetailRepository {
         statementDetail.setSecondaryInfo(body.getSecondaryInfo());
         statementDetail.setTransactionCode(body.getTransactionCode());
         statementDetail.setTransactionDesc(body.getTransactionDesc());
+
+        statementDetail.writePropertyDirectly("fk_header", 1200);
+        //statementDetail.addToManyTarget("HeaderDetail",,true);
 
         context.commitChanges();
     }
@@ -120,5 +98,72 @@ public class StatementDetailRepository {
         detailPayload.setDebitCredit(newOp);
 
         return detailPayload;
+    }
+
+    public StatementDetail checkDataRowToStatemenDetail(DataRow dataRow) {
+
+        StatementDetail statementDetail = new StatementDetail();
+
+        if (dataRow != null) {
+            statementDetail.setAccountCode(
+                (dataRow.get("account_code") != null) ? dataRow.get("account_code").toString()
+                    : statementDetail.getAccountCode());
+
+            statementDetail.setDate((dataRow.get("date") != null) ? dataRow.get("date").toString()
+                                        : statementDetail.getDate());
+
+            statementDetail.setDebitCredit(
+                (dataRow.get("debit_credit") != null) ? dataRow.get("debit_credit").toString()
+                    : statementDetail.getDebitCredit());
+
+            //TODO hacer util funcion
+            Date date = (dataRow.get("local_date_time") != null) ? (Date) dataRow.get("local_date_time") : null;
+            statementDetail.setLocalDateTime((date != null) ? FormatUtil.parseDateToLocalDateTime(date)
+                                                 : statementDetail.getLocalDateTime());
+
+            statementDetail.setReferenceNumber((dataRow.get("reference_number") != null) ?
+                                                   dataRow.get("reference_number").toString()
+                                                   : statementDetail.getReferenceNumber());
+
+            statementDetail.setSecondaryInfo((dataRow.get("secondary_info") != null) ?
+                                                 dataRow.get("secondary_info").toString()
+                                                 : statementDetail.getSecondaryInfo());
+
+            statementDetail.setTransactionCode((dataRow.get("transaction_code") != null) ?
+                                                   dataRow.get("transaction_code").toString()
+                                                   : statementDetail.getTransactionCode());
+
+            statementDetail.setAnnotation((dataRow.get("annotation") != null) ? dataRow.get("annotation").toString()
+                                              : statementDetail.getAnnotation());
+
+            statementDetail.setAccountCurrency((dataRow.get("account_currency") != null) ?
+                                                   dataRow.get("account_currency").toString()
+                                                   : statementDetail.getAccountCurrency());
+
+            statementDetail.setAccountType(
+                (dataRow.get("account_type") != null) ? dataRow.get("account_type").toString()
+                    : statementDetail.getAccountType());
+
+            statementDetail.setAmount((dataRow.get("amount") != null) ? (BigDecimal) dataRow.get("amount")
+                                          : statementDetail.getAmount());
+
+            statementDetail.setBranchChannel((dataRow.get("branch_channel") != null) ?
+                                                 dataRow.get("branch_channel").toString()
+                                                 : statementDetail.getBranchChannel());
+
+            statementDetail.setTrnId((dataRow.get("trn_id") != null) ? dataRow.get("trn_id").toString()
+                                         : statementDetail.getTrnId());
+
+            statementDetail.setBalance((dataRow.get("balance") != null) ? (BigDecimal) dataRow.get("balance")
+                                           : statementDetail.getBalance());
+
+            statementDetail.setTransactionDesc((dataRow.get("transaction_desc") != null) ?
+                                                   dataRow.get("transaction_desc").toString()
+                                                   : statementDetail.getTrnId());
+        } else {
+            statementDetail = null;
+        }
+
+        return statementDetail;
     }
 }

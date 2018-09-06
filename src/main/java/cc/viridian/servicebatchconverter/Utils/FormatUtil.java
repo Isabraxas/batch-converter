@@ -30,4 +30,10 @@ public class FormatUtil {
         return localDate;
     }
 
+    public static LocalDateTime parseDateToLocalDateTime(final Date date) {
+        Instant instant = Instant.ofEpochMilli(date.getTime());
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+        return localDateTime;
+    }
+
 }

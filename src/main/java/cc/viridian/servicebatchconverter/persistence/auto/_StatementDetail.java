@@ -139,4 +139,12 @@ public abstract class _StatementDetail extends CayenneDataObject {
         return (String)readProperty("trnId");
     }
 
+   /* public void addToMany(_StatementHeader obj) {
+        addToManyTarget("paintingArray", obj, true);
+    }
+
+    public void addToOne(_StatementHeader obj) {
+        setToOneTarget("paintingArray", obj, true);
+    }*/
+
 }
