@@ -101,6 +101,7 @@ public class ParseStatementsFileService {
                     detailList.stream().forEach(detailP -> {
                         if(!statementDetailService.exist(detailP)){
                             statementDetailService.insertOneInToDatabase(detailP, finalStatementHeader);
+                        }else {
                             log.warn("El statement detail ya existe: " + detailP.toString());
                         }
                     });

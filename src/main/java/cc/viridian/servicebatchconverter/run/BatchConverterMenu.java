@@ -43,7 +43,7 @@ public class BatchConverterMenu {
         while (!salir) {
 
             System.out.println("\n******************************************");
-            System.out.println("1. Parsear archivo un local");
+            System.out.println("1. Leer y almacenar un nuevo archivo un local");
             System.out.println("2. Almacenar toda la lista de statements");
             System.out.println("3. Usar archivo de prueba para almacenar los statements en la base de datos");
             System.out.println("4. Probar funcion hash de resumen");
@@ -73,7 +73,7 @@ public class BatchConverterMenu {
                                 +"y exiten "+readFileResponse.getDuplicatedHeaders()+" headers duplicados\n"
                                 +" con "+readFileResponse.getDuplicatedDetails()+" details duplicados\n";
                         }
-                        break;
+
 
                     case 2:
                         System.out.println("Has seleccionado la opcion 2");
