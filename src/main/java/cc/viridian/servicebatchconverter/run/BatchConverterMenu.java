@@ -64,19 +64,18 @@ public class BatchConverterMenu {
                         filePath = sn.next();
                         System.out.print("Leyendo archivo ...");
                         ReadFileResponse readFileResponse = this.readStatementsFileService.readContent(filePath);
-                        if (readFileResponse.getHashExist()) {
+                        if (!readFileResponse.getHashExist()) {
                             message = "El hash del archivo no coincide con ningun registro almacenado \n"
                                         +"pero exiten "+readFileResponse.getDuplicatedHeaders()+" headers duplicados\n"
                                         +" con "+readFileResponse.getDuplicatedDetails()+" details duplicados\n";
                         } else {
-                            message = "El hash del archivo coincide con un registro almacenado \n"
-                                +"y exiten "+readFileResponse.getDuplicatedHeaders()+" headers duplicados\n"
-                                +" con "+readFileResponse.getDuplicatedDetails()+" details duplicados\n";
+                            message = "El hash del archivo coincide con un registro ya almacenado \n";
                         }
 
                         break;
 
                     case 2:
+                        message = "";
                         System.out.println("Has seleccionado la opcion 2");
                         statementPayloadList = parseStatementsFileService.parseContent(filePath);
                         statementHeaderService.insertToDatabase(statementPayloadList);
