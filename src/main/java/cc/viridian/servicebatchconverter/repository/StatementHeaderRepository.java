@@ -9,8 +9,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.cayenne.DataRow;
 import org.apache.cayenne.ObjectContext;
 import org.apache.cayenne.configuration.server.ServerRuntime;
+import org.apache.cayenne.query.EJBQLQuery;
 import org.apache.cayenne.query.SQLExec;
 import org.apache.cayenne.query.SQLSelect;
+import org.apache.cayenne.query.SQLTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import java.math.BigDecimal;
@@ -78,6 +80,7 @@ public class StatementHeaderRepository {
         ObjectContext context = mainServerRuntime.newContext();
 
         log.info("Select Header in DB ");
+        /*
         DataRow dataRow = SQLSelect.dataRowQuery("SELECT * FROM STATEMENT_HEADER WHERE "
                                                      + "ACCOUNT_CODE=#bind($AccCode)"
                                                      + " AND CUSTOMER_CODE=#bind($CustCode)"
@@ -88,8 +91,23 @@ public class StatementHeaderRepository {
                                        , body.getDateFrom()
                                        , body.getDateTo())
                                    .selectFirst(context);
+        */
+        SQLTemplate selectQuery = new SQLTemplate(StatementHeader.class, "SELECT * FROM STATEMENT_HEADER WHERE "
+            + "ACCOUNT_CODE=#bind($AccCode)"
+            + " AND CUSTOMER_CODE=#bind($CustCode)"
+            + " AND DATE_FROM =#bind($DateFrom)"
+            + " AND DATE_TO =#bind($DateTo)");
+        selectQuery.setParamsArray(body.getAccountCode()
+            , body.getCustomerCode()
+            , body.getDateFrom()
+            , body.getDateTo());
 
-        return this.checkDataRowToStatemenHeader(dataRow);
+        // ensure we are fetching DataRows
+        selectQuery.setFetchingDataRows(true);
+
+        List<DataRow> rows = context.performQuery(selectQuery);
+
+        return this.checkDataRowToStatemenHeader(rows.get(0));
     }
 
     public HeaderPayload getOneStatementHeaderPayload(HeaderPayload body) {
@@ -185,10 +203,20 @@ public class StatementHeaderRepository {
             statementDetail.setTransactionCode(detailPayload.getTransactionCode());
             statementDetail.setTransactionDesc(detailPayload.getTransactionDesc());
 
-            statementHeader.addToHeaderDetail(statementDetail);
+            statementHeader.addToStatementDetail(statementDetail);
         });
 
         context.commitChanges();
+    }
+
+    //TODO tal vez deberia devolver un objeto con la cantidad y tipo de los registros elininados
+    public void deleteStementHeader(HeaderPayload headerPayload) {
+        //TODO obtener el objeto si es posible el header y los detail
+        HeaderPayload header = this.getOneStatementHeaderPayload(headerPayload);
+        //TODO obtener details en base a la fk_header
+
+        //TODO eliminar details
+        //TODO eliminar header
     }
 
     public StatementHeader checkDataRowToStatemenHeader(DataRow dataRow) {
@@ -252,7 +280,6 @@ public class StatementHeaderRepository {
         return statementHeader;
     }
 
-
     public HeaderPayload checkDataRowToHeaderPayload(DataRow dataRow) {
 
         HeaderPayload headerPayload = new HeaderPayload();
@@ -264,49 +291,49 @@ public class StatementHeaderRepository {
 
             Date dateFrom = (dataRow.get("date_from") != null) ? (Date) dataRow.get("date_from") : null;
             headerPayload.setDateFrom((dateFrom != null) ? FormatUtil.parseDateToLocalDate(dateFrom)
-                                            : headerPayload.getDateFrom());
+                                          : headerPayload.getDateFrom());
 
             Date dateTo = (dataRow.get("date_to") != null) ? (Date) dataRow.get("date_to") : null;
             headerPayload.setDateTo((dateTo != null) ? FormatUtil.parseDateToLocalDate(dateTo)
-                                          : headerPayload.getDateTo());
+                                        : headerPayload.getDateTo());
 
             headerPayload.setAccountAddress((dataRow.get("account_adders") != null) ?
-                                                  dataRow.get("account_adders").toString()
-                                                  : headerPayload.getAccountAddress());
+                                                dataRow.get("account_adders").toString()
+                                                : headerPayload.getAccountAddress());
 
             headerPayload.setAccountBranch((dataRow.get("account_branch") != null) ?
-                                                 dataRow.get("account_branch").toString()
-                                                 : headerPayload.getAccountBranch());
+                                               dataRow.get("account_branch").toString()
+                                               : headerPayload.getAccountBranch());
 
             headerPayload.setAccountCurrency((dataRow.get("account_currency") != null) ?
-                                                   dataRow.get("account_currency").toString()
-                                                   : headerPayload.getAccountCurrency());
+                                                 dataRow.get("account_currency").toString()
+                                                 : headerPayload.getAccountCurrency());
 
             headerPayload.setAccountType(
                 (dataRow.get("account_type") != null) ? dataRow.get("account_type").toString()
                     : headerPayload.getAccountType());
 
             headerPayload.setBalanceEnd((dataRow.get("balance_end") != null) ? (BigDecimal) dataRow.get("balance_end")
-                                              : headerPayload.getBalanceEnd());
+                                            : headerPayload.getBalanceEnd());
 
             headerPayload.setBalanceInitial((dataRow.get("balance_initial") != null) ?
-                                                  (BigDecimal) dataRow.get("balance_initial")
-                                                  : headerPayload.getBalanceInitial());
+                                                (BigDecimal) dataRow.get("balance_initial")
+                                                : headerPayload.getBalanceInitial());
 
             headerPayload.setCustomerCode((dataRow.get("customer_code") != null) ?
-                                                dataRow.get("customer_code").toString()
-                                                : headerPayload.getCustomerCode());
+                                              dataRow.get("customer_code").toString()
+                                              : headerPayload.getCustomerCode());
 
             headerPayload.setMessage((dataRow.get("message") != null) ? dataRow.get("message").toString()
-                                           : headerPayload.getMessage());
+                                         : headerPayload.getMessage());
 
             headerPayload.setStatementTitle((dataRow.get("statement_title") != null) ?
-                                                  dataRow.get("statement_title").toString()
-                                                  : headerPayload.getStatementTitle());
+                                                dataRow.get("statement_title").toString()
+                                                : headerPayload.getStatementTitle());
 
             headerPayload.setFileHash((dataRow.get("file_hash") != null) ?
-                                            dataRow.get("file_hash").toString()
-                                            : headerPayload.getFileHash());
+                                          dataRow.get("file_hash").toString()
+                                          : headerPayload.getFileHash());
 
             headerPayload.setId((dataRow.get("id") != null) ?
                                     (Integer) dataRow.get("id")
