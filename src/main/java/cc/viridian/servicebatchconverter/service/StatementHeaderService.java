@@ -30,11 +30,6 @@ public class StatementHeaderService {
         return "PARSED";
     }
 
-    public int deleteByCustomer(final String customerCode) {
-        HeaderPayload headerPayload = new HeaderPayload();
-        headerPayload.setCustomerCode(customerCode);
-        return headerRepository.deleteByCustomer(headerPayload);
-    }
 
     public Integer insertOneInToDatabase(HeaderPayload headerPayload) {
         this.headerRepository.saveStatementHeader(headerPayload);
@@ -72,5 +67,13 @@ public class StatementHeaderService {
 
     public void setCurrentFilePath(String currentFilePath) {
         this.currentFilePath = currentFilePath;
+    }
+
+    public void delete(HeaderPayload headerPayload) {
+        this.headerRepository.deleteStementHeader(headerPayload);
+    }
+
+    public HeaderPayload getStatementHeaderPayload(HeaderPayload headerPayload) {
+        return this.headerRepository.getOneStatementHeaderPayload(headerPayload);
     }
 }

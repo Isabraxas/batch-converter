@@ -6,7 +6,6 @@ import cc.viridian.servicebatchconverter.payload.DetailPayload;
 import cc.viridian.servicebatchconverter.payload.HeaderPayload;
 import cc.viridian.servicebatchconverter.payload.ReadFileResponse;
 import cc.viridian.servicebatchconverter.payload.StatementPayload;
-import cc.viridian.servicebatchconverter.persistence.StatementDetail;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,8 +28,6 @@ public class ReadStatementsFileService {
     private StatementHeaderService statementHeaderService;
     @Autowired
     private StatementDetailService statementDetailService;
-
-
 
     Integer dateSize = null;
     Integer descSize = null;
@@ -58,69 +55,80 @@ public class ReadStatementsFileService {
         System.out.print("LINE:");
 
         //TODO crear un hash para el archivo y verificar si existe o no
-        String hash = HashCode.getCodigoHash(filePath);
-        String hashCodeFile= HashCode.getCodigoHash(filePath);
+        String hashCodeFile = HashCode.getCodigoHash(filePath);
         Boolean isSaved = this.statementHeaderService.existFileHash(hashCodeFile);
-        readFileResponse.setHashExist(isSaved);
 
-        while ((line = b.readLine()) != null) {
+        if(!isSaved){
+            while ((line = b.readLine()) != null) {
 
-            DetailPayload detail = new DetailPayload();
-            currentLine++;
-            System.out.print(", " + currentLine);
+                DetailPayload detail = new DetailPayload();
+                currentLine++;
+                System.out.print(", " + currentLine);
 
-            if (!line.contains("-----------------") && !line.equals("")) {
+                if (!line.contains("-----------------") && !line.equals("")) {
 
-                //System.out.println(line);
+                    //System.out.println(line);
 
-                //Try fill the Header
-                statementHeader = this.fillStatementAccountHeader(line, statementHeader);
+                    //Try fill the Header
+                    statementHeader = this.fillStatementAccountHeader(line, statementHeader);
 
-                //Set size columns and return if start read details lines
-                startReadDetails = this.setSizeColumnsOfStatementAccountDetailHeader(line, startReadDetails);
+                    //Set size columns and return if start read details lines
+                    startReadDetails = this.setSizeColumnsOfStatementAccountDetailHeader(line, startReadDetails);
 
-                //Fill statement details
-                if (startReadDetails) {
-                    detail = this.fillStatementAccountLog(line, detail, statementHeader);
-                    if (detail != null) {
-                        detailList.add(detail);
+                    //Fill statement details
+                    if (startReadDetails) {
+                        detail = this.fillStatementAccountLog(line, detail, statementHeader);
+                        if (detail != null) {
+                            detailList.add(detail);
+                        }
+                    }
+
+                    //Set Total amount
+                    if (!startReadDetails) {
+                        this.setTotalAmount(line, statementHeader);
                     }
                 }
 
-                //Set Total amount
-                if (!startReadDetails) {
-                    this.setTotalAmount(line, statementHeader);
-                }
-            }
+                statement.setHeader(statementHeader);
+                //System.out.println("HEADER: " + statementHeader);
+                statement.setDetails(detailList);
+                //System.out.println("DETAILS: " + detailList);
 
-            statement.setHeader(statementHeader);
-            //System.out.println("HEADER: " + statementHeader);
-            statement.setDetails(detailList);
-            //System.out.println("DETAILS: " + detailList);
+                if (line.contains("-----------------")) {
 
-            if (line.contains("-----------------")) {
+                    HeaderPayload headerPayload = this.statementHeaderService.getStatementHeaderPayload(statementHeader);
 
-            //TODO generar una respuesta adecuada
-                //TODO comprobar si ya existe alguno de los headers
-                if (statementHeaderService.exist(statementHeader)) {
-                    readFileResponse.incrementDuplicatedHeaders();
-                    log.warn("El statement header ya existe: " + statementHeader.toString());
-                }
-                //TODO comprobar si ya existe alguno de los details
-                detailList.stream().forEach(detailP -> {
-                    if(statementDetailService.exist(detailP)){
-                        readFileResponse.incrementDuplicatedDetails();
-                        log.warn("El statement detail ya existe: " + detailP.toString());
+                    //TODO generar una respuesta adecuada
+                    //TODO comprobar si ya existe alguno de los details
+                    detailList.stream().forEach(detailP -> {
+                        if (statementDetailService.exist(detailP)) {
+                            readFileResponse.incrementDuplicatedDetails();
+                            log.warn("El statement detail ya existe: " + detailP.toString());
+                        }
+                    });
+                    //TODO comprobar si ya existe alguno de los headers
+                    if (statementHeaderService.exist(statementHeader)) {
+                        readFileResponse.incrementDuplicatedHeaders();
+                        log.warn("El statement header ya existe: " + statementHeader.toString());
+                        //TODO eliminar header y detail si el archivo nuevo(distinto hash) contiene el mismo header
+                        if(headerPayload != null) {
+                            if (!HashCode.areEqualsFileAndHash(filePath, headerPayload.getFileHash())) {
+                                this.statementHeaderService.delete(statementHeader);
+                                log.warn("Se ha eliminado este header: " + headerPayload.toString());
+                            }
+                        }
                     }
-                });
 
-
-                statement = new StatementPayload();
-                statementHeader = new HeaderPayload();
-                detailList = new ArrayList<DetailPayload>();
-                startReadDetails = false;
+                    statement = new StatementPayload();
+                    statementHeader = new HeaderPayload();
+                    detailList = new ArrayList<DetailPayload>();
+                    startReadDetails = false;
+                }
             }
+
         }
+
+        readFileResponse.setHashExist(isSaved);
         b.close();
 
         System.out.print("\n");

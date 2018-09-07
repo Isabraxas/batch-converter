@@ -29,7 +29,7 @@ public class HashCode {
     }
 
 
-    public static boolean compareFileWithHash(String file, String hashCode)throws NoSuchAlgorithmException, FileNotFoundException, IOException
+    public static boolean areEqualsFileAndHash(String file, String hashCode)throws NoSuchAlgorithmException, FileNotFoundException, IOException
     {
         return hashCode.equals(getCodigoHash(file));
     }

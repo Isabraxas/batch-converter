@@ -40,13 +40,8 @@ public class StatementDetailService {
         }
     }
 
-    public int deleteByAccount(final String accountCode) {
-        DetailPayload detailPayload = new DetailPayload();
-        detailPayload.setAccountCode(accountCode);
-        return detailRepository.deleteStatementDetail(detailPayload);
-    }
-
+/*
     public void insertOneInToDatabase(DetailPayload detailPayload, HeaderPayload headerPayload) {
         this.detailRepository.saveStatementDetail(detailPayload, headerPayload);
-    }
+    }*/
 }

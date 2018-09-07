@@ -19,12 +19,10 @@ import java.util.Date;
 @Repository
 public class StatementDetailRepository {
     private ServerRuntime mainServerRuntime;
-    private StatementHeaderRepository statementHeaderRepository;
 
     @Autowired
-    public StatementDetailRepository(ServerRuntime mainServerRuntime, StatementHeaderRepository statementHeaderRepository) {
+    public StatementDetailRepository(ServerRuntime mainServerRuntime) {
         this.mainServerRuntime = mainServerRuntime;
-        this.statementHeaderRepository = statementHeaderRepository;
     }
 
     public StatementDetail getOneStatementDetail(DetailPayload body) {
@@ -58,7 +56,7 @@ public class StatementDetailRepository {
     }
 
 
-    public void saveStatementDetail(DetailPayload body , HeaderPayload headerPayload) {
+   /* public void saveStatementDetail(DetailPayload body , HeaderPayload headerPayload) {
 
         ObjectContext context = mainServerRuntime.newContext();
 
@@ -96,41 +94,18 @@ public class StatementDetailRepository {
                 , detail.getId()+1)
             .update(context);
 
-        /*
-        StatementDetail statementDetail = context.newObject(StatementDetail.class);
-        //Reformat
-        body = this.reformatDetail(body);
-
-        statementDetail.setAccountCode(body.getAccountCode());
-        statementDetail.setAccountCurrency(body.getAccountCurrency());
-        statementDetail.setAccountType(body.getAccountType());
-        statementDetail.setAmount(body.getAmount());
-        statementDetail.setAnnotation(body.getAnnotation());
-        statementDetail.setBalance(body.getBalance());
-        statementDetail.setBranchChannel(body.getBranchChannel());
-        statementDetail.setDate(body.getDate());
-        statementDetail.setDebitCredit(body.getDebitCredit());
-        statementDetail.setLocalDateTime(body.getLocalDateTime());
-        statementDetail.setReferenceNumber(body.getReferenceNumber());
-        statementDetail.setSecondaryInfo(body.getSecondaryInfo());
-        statementDetail.setTransactionCode(body.getTransactionCode());
-        statementDetail.setTransactionDesc(body.getTransactionDesc());
-
-        statementDetail.writePropertyDirectly("fk_header", 1200);
-        //statementDetail.addToManyTarget("HeaderDetail",,true);
-
-        context.commitChanges();
-        */
     }
 
-    public int deleteStatementDetail(DetailPayload body) {
+    */
+
+    public int deleteStatementDetailById(Integer id) {
         log.info("Deleteing StatementDetail");
         ObjectContext context = mainServerRuntime.newContext();
 
         int delete = SQLExec
             .query("DELETE FROM STATEMENT_DETAIL\n" +
-                       "WHERE ACCOUNT_CODE = #bind($accCode)")
-            .paramsArray(body.getAccountCode())
+                       "WHERE ID = #bind($accCode)")
+            .paramsArray(id)
             .update(context);
 
         return delete;

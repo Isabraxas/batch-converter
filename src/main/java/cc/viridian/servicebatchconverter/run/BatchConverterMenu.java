@@ -74,6 +74,7 @@ public class BatchConverterMenu {
                                 +" con "+readFileResponse.getDuplicatedDetails()+" details duplicados\n";
                         }
 
+                        break;
 
                     case 2:
                         System.out.println("Has seleccionado la opcion 2");
@@ -108,12 +109,12 @@ public class BatchConverterMenu {
                                 .getCodigoHash(filePathExternalPrn2) + "\n");
 
                             System.out.println("Comparando archivo externo1 contra hash: " + HashCode
-                                .compareFileWithHash(filePathExternalPrn, hashLocal));
+                                .areEqualsFileAndHash(filePathExternalPrn, hashLocal));
                             System.out.println("Comparando archivo externo1 contra archivo local: " + HashCode
                                 .compareFileWithFile(filePathExternalPrn, filePathLocalPrn));
 
                             System.out.println("Comparando archivo externo2 contra hash: " + HashCode
-                                .compareFileWithHash(filePathExternalPrn2, hashLocal));
+                                .areEqualsFileAndHash(filePathExternalPrn2, hashLocal));
                             System.out.println("Comparando archivo externo2 contra archivo local: " + HashCode
                                 .compareFileWithFile(filePathExternalPrn2, filePathLocalPrn));
                         } catch (NoSuchAlgorithmException e) {

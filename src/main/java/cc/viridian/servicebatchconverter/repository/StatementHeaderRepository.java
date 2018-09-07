@@ -24,10 +24,12 @@ import java.util.List;
 @Repository
 public class StatementHeaderRepository {
     private ServerRuntime mainServerRuntime;
+    private StatementDetailRepository statementDetailRepository;
 
     @Autowired
-    public StatementHeaderRepository(ServerRuntime mainServerRuntime) {
+    public StatementHeaderRepository(ServerRuntime mainServerRuntime, StatementDetailRepository statementDetailRepository) {
         this.mainServerRuntime = mainServerRuntime;
+        this.statementDetailRepository = statementDetailRepository;
     }
 
     public void registerStatementHeader(HeaderPayload body) {
@@ -80,7 +82,7 @@ public class StatementHeaderRepository {
         ObjectContext context = mainServerRuntime.newContext();
 
         log.info("Select Header in DB ");
-        /*
+
         DataRow dataRow = SQLSelect.dataRowQuery("SELECT * FROM STATEMENT_HEADER WHERE "
                                                      + "ACCOUNT_CODE=#bind($AccCode)"
                                                      + " AND CUSTOMER_CODE=#bind($CustCode)"
@@ -91,23 +93,8 @@ public class StatementHeaderRepository {
                                        , body.getDateFrom()
                                        , body.getDateTo())
                                    .selectFirst(context);
-        */
-        SQLTemplate selectQuery = new SQLTemplate(StatementHeader.class, "SELECT * FROM STATEMENT_HEADER WHERE "
-            + "ACCOUNT_CODE=#bind($AccCode)"
-            + " AND CUSTOMER_CODE=#bind($CustCode)"
-            + " AND DATE_FROM =#bind($DateFrom)"
-            + " AND DATE_TO =#bind($DateTo)");
-        selectQuery.setParamsArray(body.getAccountCode()
-            , body.getCustomerCode()
-            , body.getDateFrom()
-            , body.getDateTo());
 
-        // ensure we are fetching DataRows
-        selectQuery.setFetchingDataRows(true);
-
-        List<DataRow> rows = context.performQuery(selectQuery);
-
-        return this.checkDataRowToStatemenHeader(rows.get(0));
+        return this.checkDataRowToStatemenHeader(dataRow);
     }
 
     public HeaderPayload getOneStatementHeaderPayload(HeaderPayload body) {
@@ -129,14 +116,14 @@ public class StatementHeaderRepository {
         return this.checkDataRowToHeaderPayload(dataRow);
     }
 
-    public int deleteByCustomer(HeaderPayload body) {
+    public int deleteStatementHeaderById(Long id) {
         log.info("Deleteing StatementHeader");
         ObjectContext context = mainServerRuntime.newContext();
 
         int delete = SQLExec
             .query("DELETE FROM STATEMENT_HEADER\n" +
-                       "WHERE CUSTOMER_CODE = #bind($cusCode)")
-            .paramsArray(body.getCustomerCode())
+                       "WHERE ID = #bind($id)")
+            .paramsArray(id)
             .update(context);
 
         return delete;
@@ -210,13 +197,38 @@ public class StatementHeaderRepository {
     }
 
     //TODO tal vez deberia devolver un objeto con la cantidad y tipo de los registros elininados
-    public void deleteStementHeader(HeaderPayload headerPayload) {
+    public void deleteStementHeader(HeaderPayload body) {
+
+        ObjectContext context = mainServerRuntime.newContext();
+
         //TODO obtener el objeto si es posible el header y los detail
-        HeaderPayload header = this.getOneStatementHeaderPayload(headerPayload);
+        HeaderPayload header = this.getOneStatementHeaderPayload(body);
+
         //TODO obtener details en base a la fk_header
+        String sql = "SELECT D.* FROM STATEMENT_HEADER H LEFT JOIN STATEMENT_DETAIL D ON H.ID = D.FK_HEADER"
+            + " WHERE H.ACCOUNT_CODE=#bind($AccCode)"
+            + " AND H.CUSTOMER_CODE=#bind($CustCode)"
+            + " AND H.DATE_FROM =#bind($DateFrom)"
+            + " AND H.DATE_TO =#bind($DateTo)";
+        SQLTemplate selectQuery = new SQLTemplate(StatementHeader.class, sql);
+        selectQuery.setParamsArray(body.getAccountCode()
+            , body.getCustomerCode()
+            , body.getDateFrom()
+            , body.getDateTo());
+
+        // ensure we are fetching DataRows
+        selectQuery.setFetchingDataRows(true);
+
+        List<DataRow> rows = context.performQuery(selectQuery);
+        ///Llamar a la funcion del detail repositori que convierte un datarow en payload
 
         //TODO eliminar details
+        rows.stream().forEach(dataRow -> {
+            this.statementDetailRepository.deleteStatementDetailById((Integer) dataRow.get("id"));
+        });
+
         //TODO eliminar header
+        this.deleteStatementHeaderById(header.getId());
     }
 
     public StatementHeader checkDataRowToStatemenHeader(DataRow dataRow) {
