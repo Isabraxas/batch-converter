@@ -12,9 +12,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.io.IOException;
 import java.net.URL;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = ServiceBatchConverterApplication.class)
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+//@RunWith(SpringRunner.class)
+//@SpringBootTest(classes = ServiceBatchConverterApplication.class)
+//@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ServiceBatchConverterMenuApplicationTests {
 
 	URL sampleFileUrl;
