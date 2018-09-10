@@ -17,23 +17,6 @@ import java.net.URL;
 //@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ServiceBatchConverterMenuApplicationTests {
 
-	URL sampleFileUrl;
 
-
-	BatchConverterMenu batchConverterMenu;
-
-	@Before
-	public void setUp() throws Exception {
-		//"setup test"
-        batchConverterMenu = new  BatchConverterMenu();
-		sampleFileUrl = ServiceBatchConverterMenuApplicationTests.class
-			.getClass().getResource("/files/Statement_1998-01-01_2017-12-31.prn");
-	}
-
-	@Test
-	public void contextLoads() throws IOException {
-		System.out.println("HOLA");
-		batchConverterMenu.useTestFile(sampleFileUrl.getPath().toString());
-	}
 
 }

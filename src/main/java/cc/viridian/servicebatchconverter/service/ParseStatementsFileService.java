@@ -49,6 +49,7 @@ public class ParseStatementsFileService {
         List<StatementPayload> statementPayloadList = new ArrayList<StatementPayload>();
         Integer i = 0;
         Boolean startReadDetails = false;
+        Boolean addHeader = true;
         Integer colSum = 0;
 
         HeaderPayload statementHeader = new HeaderPayload();
@@ -59,34 +60,42 @@ public class ParseStatementsFileService {
             DetailPayload detail = new DetailPayload();
             currentLine++;
             System.out.print(", " + currentLine);
+            try {
 
-            if (!line.contains("-----------------") && !line.equals("")) {
+                if (!line.contains("-----------------") && !line.equals("")) {
 
-                //System.out.println(line);
+                    //System.out.println(line);
 
-                //Try fill the Header
-                statementHeader = this.fillStatementAccountHeader(line, statementHeader);
+                    //Try fill the Header
+                    statementHeader = this.fillStatementAccountHeader(line, statementHeader);
 
-                //Set size columns and return if start read details lines
-                startReadDetails = this.setSizeColumnsOfStatementAccountDetailHeader(line, startReadDetails);
+                    //Set size columns and return if start read details lines
+                    startReadDetails = this.setSizeColumnsOfStatementAccountDetailHeader(line, startReadDetails);
 
-                //Fill statement details
-                if (startReadDetails) {
-                    detail = this.fillStatementAccountLog(line, detail, statementHeader);
-                    if (detail != null) {
-                        detailList.add(detail);
+                    //Fill statement details
+                    if (startReadDetails) {
+                        detail = this.fillStatementAccountLog(line, detail, statementHeader);
+                        if (detail != null) {
+                            detailList.add(detail);
+                        }
+                    }
+
+                    //Set Total amount
+                    if (!startReadDetails) {
+                        this.setTotalAmount(line, statementHeader);
                     }
                 }
 
-                //Set Total amount
-                if (!startReadDetails) {
-                    this.setTotalAmount(line, statementHeader);
+                if(addHeader) {
+                    statement.setHeader(statementHeader);
+                    //System.out.println("HEADER: " + statementHeader);
                 }
-            }
-
-            statement.setHeader(statementHeader);
-            statement.setDetails(detailList);
-
+                statement.setDetails(detailList);
+            }catch (StringIndexOutOfBoundsException se){
+                    log.error(se.getMessage());
+                    statement.setHeader(null);
+                    addHeader = false;
+                }
             if (line.contains("-----------------")) {
 
                 //TODO crear un hash para el archivo y guardarlo en el header statement_title
@@ -117,6 +126,7 @@ public class ParseStatementsFileService {
                 statementHeader = new HeaderPayload();
                 detailList = new ArrayList<DetailPayload>();
                 startReadDetails = false;
+                addHeader=true;
             }
         }
         b.close();

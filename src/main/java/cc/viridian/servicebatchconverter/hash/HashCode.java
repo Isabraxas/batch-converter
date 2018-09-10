@@ -9,6 +9,9 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * This
+ */
 public class HashCode {
     public static String getCodigoHash(String path)throws NoSuchAlgorithmException, FileNotFoundException, IOException
     {

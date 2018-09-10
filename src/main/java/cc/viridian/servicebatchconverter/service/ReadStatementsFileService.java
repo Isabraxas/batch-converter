@@ -49,6 +49,7 @@ public class ReadStatementsFileService {
         List<DetailPayload> detailList = new ArrayList<DetailPayload>();
         Integer i = 0;
         Boolean startReadDetails = false;
+        Boolean addHeader= true;
         Integer colSum = 0;
 
         HeaderPayload statementHeader = new HeaderPayload();
@@ -58,45 +59,56 @@ public class ReadStatementsFileService {
         String hashCodeFile = HashCode.getCodigoHash(filePath);
         Boolean isSaved = this.statementHeaderService.existFileHash(hashCodeFile);
 
-        if(!isSaved){
+        if (!isSaved) {
             while ((line = b.readLine()) != null) {
 
                 DetailPayload detail = new DetailPayload();
                 currentLine++;
                 System.out.print(", " + currentLine);
+                try {
+                    if (!line.contains("-----------------") && !line.equals("")) {
 
-                if (!line.contains("-----------------") && !line.equals("")) {
+                        //System.out.println(line);
 
-                    //System.out.println(line);
+                        //Try fill the Header
+                        statementHeader = this.fillStatementAccountHeader(line, statementHeader);
 
-                    //Try fill the Header
-                    statementHeader = this.fillStatementAccountHeader(line, statementHeader);
+                        //Set size columns and return if start read details lines
+                        startReadDetails = this.setSizeColumnsOfStatementAccountDetailHeader(line, startReadDetails);
 
-                    //Set size columns and return if start read details lines
-                    startReadDetails = this.setSizeColumnsOfStatementAccountDetailHeader(line, startReadDetails);
+                        //Fill statement details
+                        if (startReadDetails) {
 
-                    //Fill statement details
-                    if (startReadDetails) {
-                        detail = this.fillStatementAccountLog(line, detail, statementHeader);
-                        if (detail != null) {
-                            detailList.add(detail);
+                                detail = this.fillStatementAccountLog(line, detail, statementHeader);
+
+                            if (detail != null) {
+                                detailList.add(detail);
+                            }
                         }
+
+                        //Set Total amount
+                        if (!startReadDetails) {
+                            this.setTotalAmount(line, statementHeader);
+                        }
+
                     }
 
-                    //Set Total amount
-                    if (!startReadDetails) {
-                        this.setTotalAmount(line, statementHeader);
+                    if(addHeader) {
+                        statement.setHeader(statementHeader);
+                        //System.out.println("HEADER: " + statementHeader);
                     }
+                    statement.setDetails(detailList);
+                    //System.out.println("DETAILS: " + detailList);
+                } catch (StringIndexOutOfBoundsException se){
+                    log.error(se.getMessage());
+                    statement.setHeader(null);
+                    addHeader = false;
                 }
-
-                statement.setHeader(statementHeader);
-                //System.out.println("HEADER: " + statementHeader);
-                statement.setDetails(detailList);
-                //System.out.println("DETAILS: " + detailList);
 
                 if (line.contains("-----------------")) {
 
-                    HeaderPayload headerPayload = this.statementHeaderService.getStatementHeaderPayload(statementHeader);
+                    HeaderPayload headerPayload = this.statementHeaderService.getStatementHeaderPayload(
+                        statementHeader);
 
                     //TODO generar una respuesta adecuada
                     //TODO comprobar si ya existe alguno de los details
@@ -106,15 +118,17 @@ public class ReadStatementsFileService {
                             log.warn("El statement detail ya existe: " + detailP.toString());
                         }
                     });
-                    //TODO comprobar si ya existe alguno de los headers
-                    if (statementHeaderService.exist(statementHeader)) {
-                        fileInfoResponse.incrementDuplicatedHeaders();
-                        log.warn("El statement header ya existe: " + statementHeader.toString());
-                        //TODO eliminar header y detail si el archivo nuevo(distinto hash) contiene el mismo header
-                        if(headerPayload != null) {
-                            if (!HashCode.areEqualsFileAndHash(filePath, headerPayload.getFileHash())) {
-                                this.statementHeaderService.delete(statementHeader);
-                                log.warn("Se ha eliminado este header: " + headerPayload.toString());
+                    if(statement.getHeader() != null) {
+                        //TODO comprobar si ya existe alguno de los headers
+                        if (statementHeaderService.exist(statement.getHeader())) {
+                            fileInfoResponse.incrementDuplicatedHeaders();
+                            log.warn("El statement header ya existe: " + statementHeader.toString());
+                            //TODO eliminar header y detail si el archivo nuevo(distinto hash) contiene el mismo header
+                            if (headerPayload != null) {
+                                if (!HashCode.areEqualsFileAndHash(filePath, headerPayload.getFileHash())) {
+                                    this.statementHeaderService.delete(statementHeader);
+                                    log.warn("Se ha eliminado este header: " + headerPayload.toString());
+                                }
                             }
                         }
                     }
@@ -123,9 +137,9 @@ public class ReadStatementsFileService {
                     statementHeader = new HeaderPayload();
                     detailList = new ArrayList<DetailPayload>();
                     startReadDetails = false;
+                    addHeader = true;
                 }
             }
-
         }
 
         fileInfoResponse.setHashExist(isSaved);
@@ -209,7 +223,8 @@ public class ReadStatementsFileService {
 
     private DetailPayload fillStatementAccountLog(final String line,
                                                   final DetailPayload detailPayload,
-                                                  final HeaderPayload headerPayload) {
+                                                  final HeaderPayload headerPayload)
+        throws StringIndexOutOfBoundsException {
         DetailPayload detail = detailPayload;
         HeaderPayload statementHeader = headerPayload;
         Integer colSum = 0;
