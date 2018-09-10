@@ -3,6 +3,7 @@ package cc.viridian.servicebatchconverter.service;
 import cc.viridian.servicebatchconverter.Utils.FormatUtil;
 import cc.viridian.servicebatchconverter.hash.HashCode;
 import cc.viridian.servicebatchconverter.payload.DetailPayload;
+import cc.viridian.servicebatchconverter.payload.FileInfoResponse;
 import cc.viridian.servicebatchconverter.payload.HeaderPayload;
 import cc.viridian.servicebatchconverter.payload.StatementPayload;
 import lombok.extern.slf4j.Slf4j;
@@ -33,10 +34,11 @@ public class ParseStatementsFileService {
     Integer amountSize = null;
     Integer operationSize = null;
 
-    public List<StatementPayload> parseContent(final String filePath)
+    public FileInfoResponse parseContent(final String filePath)
         throws FileNotFoundException, IOException, NoSuchAlgorithmException {
         FileReader f = new FileReader(filePath);
         BufferedReader b = new BufferedReader(f);
+        FileInfoResponse fileInfoResponse = new FileInfoResponse();
 
         String line;
 
@@ -94,6 +96,8 @@ public class ParseStatementsFileService {
                 //TODO guardar en la base de datos
                 if(!statementHeaderService.exist(statementHeader)) {
                     statementHeaderService.insertOneInToDatabase(statementHeader, detailList);
+                    fileInfoResponse.incrementReplacedHeaders();
+                    fileInfoResponse.incrementReplacedDetails(detailList.size());
                 }else {
                     log.error("El statement header ya existe: "+ statementHeader.toString());
                     //TODO comprobar si ya existe alguno de los details y guardarlos si no existen
@@ -118,7 +122,7 @@ public class ParseStatementsFileService {
         b.close();
 
         System.out.print("\n");
-        return statementPayloadList;
+        return fileInfoResponse;
     }
 
     private HeaderPayload fillStatementAccountHeader(final String line, final HeaderPayload headerPayload) {

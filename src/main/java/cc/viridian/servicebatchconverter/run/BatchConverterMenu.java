@@ -1,7 +1,7 @@
 package cc.viridian.servicebatchconverter.run;
 
 import cc.viridian.servicebatchconverter.hash.HashCode;
-import cc.viridian.servicebatchconverter.payload.ReadFileResponse;
+import cc.viridian.servicebatchconverter.payload.FileInfoResponse;
 import cc.viridian.servicebatchconverter.payload.StatementPayload;
 import cc.viridian.servicebatchconverter.service.ParseStatementsFileService;
 import cc.viridian.servicebatchconverter.service.ReadStatementsFileService;
@@ -63,11 +63,11 @@ public class BatchConverterMenu {
                         System.out.print("Escribe la ruta del archivo: ");
                         filePath = sn.next();
                         System.out.print("Leyendo archivo ...");
-                        ReadFileResponse readFileResponse = this.readStatementsFileService.readContent(filePath);
-                        if (!readFileResponse.getHashExist()) {
+                        FileInfoResponse fileInfoResponse = this.readStatementsFileService.readContent(filePath);
+                        if (!fileInfoResponse.getHashExist()) {
                             message = "El hash del archivo no coincide con ningun registro almacenado \n"
-                                        +"pero exiten "+readFileResponse.getDuplicatedHeaders()+" headers duplicados\n"
-                                        +" con "+readFileResponse.getDuplicatedDetails()+" details duplicados\n";
+                                        +"pero exiten "+ fileInfoResponse.getDuplicatedHeaders()+" headers duplicados\n"
+                                        +" con "+ fileInfoResponse.getDuplicatedDetails()+" details duplicados\n";
                         } else {
                             message = "El hash del archivo coincide con un registro ya almacenado \n";
                         }
@@ -77,8 +77,10 @@ public class BatchConverterMenu {
                     case 2:
                         message = "";
                         System.out.println("Has seleccionado la opcion 2");
-                        statementPayloadList = parseStatementsFileService.parseContent(filePath);
-                        statementHeaderService.insertToDatabase(statementPayloadList);
+                        fileInfoResponse = parseStatementsFileService.parseContent(filePath);
+                        message = "Se almacenaron "+ fileInfoResponse.getReplacedHeaders()+" headers\n"
+                            +" con "+ fileInfoResponse.getReplacedDetails()+" details \n";
+                        //statementHeaderService.insertToDatabase(statementPayloadList);
                         System.out.println("Statemets almacenados");
                         break;
 
@@ -146,7 +148,7 @@ public class BatchConverterMenu {
         //baseFilePath = "/home/isvar/Documents/statement/service-batch-converter/target/classes/files/Statement_1998-01-01_2017-12-31.prn";
         //TODO Fix try catch here
         try {
-            statementPayloadList = parseStatementsFileService.parseContent(baseFilePath);
+            FileInfoResponse fileInfoResponse = parseStatementsFileService.parseContent(baseFilePath);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }

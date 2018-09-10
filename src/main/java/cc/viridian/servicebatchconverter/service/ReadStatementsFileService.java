@@ -4,7 +4,7 @@ import cc.viridian.servicebatchconverter.Utils.FormatUtil;
 import cc.viridian.servicebatchconverter.hash.HashCode;
 import cc.viridian.servicebatchconverter.payload.DetailPayload;
 import cc.viridian.servicebatchconverter.payload.HeaderPayload;
-import cc.viridian.servicebatchconverter.payload.ReadFileResponse;
+import cc.viridian.servicebatchconverter.payload.FileInfoResponse;
 import cc.viridian.servicebatchconverter.payload.StatementPayload;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,12 +35,12 @@ public class ReadStatementsFileService {
     Integer amountSize = null;
     Integer operationSize = null;
 
-    public ReadFileResponse readContent(final String filePath)
+    public FileInfoResponse readContent(final String filePath)
         throws FileNotFoundException, IOException, NoSuchAlgorithmException {
         FileReader f = new FileReader(filePath);
         BufferedReader b = new BufferedReader(f);
 
-        ReadFileResponse readFileResponse = new ReadFileResponse();
+        FileInfoResponse fileInfoResponse = new FileInfoResponse();
         String line;
 
         Integer currentLine = 0;
@@ -102,13 +102,13 @@ public class ReadStatementsFileService {
                     //TODO comprobar si ya existe alguno de los details
                     detailList.stream().forEach(detailP -> {
                         if (statementDetailService.exist(detailP)) {
-                            readFileResponse.incrementDuplicatedDetails();
+                            fileInfoResponse.incrementDuplicatedDetails();
                             log.warn("El statement detail ya existe: " + detailP.toString());
                         }
                     });
                     //TODO comprobar si ya existe alguno de los headers
                     if (statementHeaderService.exist(statementHeader)) {
-                        readFileResponse.incrementDuplicatedHeaders();
+                        fileInfoResponse.incrementDuplicatedHeaders();
                         log.warn("El statement header ya existe: " + statementHeader.toString());
                         //TODO eliminar header y detail si el archivo nuevo(distinto hash) contiene el mismo header
                         if(headerPayload != null) {
@@ -128,11 +128,11 @@ public class ReadStatementsFileService {
 
         }
 
-        readFileResponse.setHashExist(isSaved);
+        fileInfoResponse.setHashExist(isSaved);
         b.close();
 
         System.out.print("\n");
-        return readFileResponse;
+        return fileInfoResponse;
     }
 
     private HeaderPayload fillStatementAccountHeader(final String line, final HeaderPayload headerPayload) {
