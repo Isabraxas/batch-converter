@@ -45,20 +45,12 @@ public class StatementHeaderService {
 
     public Boolean exist(final HeaderPayload headerPayload) {
         StatementHeader statementHeader = this.headerRepository.getOneStatementHeader(headerPayload);
-        if (statementHeader != null) {
-            return true;
-        } else {
-            return false;
-        }
+        return statementHeader != null;
     }
 
     public Boolean existFileHash(final String hashCode) {
         StatementHeader statementHeader = this.headerRepository.getOneStatementHeaderByFileHash(hashCode);
-        if (statementHeader != null) {
-            return true;
-        } else {
-            return false;
-        }
+        return statementHeader != null;
     }
 
     public String getCurrentFilePath() {

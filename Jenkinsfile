@@ -35,7 +35,7 @@ node {
             step([
                 $class: 'CheckStylePublisher',
                 pattern: '**/checkstyle-result.xml',
-                unstableTotalHigh: '0',
+                unstableTotalHigh: '183',
                 unstableTotalNormal: '80',
                 unstableNewHigh: '0',
                 unstableNewNormal: '0',

@@ -24,7 +24,7 @@ public class StatementDetailRepository {
         this.mainServerRuntime = mainServerRuntime;
     }
 
-    public StatementDetail getOneStatementDetail(DetailPayload body) {
+    public StatementDetail getOneStatementDetail(final DetailPayload body) {
 
         ObjectContext context = mainServerRuntime.newContext();
 
@@ -79,7 +79,7 @@ public class StatementDetailRepository {
         return detailPayload;
     }
 
-    public StatementDetail checkDataRowToStatemenDetail(DataRow dataRow) {
+    public StatementDetail checkDataRowToStatemenDetail(final DataRow dataRow) {
 
         StatementDetail statementDetail = new StatementDetail();
 
@@ -146,7 +146,7 @@ public class StatementDetailRepository {
         return statementDetail;
     }
 
-    public DetailPayload checkDataRowToDetailPayload(DataRow dataRow) {
+    public DetailPayload checkDataRowToDetailPayload(final DataRow dataRow) {
 
         DetailPayload detailPayload = new DetailPayload();
 

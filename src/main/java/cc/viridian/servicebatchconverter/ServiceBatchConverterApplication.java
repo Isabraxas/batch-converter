@@ -21,13 +21,13 @@ public class ServiceBatchConverterApplication implements CommandLineRunner {
 
     private static Logger log = LoggerFactory.getLogger(ServiceBatchConverterApplication.class);
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
 
         SpringApplication.run(ServiceBatchConverterApplication.class, args);
     }
 
     @Override
-    public void run(String... args) {
+    public void run(final String... args) {
 
         log.info("EXECUTING : command line runner");
         baseFilePath = ServiceBatchConverterApplication.class.getResource(

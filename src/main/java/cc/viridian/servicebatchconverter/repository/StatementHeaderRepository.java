@@ -39,7 +39,8 @@ public class StatementHeaderRepository {
         log.info("Saving new Header in DB ");
         int insert = SQLExec
             .query(
-                "INSERT INTO STATEMENT_HEADER(ACCOUNT_CODE,CUSTOMER_CODE,ID) VALUES (#bind($hAcc),#bind($hCtc),#bind($hId))")
+                "INSERT INTO STATEMENT_HEADER(ACCOUNT_CODE,CUSTOMER_CODE,ID)" +
+                    " VALUES (#bind($hAcc),#bind($hCtc),#bind($hId))")
             .paramsArray(body.getAccountCode(), body.getCustomerCode(), body.getId())
             .update(context);
     }
@@ -152,7 +153,7 @@ public class StatementHeaderRepository {
         context.commitChanges();
     }
 
-    public void saveStatementHeader(final HeaderPayload body, List<DetailPayload> detailPayloadList) {
+    public void saveStatementHeader(final HeaderPayload body, final List<DetailPayload> detailPayloadList) {
 
         ObjectContext context = mainServerRuntime.newContext();
 

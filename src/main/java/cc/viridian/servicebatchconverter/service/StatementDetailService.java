@@ -29,12 +29,8 @@ public class StatementDetailService {
         return "PARSED";
     }
 
-    public Boolean exist(DetailPayload detailPayload) {
+    public Boolean exist(final DetailPayload detailPayload) {
         StatementDetail statementDetail = this.detailRepository.getOneStatementDetail(detailPayload);
-        if (statementDetail != null) {
-            return true;
-        } else {
-            return false;
-        }
+        return statementDetail != null;
     }
 }
