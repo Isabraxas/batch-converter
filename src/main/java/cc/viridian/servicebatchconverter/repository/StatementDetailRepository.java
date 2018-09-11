@@ -2,7 +2,6 @@ package cc.viridian.servicebatchconverter.repository;
 
 import cc.viridian.servicebatchconverter.Utils.FormatUtil;
 import cc.viridian.servicebatchconverter.payload.DetailPayload;
-import cc.viridian.servicebatchconverter.payload.HeaderPayload;
 import cc.viridian.servicebatchconverter.persistence.StatementDetail;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.cayenne.DataRow;
@@ -36,9 +35,9 @@ public class StatementDetailRepository {
                                                      //            + " AND LOCAL_DATE_TIME =#bind($DateTime)"
                                                      + " AND REFERENCE_NUMBER =#bind($RefNum)")
                                    .paramsArray(body.getAccountCode()
-                                       , FormatUtil.getInitialChar(body.getDebitCredit())
-                                                //, body.getLocalDateTime()
-                                       , body.getReferenceNumber())
+                                   , FormatUtil.getInitialChar(body.getDebitCredit())
+                                    //, body.getLocalDateTime()
+                                   , body.getReferenceNumber())
                                    .selectFirst(context);
 
         return this.checkDataRowToStatemenDetail(dataRow);
@@ -55,56 +54,12 @@ public class StatementDetailRepository {
         return this.checkDataRowToDetailPayload(dataRow);
     }
 
-
-   /* public void saveStatementDetail(DetailPayload body , HeaderPayload headerPayload) {
-
-        ObjectContext context = mainServerRuntime.newContext();
-
-        log.info("Saving new Detail in DB ");
-
-        body= this.reformatDetail(body);
-        HeaderPayload header =this.statementHeaderRepository.getOneStatementHeaderPayload(headerPayload);
-        DetailPayload detail = this.getLastStatementDetailPayload();
-
-        int inserted = SQLExec //Column names in Mayus
-            .query("INSERT INTO STATEMENT_DETAIL (ACCOUNT_CODE, ACCOUNT_CURRENCY, ACCOUNT_TYPE, AMOUNT, ANNOTATION, BALANCE" +
-                       ", BRANCH_CHANNEL, DATE, DEBIT_CREDIT, FK_HEADER, LOCAL_DATE_TIME, REFERENCE_NUMBER" +
-                       ", SECONDARY_INFO, TRANSACTION_CODE, TRANSACTION_DESC, TRN_ID, ID)\n" +
-                       "        VALUES (#bind($accountCode),#bind($accountCurrency),#bind($accountType),#bind($amount)" +
-                       ",#bind($annotation),#bind($balance),#bind($branchChannel),#bind($date),#bind($debitCredit)" +
-                       ",#bind($fkHeader),#bind($localDateTime),#bind($referenceNumber),#bind($secondaryInfo)" +
-                       ",#bind($transactionCode),#bind($transactionDesc),#bind($trnId),#bind($id))")
-
-            .paramsArray(body.getAccountCode()
-                , body.getAccountCurrency()
-                , body.getAccountType()
-                , body.getAmount()
-                , body.getAnnotation()
-                , body.getBalance()
-                , body.getBranchChannel()
-                , body.getDate()
-                , body.getDebitCredit()
-                , header.getId()
-                , body.getLocalDateTime()
-                , body.getReferenceNumber()
-                , body.getSecondaryInfo()
-                , body.getTransactionCode()
-                , body.getTransactionDesc()
-                , body.getTrnId()
-                , detail.getId()+1)
-            .update(context);
-
-    }
-
-    */
-
-    public int deleteStatementDetailById(Integer id) {
+    public int deleteStatementDetailById(final Integer id) {
         log.info("Deleteing StatementDetail");
         ObjectContext context = mainServerRuntime.newContext();
 
         int delete = SQLExec
-            .query("DELETE FROM STATEMENT_DETAIL\n" +
-                       "WHERE ID = #bind($accCode)")
+            .query("DELETE FROM STATEMENT_DETAIL WHERE ID = #bind($accCode)")
             .paramsArray(id)
             .update(context);
 
@@ -191,7 +146,6 @@ public class StatementDetailRepository {
         return statementDetail;
     }
 
-
     public DetailPayload checkDataRowToDetailPayload(DataRow dataRow) {
 
         DetailPayload detailPayload = new DetailPayload();
@@ -202,7 +156,7 @@ public class StatementDetailRepository {
                     : detailPayload.getAccountCode());
 
             detailPayload.setDate((dataRow.get("date") != null) ? dataRow.get("date").toString()
-                                        : detailPayload.getDate());
+                                      : detailPayload.getDate());
 
             detailPayload.setDebitCredit(
                 (dataRow.get("debit_credit") != null) ? dataRow.get("debit_credit").toString()
@@ -211,56 +165,55 @@ public class StatementDetailRepository {
             //TODO hacer util funcion
             Date date = (dataRow.get("local_date_time") != null) ? (Date) dataRow.get("local_date_time") : null;
             detailPayload.setLocalDateTime((date != null) ? FormatUtil.parseDateToLocalDateTime(date)
-                                                 : detailPayload.getLocalDateTime());
+                                               : detailPayload.getLocalDateTime());
 
             detailPayload.setReferenceNumber((dataRow.get("reference_number") != null) ?
-                                                   dataRow.get("reference_number").toString()
-                                                   : detailPayload.getReferenceNumber());
+                                                 dataRow.get("reference_number").toString()
+                                                 : detailPayload.getReferenceNumber());
 
             detailPayload.setSecondaryInfo((dataRow.get("secondary_info") != null) ?
-                                                 dataRow.get("secondary_info").toString()
-                                                 : detailPayload.getSecondaryInfo());
+                                               dataRow.get("secondary_info").toString()
+                                               : detailPayload.getSecondaryInfo());
 
             detailPayload.setTransactionCode((dataRow.get("transaction_code") != null) ?
-                                                   dataRow.get("transaction_code").toString()
-                                                   : detailPayload.getTransactionCode());
+                                                 dataRow.get("transaction_code").toString()
+                                                 : detailPayload.getTransactionCode());
 
             detailPayload.setAnnotation((dataRow.get("annotation") != null) ? dataRow.get("annotation").toString()
-                                              : detailPayload.getAnnotation());
+                                            : detailPayload.getAnnotation());
 
             detailPayload.setAccountCurrency((dataRow.get("account_currency") != null) ?
-                                                   dataRow.get("account_currency").toString()
-                                                   : detailPayload.getAccountCurrency());
+                                                 dataRow.get("account_currency").toString()
+                                                 : detailPayload.getAccountCurrency());
 
             detailPayload.setAccountType(
                 (dataRow.get("account_type") != null) ? dataRow.get("account_type").toString()
                     : detailPayload.getAccountType());
 
             detailPayload.setAmount((dataRow.get("amount") != null) ? (BigDecimal) dataRow.get("amount")
-                                          : detailPayload.getAmount());
+                                        : detailPayload.getAmount());
 
             detailPayload.setBranchChannel((dataRow.get("branch_channel") != null) ?
-                                                 dataRow.get("branch_channel").toString()
-                                                 : detailPayload.getBranchChannel());
+                                               dataRow.get("branch_channel").toString()
+                                               : detailPayload.getBranchChannel());
 
             detailPayload.setTrnId((dataRow.get("trn_id") != null) ? dataRow.get("trn_id").toString()
-                                         : detailPayload.getTrnId());
+                                       : detailPayload.getTrnId());
 
             detailPayload.setBalance((dataRow.get("balance") != null) ? (BigDecimal) dataRow.get("balance")
-                                           : detailPayload.getBalance());
+                                         : detailPayload.getBalance());
 
             detailPayload.setTransactionDesc((dataRow.get("transaction_desc") != null) ?
-                                                   dataRow.get("transaction_desc").toString()
-                                                   : detailPayload.getTrnId());
+                                                 dataRow.get("transaction_desc").toString()
+                                                 : detailPayload.getTrnId());
 
             detailPayload.setId((dataRow.get("id") != null) ?
-                                                (Integer) dataRow.get("id")
-                                                 : detailPayload.getId());
+                                    (Integer) dataRow.get("id")
+                                    : detailPayload.getId());
         } else {
             detailPayload = null;
         }
 
         return detailPayload;
     }
-
 }

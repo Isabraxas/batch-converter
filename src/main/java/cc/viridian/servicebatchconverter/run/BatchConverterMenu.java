@@ -31,7 +31,7 @@ public class BatchConverterMenu {
 
     private List<StatementPayload> statementPayloadList = new ArrayList<StatementPayload>();
 
-    public void ini(String baseFilePath) {
+    public void ini(final String baseFilePath) {
 
         Scanner sn = new Scanner(System.in);
         boolean salir = false;
@@ -66,8 +66,8 @@ public class BatchConverterMenu {
                         FileInfoResponse fileInfoResponse = this.readStatementsFileService.readContent(filePath);
                         if (!fileInfoResponse.getHashExist()) {
                             message = "El hash del archivo no coincide con ningun registro almacenado \n"
-                                        +"pero exiten "+ fileInfoResponse.getDuplicatedHeaders()+" headers duplicados\n"
-                                        +" con "+ fileInfoResponse.getDuplicatedDetails()+" details duplicados\n";
+                                + "pero exiten " + fileInfoResponse.getDuplicatedHeaders() + " headers duplicados\n"
+                                + " con " + fileInfoResponse.getDuplicatedDetails() + " details duplicados\n";
                         } else {
                             message = "El hash del archivo coincide con un registro ya almacenado \n";
                         }
@@ -78,8 +78,8 @@ public class BatchConverterMenu {
                         message = "";
                         System.out.println("Has seleccionado la opcion 2");
                         fileInfoResponse = parseStatementsFileService.parseContent(filePath);
-                        message = "Se almacenaron "+ fileInfoResponse.getReplacedHeaders()+" headers\n"
-                            +" con "+ fileInfoResponse.getReplacedDetails()+" details \n";
+                        message = "Se almacenaron " + fileInfoResponse.getReplacedHeaders() + " headers\n"
+                            + " con " + fileInfoResponse.getReplacedDetails() + " details \n";
                         //statementHeaderService.insertToDatabase(statementPayloadList);
                         System.out.println("Statemets almacenados");
                         break;
@@ -94,12 +94,12 @@ public class BatchConverterMenu {
 
                     case 4:
                         System.out.println("Has seleccionado la opcion 4");
-                        String filePathLocalPrn = "/home/isvar/Documents/statement/service-batch-converter" +
-                            "/src/main/resources/files/Statement_1998-01-01_2017-12-31.prn";
-                        String filePathExternalPrn = "/home/isvar/Documents/Fix-dummy-bank/vdbanco_viridian" +
-                            "/src/main/resources/Files/Statement_Is_test.prn";
-                        String filePathExternalPrn2 = "/home/isvar/Documents/Fix-dummy-bank/vdbanco_viridian" +
-                            "/src/main/resources/Files/Statement_1998-01-01_2017-12-31.prn";
+                        String filePathLocalPrn = "/home/isvar/Documents/statement/service-batch-converter"
+                            + "/src/main/resources/files/Statement_1998-01-01_2017-12-31.prn";
+                        String filePathExternalPrn = "/home/isvar/Documents/Fix-dummy-bank/vdbanco_viridian"
+                            + "/src/main/resources/Files/Statement_Is_test.prn";
+                        String filePathExternalPrn2 = "/home/isvar/Documents/Fix-dummy-bank/vdbanco_viridian"
+                            + "/src/main/resources/Files/Statement_1998-01-01_2017-12-31.prn";
 
                         try {
                             String hashLocal = HashCode.getCodigoHash(filePathLocalPrn);
@@ -144,8 +144,8 @@ public class BatchConverterMenu {
         }
     }
 
-    public void useTestFile(String baseFilePath) throws IOException {
-        //baseFilePath = "/home/isvar/Documents/statement/service-batch-converter/target/classes/files/Statement_1998-01-01_2017-12-31.prn";
+    public void useTestFile(final String baseFilePath) throws IOException {
+
         //TODO Fix try catch here
         try {
             FileInfoResponse fileInfoResponse = parseStatementsFileService.parseContent(baseFilePath);

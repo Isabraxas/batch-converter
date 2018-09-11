@@ -31,7 +31,7 @@ public class FileInfoResponse {
         replacedHeaders++;
     }
 
-    public void incrementReplacedDetails(Integer quantity) {
+    public void incrementReplacedDetails(final Integer quantity) {
         replacedDetails = replacedDetails + quantity;
     }
 }

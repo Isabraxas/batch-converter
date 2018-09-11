@@ -10,7 +10,7 @@ public class StatementDetail extends _StatementDetail {
     public Long getStatementHeaderId() {
         StatementHeader statementHeader = getStatementHeader();
         return (statementHeader != null)
-            ? (Long)statementHeader.getObjectId().getIdSnapshot().get(StatementHeader.ID_PK_COLUMN)
+            ? (Long) statementHeader.getObjectId().getIdSnapshot().get(StatementHeader.ID_PK_COLUMN)
             : null;
     }
 }

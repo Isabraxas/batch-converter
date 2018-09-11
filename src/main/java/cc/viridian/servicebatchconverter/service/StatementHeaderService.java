@@ -21,7 +21,7 @@ public class StatementHeaderService {
         this.headerRepository = headerRepository;
     }
 
-    public String insertToDatabase(List<StatementPayload> statementPayloadList) {
+    public String insertToDatabase(final List<StatementPayload> statementPayloadList) {
 
  /*       statementPayloadList.stream().forEach(statementPayload ->
                                                   this.headerRepository
@@ -30,33 +30,33 @@ public class StatementHeaderService {
         return "PARSED";
     }
 
-
-    public Integer insertOneInToDatabase(HeaderPayload headerPayload) {
+    public Integer insertOneInToDatabase(final HeaderPayload headerPayload) {
         this.headerRepository.saveStatementHeader(headerPayload);
         count++;
         return count;
     }
 
-    public Integer insertOneInToDatabase(HeaderPayload headerPayload, List<DetailPayload> detailPayloadList) {
+    public Integer insertOneInToDatabase(final HeaderPayload headerPayload
+        , final List<DetailPayload> detailPayloadList) {
         this.headerRepository.saveStatementHeader(headerPayload, detailPayloadList);
         count++;
         return count;
     }
 
-    public Boolean exist(HeaderPayload headerPayload){
+    public Boolean exist(final HeaderPayload headerPayload) {
         StatementHeader statementHeader = this.headerRepository.getOneStatementHeader(headerPayload);
         if (statementHeader != null) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }
 
-    public Boolean existFileHash(String hashCode){
+    public Boolean existFileHash(final String hashCode) {
         StatementHeader statementHeader = this.headerRepository.getOneStatementHeaderByFileHash(hashCode);
         if (statementHeader != null) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }
@@ -65,15 +65,15 @@ public class StatementHeaderService {
         return currentFilePath;
     }
 
-    public void setCurrentFilePath(String currentFilePath) {
+    public void setCurrentFilePath(final String currentFilePath) {
         this.currentFilePath = currentFilePath;
     }
 
-    public void delete(HeaderPayload headerPayload) {
+    public void delete(final HeaderPayload headerPayload) {
         this.headerRepository.deleteStementHeader(headerPayload);
     }
 
-    public HeaderPayload getStatementHeaderPayload(HeaderPayload headerPayload) {
+    public HeaderPayload getStatementHeaderPayload(final HeaderPayload headerPayload) {
         return this.headerRepository.getOneStatementHeaderPayload(headerPayload);
     }
 }

@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.cayenne.DataRow;
 import org.apache.cayenne.ObjectContext;
 import org.apache.cayenne.configuration.server.ServerRuntime;
-import org.apache.cayenne.query.EJBQLQuery;
 import org.apache.cayenne.query.SQLExec;
 import org.apache.cayenne.query.SQLSelect;
 import org.apache.cayenne.query.SQLTemplate;
@@ -27,12 +26,13 @@ public class StatementHeaderRepository {
     private StatementDetailRepository statementDetailRepository;
 
     @Autowired
-    public StatementHeaderRepository(ServerRuntime mainServerRuntime, StatementDetailRepository statementDetailRepository) {
+    public StatementHeaderRepository(ServerRuntime mainServerRuntime
+        , StatementDetailRepository statementDetailRepository) {
         this.mainServerRuntime = mainServerRuntime;
         this.statementDetailRepository = statementDetailRepository;
     }
 
-    public void registerStatementHeader(HeaderPayload body) {
+    public void registerStatementHeader(final HeaderPayload body) {
 
         ObjectContext context = mainServerRuntime.newContext();
 
@@ -44,7 +44,7 @@ public class StatementHeaderRepository {
             .update(context);
     }
 
-    public StatementHeader getOneStatementHeaderByFileHash(String hashCode) {
+    public StatementHeader getOneStatementHeaderByFileHash(final String hashCode) {
 
         ObjectContext context = mainServerRuntime.newContext();
 
@@ -77,7 +77,7 @@ public class StatementHeaderRepository {
         return statementHeader;
     }
 
-    public StatementHeader getOneStatementHeader(HeaderPayload body) {
+    public StatementHeader getOneStatementHeader(final HeaderPayload body) {
 
         ObjectContext context = mainServerRuntime.newContext();
 
@@ -97,7 +97,7 @@ public class StatementHeaderRepository {
         return this.checkDataRowToStatemenHeader(dataRow);
     }
 
-    public HeaderPayload getOneStatementHeaderPayload(HeaderPayload body) {
+    public HeaderPayload getOneStatementHeaderPayload(final HeaderPayload body) {
 
         ObjectContext context = mainServerRuntime.newContext();
 
@@ -116,7 +116,7 @@ public class StatementHeaderRepository {
         return this.checkDataRowToHeaderPayload(dataRow);
     }
 
-    public int deleteStatementHeaderById(Long id) {
+    public int deleteStatementHeaderById(final Long id) {
         log.info("Deleteing StatementHeader");
         ObjectContext context = mainServerRuntime.newContext();
 
@@ -129,7 +129,7 @@ public class StatementHeaderRepository {
         return delete;
     }
 
-    public void saveStatementHeader(HeaderPayload body) {
+    public void saveStatementHeader(final HeaderPayload body) {
 
         ObjectContext context = mainServerRuntime.newContext();
 
@@ -152,7 +152,7 @@ public class StatementHeaderRepository {
         context.commitChanges();
     }
 
-    public void saveStatementHeader(HeaderPayload body, List<DetailPayload> detailPayloadList) {
+    public void saveStatementHeader(final HeaderPayload body, List<DetailPayload> detailPayloadList) {
 
         ObjectContext context = mainServerRuntime.newContext();
 
@@ -197,7 +197,7 @@ public class StatementHeaderRepository {
     }
 
     //TODO tal vez deberia devolver un objeto con la cantidad y tipo de los registros elininados
-    public void deleteStementHeader(HeaderPayload body) {
+    public void deleteStementHeader(final HeaderPayload body) {
 
         ObjectContext context = mainServerRuntime.newContext();
 
@@ -231,7 +231,7 @@ public class StatementHeaderRepository {
         this.deleteStatementHeaderById(header.getId());
     }
 
-    public StatementHeader checkDataRowToStatemenHeader(DataRow dataRow) {
+    public StatementHeader checkDataRowToStatemenHeader(final DataRow dataRow) {
 
         StatementHeader statementHeader = new StatementHeader();
 
@@ -292,7 +292,7 @@ public class StatementHeaderRepository {
         return statementHeader;
     }
 
-    public HeaderPayload checkDataRowToHeaderPayload(DataRow dataRow) {
+    public HeaderPayload checkDataRowToHeaderPayload(final DataRow dataRow) {
 
         HeaderPayload headerPayload = new HeaderPayload();
 

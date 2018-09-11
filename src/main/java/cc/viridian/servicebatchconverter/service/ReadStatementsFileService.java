@@ -49,7 +49,7 @@ public class ReadStatementsFileService {
         List<DetailPayload> detailList = new ArrayList<DetailPayload>();
         Integer i = 0;
         Boolean startReadDetails = false;
-        Boolean addHeader= true;
+        Boolean addHeader = true;
         Integer colSum = 0;
 
         HeaderPayload statementHeader = new HeaderPayload();
@@ -79,7 +79,7 @@ public class ReadStatementsFileService {
                         //Fill statement details
                         if (startReadDetails) {
 
-                                detail = this.fillStatementAccountLog(line, detail, statementHeader);
+                            detail = this.fillStatementAccountLog(line, detail, statementHeader);
 
                             if (detail != null) {
                                 detailList.add(detail);
@@ -90,16 +90,15 @@ public class ReadStatementsFileService {
                         if (!startReadDetails) {
                             this.setTotalAmount(line, statementHeader);
                         }
-
                     }
 
-                    if(addHeader) {
+                    if (addHeader) {
                         statement.setHeader(statementHeader);
                         //System.out.println("HEADER: " + statementHeader);
                     }
                     statement.setDetails(detailList);
                     //System.out.println("DETAILS: " + detailList);
-                } catch (StringIndexOutOfBoundsException se){
+                } catch (StringIndexOutOfBoundsException se) {
                     log.error(se.getMessage());
                     statement.setHeader(null);
                     addHeader = false;
@@ -118,7 +117,7 @@ public class ReadStatementsFileService {
                             log.warn("El statement detail ya existe: " + detailP.toString());
                         }
                     });
-                    if(statement.getHeader() != null) {
+                    if (statement.getHeader() != null) {
                         //TODO comprobar si ya existe alguno de los headers
                         if (statementHeaderService.exist(statement.getHeader())) {
                             fileInfoResponse.incrementDuplicatedHeaders();

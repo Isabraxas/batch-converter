@@ -19,6 +19,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
 @Slf4j
 @Service
 public class ParseStatementsFileService {
@@ -86,37 +87,35 @@ public class ParseStatementsFileService {
                     }
                 }
 
-                if(addHeader) {
+                if (addHeader) {
                     statement.setHeader(statementHeader);
                     //System.out.println("HEADER: " + statementHeader);
                 }
                 statement.setDetails(detailList);
-            }catch (StringIndexOutOfBoundsException se){
-                    log.error(se.getMessage());
-                    statement.setHeader(null);
-                    addHeader = false;
-                }
+            } catch (StringIndexOutOfBoundsException se) {
+                log.error(se.getMessage());
+                statement.setHeader(null);
+                addHeader = false;
+            }
             if (line.contains("-----------------")) {
 
                 //TODO crear un hash para el archivo y guardarlo en el header statement_title
-                String hash= HashCode.getCodigoHash(filePath);
+                String hash = HashCode.getCodigoHash(filePath);
                 statementHeader.setFileHash(hash);
 
                 //TODO guardar en la base de datos
-                if(!statementHeaderService.exist(statementHeader)) {
+                if (!statementHeaderService.exist(statementHeader)) {
                     statementHeaderService.insertOneInToDatabase(statementHeader, detailList);
                     fileInfoResponse.incrementReplacedHeaders();
                     fileInfoResponse.incrementReplacedDetails(detailList.size());
-                }else {
-                    log.error("El statement header ya existe: "+ statementHeader.toString());
+                } else {
+                    log.error("El statement header ya existe: " + statementHeader.toString());
                     //TODO comprobar si ya existe alguno de los details y guardarlos si no existen
                     HeaderPayload finalStatementHeader = statementHeader;
                     detailList.stream().forEach(detailP -> {
-                        if(!statementDetailService.exist(detailP)){
+                        if (statementDetailService.exist(detailP)) {
                             //Comentado por recurrencia
                             //statementDetailService.insertOneInToDatabase(detailP, finalStatementHeader);
-
-                        }else {
                             log.warn("El statement detail ya existe: " + detailP.toString());
                         }
                     });
@@ -126,7 +125,7 @@ public class ParseStatementsFileService {
                 statementHeader = new HeaderPayload();
                 detailList = new ArrayList<DetailPayload>();
                 startReadDetails = false;
-                addHeader=true;
+                addHeader = true;
             }
         }
         b.close();

@@ -12,10 +12,11 @@ node {
         sh('du -hcs *')
     }
     stage('Build') {
-        echo "building " + artifactName
+       echo "building " + artifactName
         dir(repoName) {
-            sh "sed -i \"s/SNAPSHOT/${BUILD_NUMBER}/g\" pom.xml"
-            sh "mvn -Dbuild.number=${BUILD_NUMBER} -DskipTests clean package"
+            sh 'sed -i "s/.9999/.${BUILD_NUMBER}/g" pom.xml'
+            sh 'sed -i "s/\\\${artifact.version}/0.1.${BUILD_NUMBER}/g" pom.xml'
+            sh "mvn  -DskipTests clean compile"
         }
     }
     stage('Checkstyle') {
@@ -30,32 +31,71 @@ node {
                 reportName: 'HTML Report',
                 reportTitles: ''
             ])
+
+            step([
+                $class: 'CheckStylePublisher',
+                pattern: '**/checkstyle-result.xml',
+                unstableTotalHigh: '0',
+                unstableTotalNormal: '80',
+                unstableNewHigh: '0',
+                unstableNewNormal: '0',
+
+                usePreviousBuildAsReference: true
+            ])
         }
     }
     stage('test') {
         dir(repoName) {
-            sh "mvn -Dbuild.number=${BUILD_NUMBER} -Dmaven.test.failure.ignore package"
-            archiveArtifacts "target/" + artifactName
+            sh "mvn  -Dmaven.test.failure.ignore package"
         }
-         //junit '**/target/surefire-reports/TEST-*.xml'
+        //junit '**/target/surefire-reports/TEST-*.xml'
     }
     stage("deploy") {
 
         dir(repoName) {
+            sh "mvn org.apache.maven.plugins:maven-install-plugin:2.5.2:install-file -Dfile=target/" + artifactName +" -DgeneratePom=true -Dpackaging=jar"
+
+            def curlCmd = "curl -u jenkins:sesamo -X PUT \"http://desarrollo.viridian.cc:8081/artifactory/libs-release-local/cc/viridian" \
+                + "/" + repoName + "/0.1.${BUILD_NUMBER}/" + artifactName + "\" -T " \
+                + "~/.m2/repository/cc/viridian/" + repoName + "/0.1.${BUILD_NUMBER}/" + artifactName
+
+            echo curlCmd
+
+            sh curlCmd
+
+            def curlCmdPom = "curl -u jenkins:sesamo -X PUT \"http://desarrollo.viridian.cc:8081/artifactory/libs-release-local/cc/viridian" \
+                + "/" + repoName + "/0.1.${BUILD_NUMBER}/" + artifactPomName + "\" -T " \
+                + "~/.m2/repository/cc/viridian/" + repoName + "/0.1.${BUILD_NUMBER}/" + artifactPomName
+
+            echo curlCmdPom
+
+            sh curlCmdPom
+
             def committerEmail = sh (
-                 script: 'git log -1 --pretty=format:\'%an\' ',
+                 script: 'git log -1 --no-merges --pretty=format:\'%an\' ',
                  returnStdout: true
              ).trim()
 
             def summary = sh (
-                 script: 'git log -1 --pretty=format:\'%s\' ',
+                 script: 'git log -1 --no-merges --pretty=format:\'%s\' ',
                  returnStdout: true
             ).trim()
 
-            slackSend color: 'good',
-                message: "*" + artifactName + "*\n" + summary + "\n_" + committerEmail + "_"
+            def slackColor = 'good';
+            if (currentBuild.result == "UNSTABLE") {
+                slackColor = 'danger';
+            }
+            def slackFooter = '';
+            if (currentBuild.result != "SUCCESS") {
+                slackFooter = "\n`${currentBuild.result}`";
+            }
+            slackSend color: slackColor,
+                message: "*" + artifactName + "*\n" + summary + "\n_" + committerEmail + "_" + slackFooter
+
 
             sh '/var/lib/jenkins/viridian/deploy-' + repoName + '.sh'
         }
+
+        sh '/var/lib/jenkins/viridian/deploy-' + repoName + '.sh'
     }
 }

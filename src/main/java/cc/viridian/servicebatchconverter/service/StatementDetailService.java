@@ -1,10 +1,8 @@
 package cc.viridian.servicebatchconverter.service;
 
 import cc.viridian.servicebatchconverter.payload.DetailPayload;
-import cc.viridian.servicebatchconverter.payload.HeaderPayload;
 import cc.viridian.servicebatchconverter.payload.StatementPayload;
 import cc.viridian.servicebatchconverter.persistence.StatementDetail;
-import cc.viridian.servicebatchconverter.persistence.StatementHeader;
 import cc.viridian.servicebatchconverter.repository.StatementDetailRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +18,7 @@ public class StatementDetailService {
         this.detailRepository = detailRepository;
     }
 
-    public String insertToDatabase(List<StatementPayload> statementPayloadList) {
+    public String insertToDatabase(final List<StatementPayload> statementPayloadList) {
 
       /*  statementPayloadList.stream().forEach(statementPayload
                                                   -> statementPayload.getDetails().stream()
@@ -31,17 +29,12 @@ public class StatementDetailService {
         return "PARSED";
     }
 
-    public Boolean exist(DetailPayload detailPayload){
-        StatementDetail statementDetail= this.detailRepository.getOneStatementDetail(detailPayload);
+    public Boolean exist(DetailPayload detailPayload) {
+        StatementDetail statementDetail = this.detailRepository.getOneStatementDetail(detailPayload);
         if (statementDetail != null) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }
-
-/*
-    public void insertOneInToDatabase(DetailPayload detailPayload, HeaderPayload headerPayload) {
-        this.detailRepository.saveStatementDetail(detailPayload, headerPayload);
-    }*/
 }
