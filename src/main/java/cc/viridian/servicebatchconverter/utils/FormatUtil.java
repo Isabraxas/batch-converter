@@ -1,4 +1,4 @@
-package cc.viridian.servicebatchconverter.Utils;
+package cc.viridian.servicebatchconverter.utils;
 
 import java.time.Instant;
 import java.time.LocalDate;

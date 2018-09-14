@@ -1,6 +1,6 @@
 package cc.viridian.servicebatchconverter.service;
 
-import cc.viridian.servicebatchconverter.Utils.FormatUtil;
+import cc.viridian.servicebatchconverter.utils.FormatUtil;
 import cc.viridian.servicebatchconverter.hash.HashCode;
 import cc.viridian.servicebatchconverter.payload.DetailPayload;
 import cc.viridian.servicebatchconverter.payload.HeaderPayload;
