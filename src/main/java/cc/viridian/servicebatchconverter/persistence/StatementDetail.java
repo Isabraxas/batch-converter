@@ -9,8 +9,10 @@ public class StatementDetail extends _StatementDetail {
     // this method allow to access Foreign keys
     public Long getStatementHeaderId() {
         StatementHeader statementHeader = getStatementHeader();
-        return (statementHeader != null)
-            ? (Long) statementHeader.getObjectId().getIdSnapshot().get(StatementHeader.ID_PK_COLUMN)
-            : null;
+        if (statementHeader != null) {
+            return (Long) statementHeader.getObjectId().getIdSnapshot().get(StatementHeader.ID_PK_COLUMN);
+        } else {
+            return null;
+        }
     }
 }
