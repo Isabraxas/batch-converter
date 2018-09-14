@@ -118,10 +118,14 @@ public class ParseStatementsFileService {
                                 log.warn("Se ha eliminado este header: " + headerPayload.toString());
                             }
                         }
+                    }else if (!statementHeaderService.exist(statementHeader)) {
+                        statementHeaderService.insertOneInToDatabase(statementHeader, detailList);
+                        fileInfoResponse.incrementReplacedHeaders();
+                        fileInfoResponse.incrementReplacedDetails(detailList.size());
                     }
                 }
 
-                //TODO guardar en la base de datos
+               /* //TODO guardar en la base de datos
                 if (statement.getHeader() != null) {
                     if (!statementHeaderService.exist(statementHeader)) {
                         statementHeaderService.insertOneInToDatabase(statementHeader, detailList);
@@ -139,7 +143,7 @@ public class ParseStatementsFileService {
                             }
                         });
                     }
-                }
+                }*/
 
                 statement = new StatementPayload();
                 statementHeader = new HeaderPayload();
