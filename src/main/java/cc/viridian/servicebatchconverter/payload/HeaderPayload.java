@@ -28,6 +28,6 @@ public class HeaderPayload {
     private String message;
     private String statementTitle;
     private String fileHash;
-    private Long id;
+    private Integer id;
 
 }

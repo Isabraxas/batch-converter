@@ -11,8 +11,7 @@ import org.apache.cayenne.query.SQLExec;
 import org.apache.cayenne.query.SQLSelect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import java.math.BigDecimal;
-import java.util.Date;
+
 
 @Slf4j
 @Repository
@@ -82,63 +81,11 @@ public class StatementDetailRepository {
     public StatementDetail checkDataRowToStatemenDetail(final DataRow dataRow) {
 
         StatementDetail statementDetail = new StatementDetail();
-
+        //TODO obtener key con un stream
         if (dataRow != null) {
-            statementDetail.setAccountCode(
-                (dataRow.get("account_code") != null) ? dataRow.get("account_code").toString()
-                    : statementDetail.getAccountCode());
-
-            statementDetail.setDate((dataRow.get("date") != null) ? dataRow.get("date").toString()
-                                        : statementDetail.getDate());
-
-            statementDetail.setDebitCredit(
-                (dataRow.get("debit_credit") != null) ? dataRow.get("debit_credit").toString()
-                    : statementDetail.getDebitCredit());
-
-            //TODO hacer util funcion
-            Date date = (dataRow.get("local_date_time") != null) ? (Date) dataRow.get("local_date_time") : null;
-            statementDetail.setLocalDateTime((date != null) ? FormatUtil.parseDateToLocalDateTime(date)
-                                                 : statementDetail.getLocalDateTime());
-
-            statementDetail.setReferenceNumber((dataRow.get("reference_number") != null) ?
-                                                   dataRow.get("reference_number").toString()
-                                                   : statementDetail.getReferenceNumber());
-
-            statementDetail.setSecondaryInfo((dataRow.get("secondary_info") != null) ?
-                                                 dataRow.get("secondary_info").toString()
-                                                 : statementDetail.getSecondaryInfo());
-
-            statementDetail.setTransactionCode((dataRow.get("transaction_code") != null) ?
-                                                   dataRow.get("transaction_code").toString()
-                                                   : statementDetail.getTransactionCode());
-
-            statementDetail.setAnnotation((dataRow.get("annotation") != null) ? dataRow.get("annotation").toString()
-                                              : statementDetail.getAnnotation());
-
-            statementDetail.setAccountCurrency((dataRow.get("account_currency") != null) ?
-                                                   dataRow.get("account_currency").toString()
-                                                   : statementDetail.getAccountCurrency());
-
-            statementDetail.setAccountType(
-                (dataRow.get("account_type") != null) ? dataRow.get("account_type").toString()
-                    : statementDetail.getAccountType());
-
-            statementDetail.setAmount((dataRow.get("amount") != null) ? (BigDecimal) dataRow.get("amount")
-                                          : statementDetail.getAmount());
-
-            statementDetail.setBranchChannel((dataRow.get("branch_channel") != null) ?
-                                                 dataRow.get("branch_channel").toString()
-                                                 : statementDetail.getBranchChannel());
-
-            statementDetail.setTrnId((dataRow.get("trn_id") != null) ? dataRow.get("trn_id").toString()
-                                         : statementDetail.getTrnId());
-
-            statementDetail.setBalance((dataRow.get("balance") != null) ? (BigDecimal) dataRow.get("balance")
-                                           : statementDetail.getBalance());
-
-            statementDetail.setTransactionDesc((dataRow.get("transaction_desc") != null) ?
-                                                   dataRow.get("transaction_desc").toString()
-                                                   : statementDetail.getTrnId());
+            StatementDetail finalStatementDetail = statementDetail;
+            dataRow.forEach((k, v) -> FormatUtil.dataRowToStatementDetail(k, v, finalStatementDetail));
+            statementDetail = finalStatementDetail;
         } else {
             statementDetail = null;
         }
@@ -151,65 +98,9 @@ public class StatementDetailRepository {
         DetailPayload detailPayload = new DetailPayload();
 
         if (dataRow != null) {
-            detailPayload.setAccountCode(
-                (dataRow.get("account_code") != null) ? dataRow.get("account_code").toString()
-                    : detailPayload.getAccountCode());
-
-            detailPayload.setDate((dataRow.get("date") != null) ? dataRow.get("date").toString()
-                                      : detailPayload.getDate());
-
-            detailPayload.setDebitCredit(
-                (dataRow.get("debit_credit") != null) ? dataRow.get("debit_credit").toString()
-                    : detailPayload.getDebitCredit());
-
-            //TODO hacer util funcion
-            Date date = (dataRow.get("local_date_time") != null) ? (Date) dataRow.get("local_date_time") : null;
-            detailPayload.setLocalDateTime((date != null) ? FormatUtil.parseDateToLocalDateTime(date)
-                                               : detailPayload.getLocalDateTime());
-
-            detailPayload.setReferenceNumber((dataRow.get("reference_number") != null) ?
-                                                 dataRow.get("reference_number").toString()
-                                                 : detailPayload.getReferenceNumber());
-
-            detailPayload.setSecondaryInfo((dataRow.get("secondary_info") != null) ?
-                                               dataRow.get("secondary_info").toString()
-                                               : detailPayload.getSecondaryInfo());
-
-            detailPayload.setTransactionCode((dataRow.get("transaction_code") != null) ?
-                                                 dataRow.get("transaction_code").toString()
-                                                 : detailPayload.getTransactionCode());
-
-            detailPayload.setAnnotation((dataRow.get("annotation") != null) ? dataRow.get("annotation").toString()
-                                            : detailPayload.getAnnotation());
-
-            detailPayload.setAccountCurrency((dataRow.get("account_currency") != null) ?
-                                                 dataRow.get("account_currency").toString()
-                                                 : detailPayload.getAccountCurrency());
-
-            detailPayload.setAccountType(
-                (dataRow.get("account_type") != null) ? dataRow.get("account_type").toString()
-                    : detailPayload.getAccountType());
-
-            detailPayload.setAmount((dataRow.get("amount") != null) ? (BigDecimal) dataRow.get("amount")
-                                        : detailPayload.getAmount());
-
-            detailPayload.setBranchChannel((dataRow.get("branch_channel") != null) ?
-                                               dataRow.get("branch_channel").toString()
-                                               : detailPayload.getBranchChannel());
-
-            detailPayload.setTrnId((dataRow.get("trn_id") != null) ? dataRow.get("trn_id").toString()
-                                       : detailPayload.getTrnId());
-
-            detailPayload.setBalance((dataRow.get("balance") != null) ? (BigDecimal) dataRow.get("balance")
-                                         : detailPayload.getBalance());
-
-            detailPayload.setTransactionDesc((dataRow.get("transaction_desc") != null) ?
-                                                 dataRow.get("transaction_desc").toString()
-                                                 : detailPayload.getTrnId());
-
-            detailPayload.setId((dataRow.get("id") != null) ?
-                                    (Integer) dataRow.get("id")
-                                    : detailPayload.getId());
+            DetailPayload finaldetailPayload = detailPayload;
+            dataRow.forEach((k, v) -> FormatUtil.dataRowToDetailPayload(k, v, finaldetailPayload));
+            detailPayload = finaldetailPayload;
         } else {
             detailPayload = null;
         }
