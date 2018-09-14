@@ -233,31 +233,30 @@ public class StatementHeaderRepository {
 
     public StatementHeader checkDataRowToStatemenHeader(final DataRow dataRow) {
 
-        StatementHeader statementHeader = new StatementHeader();
-
         if (dataRow != null) {
-            StatementHeader finalStatementHeader = statementHeader;
-            dataRow.forEach((k, v) -> FormatUtil.dataRowToStatementHeader(k, v, finalStatementHeader));
-            statementHeader = finalStatementHeader;
+            StatementHeader statementHeader = StatementHeader.getStatementHeader(dataRow);
+            if (statementHeader != null) {
+                return statementHeader;
+            } else {
+                return null;
+            }
         } else {
-            statementHeader = null;
+            return null;
         }
 
-        return statementHeader;
     }
 
     public HeaderPayload checkDataRowToHeaderPayload(final DataRow dataRow) {
 
-        HeaderPayload headerPayload = new HeaderPayload();
-
         if (dataRow != null) {
-            HeaderPayload finalHeaderPayload = headerPayload;
-            dataRow.forEach((k, v) -> FormatUtil.dataRowToHeaderPayload(k, v, finalHeaderPayload));
-            headerPayload = finalHeaderPayload;
+            HeaderPayload headerPayload = new HeaderPayload(dataRow);
+            if (headerPayload != null) {
+                return headerPayload;
+            } else {
+                return null;
+            }
         } else {
-            headerPayload = null;
+            return null;
         }
-
-        return headerPayload;
     }
 }

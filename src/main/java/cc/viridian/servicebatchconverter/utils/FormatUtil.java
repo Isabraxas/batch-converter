@@ -1,9 +1,7 @@
 package cc.viridian.servicebatchconverter.utils;
 
 import cc.viridian.servicebatchconverter.payload.DetailPayload;
-import cc.viridian.servicebatchconverter.payload.HeaderPayload;
 import cc.viridian.servicebatchconverter.persistence.StatementDetail;
-import cc.viridian.servicebatchconverter.persistence.StatementHeader;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -156,111 +154,4 @@ public class FormatUtil {
         return detail;
     }
 
-    public static StatementHeader dataRowToStatementHeader(final String key, final Object value
-        , final StatementHeader statementHeader) {
-        StatementHeader header = statementHeader;
-
-        if (value != null && key.equals("account_code")) {
-            header.setAccountCode(value.toString());
-        }
-        if (value != null && key.equals("date_from")) {
-            Date date = (Date) value;
-            if (date != null) {
-                header.setDateFrom(parseDateToLocalDate(date));
-            }
-        }
-        if (value != null && key.equals("date_to")) {
-            Date date = (Date) value;
-            if (date != null) {
-                header.setDateTo(parseDateToLocalDate(date));
-            }
-        }
-        if (value != null && key.equals("account_adders")) {
-            header.setAccountAddress(value.toString());
-        }
-        if (value != null && key.equals("account_branch")) {
-            header.setAccountBranch(value.toString());
-        }
-        if (value != null && key.equals("account_currency")) {
-            header.setAccountCurrency(value.toString());
-        }
-        if (value != null && key.equals("account_type")) {
-            header.setAccountType(value.toString());
-        }
-        if (value != null && key.equals("balance_end")) {
-            header.setBalanceEnd((BigDecimal) value);
-        }
-        if (value != null && key.equals("balance_initial")) {
-            header.setBalanceInitial((BigDecimal) value);
-        }
-        if (value != null && key.equals("customer_code")) {
-            header.setCustomerCode(value.toString());
-        }
-        if (value != null && key.equals("message")) {
-            header.setMessage(value.toString());
-        }
-        if (value != null && key.equals("statement_title")) {
-            header.setStatementTitle(value.toString());
-        }
-        if (value != null && key.equals("file_hash")) {
-            header.setFileHash(value.toString());
-        }
-
-        return header;
-    }
-
-    public static HeaderPayload dataRowToHeaderPayload(final String key, final Object value
-        , final HeaderPayload headerPayload) {
-        HeaderPayload header = headerPayload;
-
-        if (value != null && key.equals("account_code")) {
-            header.setAccountCode(value.toString());
-        }
-        if (value != null && key.equals("date_from")) {
-            Date date = (Date) value;
-            if (date != null) {
-                header.setDateFrom(parseDateToLocalDate(date));
-            }
-        }
-        if (value != null && key.equals("date_to")) {
-            Date date = (Date) value;
-            if (date != null) {
-                header.setDateTo(parseDateToLocalDate(date));
-            }
-        }
-        if (value != null && key.equals("account_adders")) {
-            header.setAccountAddress(value.toString());
-        }
-        if (value != null && key.equals("account_branch")) {
-            header.setAccountBranch(value.toString());
-        }
-        if (value != null && key.equals("account_currency")) {
-            header.setAccountCurrency(value.toString());
-        }
-        if (value != null && key.equals("account_type")) {
-            header.setAccountType(value.toString());
-        }
-        if (value != null && key.equals("balance_end")) {
-            header.setBalanceEnd((BigDecimal) value);
-        }
-        if (value != null && key.equals("balance_initial")) {
-            header.setBalanceInitial((BigDecimal) value);
-        }
-        if (value != null && key.equals("customer_code")) {
-            header.setCustomerCode(value.toString());
-        }
-        if (value != null && key.equals("message")) {
-            header.setMessage(value.toString());
-        }
-        if (value != null && key.equals("statement_title")) {
-            header.setStatementTitle(value.toString());
-        }
-        if (value != null && key.equals("file_hash")) {
-            header.setFileHash(value.toString());
-        }
-        if (value != null && key.equals("id")) {
-            header.setId((Integer) value);
-        }
-        return header;
-    }
 }
