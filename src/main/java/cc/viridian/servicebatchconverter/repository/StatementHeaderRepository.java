@@ -220,7 +220,7 @@ public class StatementHeaderRepository {
         selectQuery.setFetchingDataRows(true);
 
         List<DataRow> rows = context.performQuery(selectQuery);
-        ///Llamar a la funcion del detail repositori que convierte un datarow en payload
+        ///Call funcion of detail repository qby convert datarow to payload
 
         //TODO eliminar details
         rows.stream().forEach(dataRow -> {
