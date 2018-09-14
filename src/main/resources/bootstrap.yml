@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: batchconverter
+  profiles:
+    active: default
+  cloud:
+    config:
+      #uri: http://localhost:7015
+      uri: http://desarrollo.viridian.cc:7000
+      profile: default

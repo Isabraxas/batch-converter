@@ -2,14 +2,14 @@ package cc.viridian.servicebatchconverter;
 
 import cc.viridian.servicebatchconverter.run.BatchConverterMenu;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+@Slf4j
 @SpringBootApplication
 public class ServiceBatchConverterApplication implements CommandLineRunner {
 
@@ -18,9 +18,6 @@ public class ServiceBatchConverterApplication implements CommandLineRunner {
 
     @Autowired
     private BatchConverterMenu batchConverterMenu;
-
-    private static Logger log = LoggerFactory.getLogger(ServiceBatchConverterApplication.class);
-
     public static void main(final String[] args) {
 
         SpringApplication.run(ServiceBatchConverterApplication.class, args);

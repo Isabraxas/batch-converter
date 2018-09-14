@@ -1,6 +1,6 @@
 package cc.viridian.servicebatchconverter.repository;
 
-import cc.viridian.servicebatchconverter.Utils.FormatUtil;
+import cc.viridian.servicebatchconverter.utils.FormatUtil;
 import cc.viridian.servicebatchconverter.payload.DetailPayload;
 import cc.viridian.servicebatchconverter.persistence.StatementDetail;
 import lombok.extern.slf4j.Slf4j;
