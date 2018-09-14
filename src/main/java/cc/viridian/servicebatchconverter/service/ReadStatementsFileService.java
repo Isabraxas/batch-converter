@@ -27,7 +27,7 @@ public class ReadStatementsFileService {
     @Autowired
     private StatementHeaderService statementHeaderService;
     @Autowired
-    private StatementDetailService statementDetailService;
+    private ParseStatementsFileService parseStatementsFileService;
 
     public FileInfoResponse readContent(final String filePath)
         throws FileNotFoundException, IOException, NoSuchAlgorithmException {
@@ -41,13 +41,11 @@ public class ReadStatementsFileService {
 
         StatementPayload statement = new StatementPayload();
         List<DetailPayload> detailList = new ArrayList<DetailPayload>();
-        Integer i = 0;
         Boolean startReadDetails = false;
         Boolean addHeader = true;
-        Integer colSum = 0;
+        Boolean fileIsFine = true;
 
         HeaderPayload statementHeader = new HeaderPayload();
-        System.out.print("LINE:");
 
         //TODO crear un hash para el archivo y verificar si existe o no
         String hashCodeFile = HashCode.getCodigoHash(filePath);
@@ -76,14 +74,11 @@ public class ReadStatementsFileService {
 
                         //Fill statement details
                         if (startReadDetails) {
-
                             detail = CommonProcessFileService.fillStatementAccountLog(line, detail, statementHeader);
-
                             if (detail != null) {
                                 detailList.add(detail);
                             }
                         }
-
                         //Set Total amount
                         if (!startReadDetails) {
                             CommonProcessFileService.setTotalAmount(line, statementHeader);
@@ -98,10 +93,12 @@ public class ReadStatementsFileService {
                     //System.out.println("DETAILS: " + detailList);
                 } catch (Exception e) {
                     System.out.println();
-                    log.error("Error while reading the file on the line :" + currentLine);
+                    log.error("Error while reading the file on the line :" + currentLine
+                                  +" account-code ---> " + statementHeader.getAccountCode());
                     log.error(e.getMessage());
                     statement.setHeader(null);
                     addHeader = false;
+                    fileIsFine = false;
                 }
 
                 if (line.contains("-----------------")) {
@@ -113,11 +110,17 @@ public class ReadStatementsFileService {
                     addHeader = true;
                 }
             }
+            b.close();
+
+            //if(fileIsFine) {//<--- Cuando el archivo esta corrupto y no se debe guardar nada
+            if(true) {
+                log.info("Saving Statements");
+                parseStatementsFileService.parseContent(filePath);
+            }
+
         }
 
         fileInfoResponse.setHashExist(isSaved);
-        b.close();
-
         System.out.print("\n");
         return fileInfoResponse;
     }

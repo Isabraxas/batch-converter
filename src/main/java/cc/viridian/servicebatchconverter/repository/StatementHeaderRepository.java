@@ -70,7 +70,7 @@ public class StatementHeaderRepository {
             statementHeader.setFileHash(dataRow.get("file_hash").toString());
         } catch (NullPointerException nullp) {
             statementHeader = null;
-            log.error(nullp.getMessage());
+            //log.error(nullp.getMessage());
             //nullp.printStackTrace();
         }
 
