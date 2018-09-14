@@ -1,5 +1,6 @@
 package cc.viridian.servicebatchconverter.repository;
 
+import cc.viridian.servicebatchconverter.payload.HeaderPayload;
 import cc.viridian.servicebatchconverter.utils.FormatUtil;
 import cc.viridian.servicebatchconverter.payload.DetailPayload;
 import cc.viridian.servicebatchconverter.persistence.StatementDetail;
@@ -58,8 +59,20 @@ public class StatementDetailRepository {
         ObjectContext context = mainServerRuntime.newContext();
 
         int delete = SQLExec
-            .query("DELETE FROM STATEMENT_DETAIL WHERE ID = #bind($accCode)")
+            .query("DELETE FROM STATEMENT_DETAIL WHERE ID = #bind($id)")
             .paramsArray(id)
+            .update(context);
+
+        return delete;
+    }
+
+    public int deleteStatementDetailByHeader(final HeaderPayload header) {
+        log.info("Deleteing StatementDetail");
+        ObjectContext context = mainServerRuntime.newContext();
+
+        int delete = SQLExec
+            .query("DELETE FROM STATEMENT_DETAIL WHERE ACCOUNT_CODE = #bind($accCode) AND FK_HEADER = #bind($header)")
+            .paramsArray(header.getAccountCode(), header.getId())
             .update(context);
 
         return delete;

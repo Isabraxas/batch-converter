@@ -93,26 +93,55 @@ public class ParseStatementsFileService {
             }
             if (line.contains("-----------------")) {
 
+                HeaderPayload headerPayload = this.statementHeaderService.getStatementHeaderPayload(
+                    statementHeader);
+
                 //TODO crear un hash para el archivo y guardarlo en el header statement_title
                 String hash = HashCode.getCodigoHash(filePath);
                 statementHeader.setFileHash(hash);
 
-                //TODO guardar en la base de datos
-                if (!statementHeaderService.exist(statementHeader)) {
-                    statementHeaderService.insertOneInToDatabase(statementHeader, detailList);
-                    fileInfoResponse.incrementReplacedHeaders();
-                    fileInfoResponse.incrementReplacedDetails(detailList.size());
-                } else {
-                    log.error("El statement header ya existe: " + statementHeader.toString());
-                    //TODO comprobar si ya existe alguno de los details y guardarlos si no existen
-                    HeaderPayload finalStatementHeader = statementHeader;
-                    detailList.stream().forEach(detailP -> {
-                        if (statementDetailService.exist(detailP)) {
-                            //Comentado por recurrencia
-                            //statementDetailService.insertOneInToDatabase(detailP, finalStatementHeader);
-                            log.warn("El statement detail ya existe: " + detailP.toString());
+                //TODO comprobar si ya existe alguno de los details
+                detailList.stream().forEach(detailP -> {
+                    if (statementDetailService.exist(detailP)) {
+                        fileInfoResponse.incrementDuplicatedDetails();
+                        log.warn("El statement detail ya existe: " + detailP.toString());
+                    }
+                });
+
+                //TODO comprobar si ya existe el header
+                if (statement.getHeader() != null) {
+                    //TODO comprobar si ya existe alguno de los headers
+                    if (statementHeaderService.exist(statement.getHeader())) {
+                        fileInfoResponse.incrementDuplicatedHeaders();
+                        log.warn("El statement header ya existe: " + statementHeader.toString());
+                        //TODO eliminar header y detail si el archivo nuevo(distinto hash) contiene el mismo header
+                        if (headerPayload != null) {
+                            if (!HashCode.areEqualsFileAndHash(filePath, headerPayload.getFileHash())) {
+                                this.statementHeaderService.delete(statementHeader);
+                                log.warn("Se ha eliminado este header: " + headerPayload.toString());
+                            }
                         }
-                    });
+                    }
+                }
+
+                //TODO guardar en la base de datos
+                if (statement.getHeader() != null) {
+                    if (!statementHeaderService.exist(statementHeader)) {
+                        statementHeaderService.insertOneInToDatabase(statementHeader, detailList);
+                        fileInfoResponse.incrementReplacedHeaders();
+                        fileInfoResponse.incrementReplacedDetails(detailList.size());
+                    } else {
+                        log.error("El statement header ya existe: " + statementHeader.toString());
+                        //TODO comprobar si ya existe alguno de los details y guardarlos si no existen
+                        HeaderPayload finalStatementHeader = statementHeader;
+                        detailList.stream().forEach(detailP -> {
+                            if (statementDetailService.exist(detailP)) {
+                                //Comentado por recurrencia
+                                //statementDetailService.insertOneInToDatabase(detailP, finalStatementHeader);
+                                log.warn("El statement detail ya existe: " + detailP.toString());
+                            }
+                        });
+                    }
                 }
 
                 statement = new StatementPayload();
@@ -127,5 +156,6 @@ public class ParseStatementsFileService {
         System.out.print("\n");
         return fileInfoResponse;
     }
+
 
 }

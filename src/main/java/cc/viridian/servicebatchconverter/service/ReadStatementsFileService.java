@@ -53,7 +53,10 @@ public class ReadStatementsFileService {
         String hashCodeFile = HashCode.getCodigoHash(filePath);
         Boolean isSaved = this.statementHeaderService.existFileHash(hashCodeFile);
 
-        if (!isSaved) {
+
+        if (isSaved) {
+            log.warn("This file alredy is saved");
+        }else {
             while ((line = b.readLine()) != null) {
 
                 DetailPayload detail = new DetailPayload();

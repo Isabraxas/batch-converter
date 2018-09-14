@@ -223,9 +223,10 @@ public class StatementHeaderRepository {
         ///Call funcion of detail repository qby convert datarow to payload
 
         //TODO eliminar details
-        rows.stream().forEach(dataRow -> {
-            this.statementDetailRepository.deleteStatementDetailById((Integer) dataRow.get("id"));
-        });
+        this.statementDetailRepository.deleteStatementDetailByHeader(header);
+        //rows.stream().forEach(dataRow -> {
+          //  this.statementDetailRepository.deleteStatementDetailById((Integer) dataRow.get("id"));
+        //});
 
         //TODO eliminar header
         this.deleteStatementHeaderById(header.getId());
