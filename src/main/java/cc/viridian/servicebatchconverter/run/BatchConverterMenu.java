@@ -43,11 +43,10 @@ public class BatchConverterMenu {
         while (!salir) {
 
             System.out.println("\n******************************************");
+            System.out.println("FILE_PATH: "+ baseFilePath);
             System.out.println("1. Leer un nuevo archivo un local");
-            System.out.println("2. Almacenar toda la lista de statements");
-            System.out.println("3. Usar archivo de prueba para almacenar los statements en la base de datos");
-            System.out.println("4. Probar funcion hash de resumen");
-            System.out.println("5. Salir");
+            System.out.println("2. Usar archivo de prueba para almacenar los statements en la base de datos");
+            System.out.println("3. Salir");
             System.out.println(message);
             System.out.println("******************************************");
 
@@ -75,61 +74,16 @@ public class BatchConverterMenu {
                         break;
 
                     case 2:
-                        message = "";
-                        System.out.println("Has seleccionado la opcion 2");
-                        fileInfoResponse = parseStatementsFileService.parseContent(filePath);
-                        message = "Se almacenaron " + fileInfoResponse.getReplacedHeaders() + " headers\n"
-                            + " con " + fileInfoResponse.getReplacedDetails() + " details \n";
-                        //statementHeaderService.insertToDatabase(statementPayloadList);
-                        System.out.println("Statemets almacenados");
+                        System.out.println("Has seleccionado la opcion 3");
+                        useTestFile(baseFilePath);
                         break;
 
                     case 3:
-                        System.out.println("Has seleccionado la opcion 3");
-
-                        useTestFile(baseFilePath);
-                        //int rowsDeleted = statementDetailService.deleteByAccount("A00010002");
-                        //log.info("EXECUTING : delete statements: " + rowsDeleted);
-                        break;
-
-                    case 4:
-                        System.out.println("Has seleccionado la opcion 4");
-                        String filePathLocalPrn = "/home/isvar/Documents/statement/service-batch-converter"
-                            + "/src/main/resources/files/Statement_1998-01-01_2017-12-31.prn";
-                        String filePathExternalPrn = "/home/isvar/Documents/Fix-dummy-bank/vdbanco_viridian"
-                            + "/src/main/resources/Files/Statement_Is_test.prn";
-                        String filePathExternalPrn2 = "/home/isvar/Documents/Fix-dummy-bank/vdbanco_viridian"
-                            + "/src/main/resources/Files/Statement_1998-01-01_2017-12-31.prn";
-
-                        try {
-                            String hashLocal = HashCode.getCodigoHash(filePathLocalPrn);
-                            System.out.println("Hash MD5 de archivo local: " + hashLocal);
-                            System.out.println("Hash MD5 de archivo externo1: " + HashCode
-                                .getCodigoHash(filePathExternalPrn));
-                            System.out.println("Hash MD5 de archivo externo2: " + HashCode
-                                .getCodigoHash(filePathExternalPrn2) + "\n");
-
-                            System.out.println("Comparando archivo externo1 contra hash: " + HashCode
-                                .areEqualsFileAndHash(filePathExternalPrn, hashLocal));
-                            System.out.println("Comparando archivo externo1 contra archivo local: " + HashCode
-                                .compareFileWithFile(filePathExternalPrn, filePathLocalPrn));
-
-                            System.out.println("Comparando archivo externo2 contra hash: " + HashCode
-                                .areEqualsFileAndHash(filePathExternalPrn2, hashLocal));
-                            System.out.println("Comparando archivo externo2 contra archivo local: " + HashCode
-                                .compareFileWithFile(filePathExternalPrn2, filePathLocalPrn));
-                        } catch (NoSuchAlgorithmException e) {
-                            e.printStackTrace();
-                        }
-
-                        break;
-
-                    case 5:
                         salir = true;
                         break;
 
                     default:
-                        System.out.println("\nSolo números entre 1 y 5\n");
+                        System.out.println("\nSolo números entre 1 y 3\n");
                 }
             } catch (InputMismatchException e) {
                 System.out.println("\nDebes insertar un número\n");
@@ -148,7 +102,7 @@ public class BatchConverterMenu {
 
         //TODO Fix try catch here
         try {
-            FileInfoResponse fileInfoResponse = parseStatementsFileService.parseContent(baseFilePath);
+            FileInfoResponse fileInfoResponse = readStatementsFileService.readContent(baseFilePath);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
