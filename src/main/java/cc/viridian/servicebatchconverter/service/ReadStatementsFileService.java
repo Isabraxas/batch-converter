@@ -1,6 +1,5 @@
 package cc.viridian.servicebatchconverter.service;
 
-import cc.viridian.servicebatchconverter.utils.FormatUtil;
 import cc.viridian.servicebatchconverter.hash.HashCode;
 import cc.viridian.servicebatchconverter.payload.DetailPayload;
 import cc.viridian.servicebatchconverter.payload.HeaderPayload;
@@ -13,10 +12,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.security.NoSuchAlgorithmException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,10 +47,9 @@ public class ReadStatementsFileService {
         String hashCodeFile = HashCode.getCodigoHash(filePath);
         Boolean isSaved = this.statementHeaderService.existFileHash(hashCodeFile);
 
-
         if (isSaved) {
             log.warn("This file alredy is saved");
-        }else {
+        } else {
             while ((line = b.readLine()) != null) {
 
                 DetailPayload detail = new DetailPayload();
@@ -94,7 +89,7 @@ public class ReadStatementsFileService {
                 } catch (Exception e) {
                     System.out.println();
                     log.error("Error while reading the file on the line :" + currentLine
-                                  +" account-code ---> " + statementHeader.getAccountCode());
+                                  + " account-code ---> " + statementHeader.getAccountCode());
                     log.error(e.getMessage());
                     statement.setHeader(null);
                     addHeader = false;
@@ -113,16 +108,14 @@ public class ReadStatementsFileService {
             b.close();
 
             //if(fileIsFine) {//<--- Cuando el archivo esta corrupto y no se debe guardar nada
-            if(true) {
+            if (true) {
                 log.info("Saving Statements");
                 parseStatementsFileService.parseContent(filePath);
             }
-
         }
 
         fileInfoResponse.setHashExist(isSaved);
         System.out.print("\n");
         return fileInfoResponse;
     }
-
 }

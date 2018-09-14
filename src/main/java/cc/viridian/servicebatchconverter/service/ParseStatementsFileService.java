@@ -1,6 +1,5 @@
 package cc.viridian.servicebatchconverter.service;
 
-import cc.viridian.servicebatchconverter.utils.FormatUtil;
 import cc.viridian.servicebatchconverter.hash.HashCode;
 import cc.viridian.servicebatchconverter.payload.DetailPayload;
 import cc.viridian.servicebatchconverter.payload.FileInfoResponse;
@@ -13,10 +12,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.security.NoSuchAlgorithmException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,7 +61,8 @@ public class ParseStatementsFileService {
                     statementHeader = CommonProcessFileService.fillStatementAccountHeader(line, statementHeader);
 
                     //Set size columns and return if start read details lines
-                    startReadDetails = CommonProcessFileService.setSizeColumnsOfStatementAccountDetailHeader(line, startReadDetails);
+                    startReadDetails = CommonProcessFileService
+                        .setSizeColumnsOfStatementAccountDetailHeader(line, startReadDetails);
 
                     //Fill statement details
                     if (startReadDetails) {
