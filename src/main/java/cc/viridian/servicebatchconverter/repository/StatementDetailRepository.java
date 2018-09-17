@@ -94,31 +94,29 @@ public class StatementDetailRepository {
 
     public StatementDetail checkDataRowToStatemenDetail(final DataRow dataRow) {
 
-        StatementDetail statementDetail = new StatementDetail();
-
         if (dataRow != null) {
-            StatementDetail finalStatementDetail = statementDetail;
-            dataRow.forEach((k, v) -> FormatUtil.dataRowToStatementDetail(k, v, finalStatementDetail));
-            statementDetail = finalStatementDetail;
+            StatementDetail statementDetail = StatementDetail.getStatementDetail(dataRow);
+            if (statementDetail != null) {
+                return statementDetail;
+            } else {
+                return null;
+            }
         } else {
-            statementDetail = null;
+            return null;
         }
-
-        return statementDetail;
     }
 
     public DetailPayload checkDataRowToDetailPayload(final DataRow dataRow) {
 
-        DetailPayload detailPayload = new DetailPayload();
-
         if (dataRow != null) {
-            DetailPayload finaldetailPayload = detailPayload;
-            dataRow.forEach((k, v) -> FormatUtil.dataRowToDetailPayload(k, v, finaldetailPayload));
-            detailPayload = finaldetailPayload;
+            DetailPayload detailPayload = new DetailPayload(dataRow);
+            if (detailPayload != null) {
+                return detailPayload;
+            } else {
+                return null;
+            }
         } else {
-            detailPayload = null;
+            return null;
         }
-
-        return detailPayload;
-    }
+   }
 }
