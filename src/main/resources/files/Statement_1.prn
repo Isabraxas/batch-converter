@@ -2,7 +2,7 @@ Bank: DUMMY BANK
 Address: 1425 JAMES ST, PO BOX 4000
 Statement Period: 1998-01-01 - 2017-12-31
 Customer: C00010001
-Account: B00010001
+Account: A00010001
 
 Date:               Description:                                                                              Ref:                Amount:             Operation:     
 2016-12-22 21:20:00 Transferencia entre terceros cajas de cuenta: A00010001 a: A000122635                     2016122210072       3.76                DEBITO         
@@ -76,10 +76,12 @@ Date:               Description:                                                
 2015-02-11 11:03:00 Transferencia en cajas de cuenta: A000199716 a: A00010001                                 201502119255560     2403.28             CREDITO        
 2015-02-09 19:45:00 Retiro en cajas de cuenta: A00010001 por: Emo Morales Camacho                             2015020910004       67.62               DEBITO         
 2015-02-01 01:39:00 Retiro en cajas de cuenta: A00010001 por: Nel Cardenas Valdez                             2015020110006       67.6                DEBITO         
-2015-01-15 04:38:00 Credito por servicio de cobranza a cuenta: A00010001                                      2015011510003       5.0020176E7         DEBITO
-2015-01-09 17:46:00 Pago de tarjeta de credito: 5329 5232 8907 4772                                           2015010910001       35.68               DEBITO
-2015-01-09 17:46:00 Pago de tarjeta de credito: 5329 5232 8907 4772                                           2015010910001       35.68               CREDITO
-2015-01-01 07:27:00 Retiro en cajas de cuenta: A00010001 por: Dymar Caballero Justiniano                      2015010110002       30.87               DEBITO
+2015-01-15 04:38:00 Credito por servicio de cobranza a cuenta: A00010001                                      2015011510003       5.0020176E7         CREDITO        
+2015-01-11 02:52:00 Transferencia entre terceros cajas de cuenta: A00093724 a: A00010001                      201501114128521     1114.75             CREDITO
+O
+2015-01-09 17:46:00 Pago de tarjeta de credito: 5329 5232 8907 4772                                           2015010910001       35.68               DEBITO         
+2015-01-09 17:46:00 Pago de tarjeta de credito: 5329 5232 8907 4772                                           2015010910001       35.68               CREDITO        
+2015-01-01 07:27:00 Retiro en cajas de cuenta: A00010001 por: Dymar Caballero Justiniano                      2015010110002       30.87               DEBITO         
 
                     ***Total balance***                                                                                           1142751013.35       
 
@@ -88,7 +90,7 @@ Bank: DUMMY BANK
 Address: 1425 JAMES ST, PO BOX 4000
 Statement Period: 1998-01-01 - 2017-12-31
 Customer: C00010001
-Account: B00010002
+Account: A00010002
 
 Date:               Description:                                                                              Ref:                Amount:             Operation:     
 2016-10-02 21:54:00 Transferencia en cajas de cuenta: A00075704 a: A00010002                                  201610023272531     176987.4            CREDITO        
@@ -104,7 +106,7 @@ Bank: DUMMY BANK
 Address: 1425 JAMES ST, PO BOX 4000
 Statement Period: 1998-01-01 - 2017-12-31
 Customer: C00010001
-Account: B00010003
+Account: A00010003
 
 Date:               Description:                                                                              Ref:                Amount:             Operation:     
 2016-12-26 11:37:00 Transferencia en cajas de cuenta: A00010003 a: A000120412                                 2016122611800       1136.8              DEBITO         
