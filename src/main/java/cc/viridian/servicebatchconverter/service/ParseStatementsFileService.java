@@ -64,7 +64,8 @@ public class ParseStatementsFileService {
 
                     //Fill statement details
                     if (startReadDetails) {
-                        detail = CommonProcessFileService.fillStatementDetailAccountRecord(line, detail, statementHeader);
+                        detail = CommonProcessFileService
+                            .fillStatementDetailAccountRecord(line, detail, statementHeader);
                         if (detail != null) {
                             detailList.add(detail);
                         }

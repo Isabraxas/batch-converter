@@ -2,7 +2,6 @@ package cc.viridian.servicebatchconverter.service;
 
 import cc.viridian.servicebatchconverter.payload.DetailPayload;
 import cc.viridian.servicebatchconverter.payload.HeaderPayload;
-import cc.viridian.servicebatchconverter.payload.StatementPayload;
 import cc.viridian.servicebatchconverter.persistence.StatementHeader;
 import cc.viridian.servicebatchconverter.repository.StatementHeaderRepository;
 import lombok.extern.slf4j.Slf4j;

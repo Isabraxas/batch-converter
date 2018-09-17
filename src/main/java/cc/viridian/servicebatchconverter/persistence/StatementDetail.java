@@ -23,7 +23,7 @@ public class StatementDetail extends _StatementDetail {
     public StatementDetail() {
     }
 
-    public static StatementDetail getStatementDetail(DataRow dataRow) {
+    public static StatementDetail getStatementDetail(final DataRow dataRow) {
         StatementDetail detail = new StatementDetail();
         dataRow.forEach((key, value) -> {
 

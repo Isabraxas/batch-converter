@@ -18,7 +18,7 @@ public class BatchConverterRun implements CommandLineRunner {
     private String firtsParamPathFile = "";
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(final String... args) throws Exception {
         System.out.println("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
         long init = System.currentTimeMillis();
 

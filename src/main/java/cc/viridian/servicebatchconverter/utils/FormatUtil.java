@@ -1,8 +1,5 @@
 package cc.viridian.servicebatchconverter.utils;
 
-import cc.viridian.servicebatchconverter.payload.DetailPayload;
-import cc.viridian.servicebatchconverter.persistence.StatementDetail;
-import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
