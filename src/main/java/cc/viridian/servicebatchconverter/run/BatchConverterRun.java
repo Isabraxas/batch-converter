@@ -55,7 +55,7 @@ public class BatchConverterRun implements CommandLineRunner {
         System.out.println("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
     }
 
-    private Boolean checkParameters(String[] args) {
+    private Boolean checkParameters(final String[] args) {
         String[] params = args[0].split("=");
         Boolean isValid = false;
         if (params[0].contains("file.path")) {

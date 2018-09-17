@@ -18,6 +18,7 @@ public class CommonProcessFileService {
     static Integer operationSize = null;
 
     public static HeaderPayload fillStatementAccountHeader(final String line, final HeaderPayload headerPayload) {
+        log.debug("Starting to fill statement header");
         HeaderPayload statementHeader = headerPayload;
         String[] splitLine;
 
@@ -68,12 +69,14 @@ public class CommonProcessFileService {
             statementHeader.setAccountCode(FormatUtil.parseToNull(splitLine[1]));
         }
 
+        log.debug("Ending to fill statement header");
         return statementHeader;
     }
 
     public static Boolean setSizeColumnsOfStatementAccountDetailHeader(final String line
         , final Boolean startReadDetails) {
         Boolean rStartReadDetails;
+        log.debug("Starting to set size columns vars");
         if (line.contains("Date:")) {
             dateSize = 20;
             descSize = 90;
@@ -81,19 +84,20 @@ public class CommonProcessFileService {
             amountSize = 20;
             operationSize = 15;
 
-            //startDetailsLine= currentLine+1;
             rStartReadDetails = true;
         } else {
             rStartReadDetails = startReadDetails;
         }
 
+        log.debug("Ending to set size columns vars");
         return rStartReadDetails;
     }
 
-    public static DetailPayload fillStatementAccountLog(final String line,
-                                                        final DetailPayload detailPayload,
-                                                        final HeaderPayload headerPayload)
+    public static DetailPayload fillStatementDetailAccountRecord(final String line,
+                                                                 final DetailPayload detailPayload,
+                                                                 final HeaderPayload headerPayload)
         throws StringIndexOutOfBoundsException {
+        log.debug("Starting to fill one statement detail");
         DetailPayload detail = detailPayload;
         HeaderPayload statementHeader = headerPayload;
         Integer colSum = 0;
@@ -143,11 +147,12 @@ public class CommonProcessFileService {
         } else {
             detail = null;
         }
-
+        log.debug("Ending to fill one statement detail");
         return detail;
     }
 
     public static void setTotalAmount(final String line, final HeaderPayload statementHeader) {
+        log.debug("Starting to fill total amount");
         Integer colSum = 0;
 
         if (line.contains("Total") && !line.equals("")) {
@@ -160,5 +165,6 @@ public class CommonProcessFileService {
             log.debug("TOTAL= " + Double.valueOf(colTotal));
             statementHeader.setBalanceEnd(BigDecimal.valueOf(Double.valueOf(colTotal)));
         }
+        log.debug("Ending to fill total amount");
     }
 }
