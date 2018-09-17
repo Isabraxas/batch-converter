@@ -23,14 +23,6 @@ public class StatementHeaderService {
         this.headerRepository = headerRepository;
     }
 
-    public String insertToDatabase(final List<StatementPayload> statementPayloadList) {
-
- /*       statementPayloadList.stream().forEach(statementPayload ->
-                                                  this.headerRepository
-                                                      .saveStatementHeader(statementPayload.getHeader()));
-*/
-        return "PARSED";
-    }
 
     public Integer insertOneInToDatabase(final HeaderPayload headerPayload) {
         this.headerRepository.saveStatementHeader(headerPayload);
@@ -53,14 +45,6 @@ public class StatementHeaderService {
     public Boolean existFileHash(final String hashCode) {
         StatementHeader statementHeader = this.headerRepository.getOneStatementHeaderByFileHash(hashCode);
         return (statementHeader != null) ? true : false;
-    }
-
-    public String getCurrentFilePath() {
-        return currentFilePath;
-    }
-
-    public void setCurrentFilePath(final String currentFilePath) {
-        this.currentFilePath = currentFilePath;
     }
 
     public void delete(final HeaderPayload headerPayload) {

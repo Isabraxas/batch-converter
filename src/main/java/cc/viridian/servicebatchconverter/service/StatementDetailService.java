@@ -20,16 +20,6 @@ public class StatementDetailService {
         this.detailRepository = detailRepository;
     }
 
-    public String insertToDatabase(final List<StatementPayload> statementPayloadList) {
-
-      /*  statementPayloadList.stream().forEach(statementPayload
-                                                  -> statementPayload.getDetails().stream()
-                                                                     .forEach(detail
-                                                                                  -> this.detailRepository
-                                                                       .saveStatementDetail(detail)));
-    */
-        return "PARSED";
-    }
 
     public Boolean exist(final DetailPayload detailPayload) {
         StatementDetail statementDetail = this.detailRepository.getOneStatementDetail(detailPayload);

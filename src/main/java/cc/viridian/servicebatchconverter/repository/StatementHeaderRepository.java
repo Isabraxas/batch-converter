@@ -70,8 +70,6 @@ public class StatementHeaderRepository {
             statementHeader.setFileHash(dataRow.get("file_hash").toString());
         } catch (NullPointerException nullp) {
             statementHeader = null;
-            //log.error(nullp.getMessage());
-            //nullp.printStackTrace();
         }
 
         return statementHeader;
@@ -201,10 +199,10 @@ public class StatementHeaderRepository {
 
         ObjectContext context = mainServerRuntime.newContext();
 
-        //TODO obtener el objeto si es posible el header y los detail
+        //Get header
         HeaderPayload header = this.getOneStatementHeaderPayload(body);
 
-        //TODO obtener details en base a la fk_header
+        //Get details by fk_header
         String sql = "SELECT D.* FROM STATEMENT_HEADER H LEFT JOIN STATEMENT_DETAIL D ON H.ID = D.FK_HEADER"
             + " WHERE H.ACCOUNT_CODE=#bind($AccCode)"
             + " AND H.CUSTOMER_CODE=#bind($CustCode)"
@@ -220,15 +218,11 @@ public class StatementHeaderRepository {
         selectQuery.setFetchingDataRows(true);
 
         List<DataRow> rows = context.performQuery(selectQuery);
-        ///Call funcion of detail repository qby convert datarow to payload
 
-        //TODO eliminar details
+        //Delete details
         this.statementDetailRepository.deleteStatementDetailByHeader(header);
-        //rows.stream().forEach(dataRow -> {
-          //  this.statementDetailRepository.deleteStatementDetailById((Integer) dataRow.get("id"));
-        //});
 
-        //TODO eliminar header
+        //Delete header
         this.deleteStatementHeaderById(header.getId());
     }
 

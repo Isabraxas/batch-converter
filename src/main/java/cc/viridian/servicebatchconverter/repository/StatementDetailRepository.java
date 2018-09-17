@@ -29,6 +29,7 @@ public class StatementDetailRepository {
         ObjectContext context = mainServerRuntime.newContext();
 
         log.info("Select Detail in DB ");
+        //TODO review query
         DataRow dataRow = SQLSelect.dataRowQuery("SELECT * FROM STATEMENT_DETAIL WHERE "
                                                      + "ACCOUNT_CODE=#bind($AccCode)"
                                                      + " AND DEBIT_CREDIT=#bind($DebitCredit)"
@@ -94,7 +95,7 @@ public class StatementDetailRepository {
     public StatementDetail checkDataRowToStatemenDetail(final DataRow dataRow) {
 
         StatementDetail statementDetail = new StatementDetail();
-        //TODO obtener key con un stream
+
         if (dataRow != null) {
             StatementDetail finalStatementDetail = statementDetail;
             dataRow.forEach((k, v) -> FormatUtil.dataRowToStatementDetail(k, v, finalStatementDetail));
