@@ -1,5 +1,6 @@
 package cc.viridian.servicebatchconverter.repository;
 
+import cc.viridian.servicebatchconverter.payload.HeaderPayload;
 import cc.viridian.servicebatchconverter.utils.FormatUtil;
 import cc.viridian.servicebatchconverter.payload.DetailPayload;
 import cc.viridian.servicebatchconverter.persistence.StatementDetail;
@@ -28,6 +29,7 @@ public class StatementDetailRepository {
         ObjectContext context = mainServerRuntime.newContext();
 
         log.info("Select Detail in DB ");
+        //TODO review query
         DataRow dataRow = SQLSelect.dataRowQuery("SELECT * FROM STATEMENT_DETAIL WHERE "
                                                      + "ACCOUNT_CODE=#bind($AccCode)"
                                                      + " AND DEBIT_CREDIT=#bind($DebitCredit)"
@@ -58,8 +60,20 @@ public class StatementDetailRepository {
         ObjectContext context = mainServerRuntime.newContext();
 
         int delete = SQLExec
-            .query("DELETE FROM STATEMENT_DETAIL WHERE ID = #bind($accCode)")
+            .query("DELETE FROM STATEMENT_DETAIL WHERE ID = #bind($id)")
             .paramsArray(id)
+            .update(context);
+
+        return delete;
+    }
+
+    public int deleteStatementDetailByHeader(final HeaderPayload header) {
+        log.info("Deleteing StatementDetail");
+        ObjectContext context = mainServerRuntime.newContext();
+
+        int delete = SQLExec
+            .query("DELETE FROM STATEMENT_DETAIL WHERE ACCOUNT_CODE = #bind($accCode) AND FK_HEADER = #bind($header)")
+            .paramsArray(header.getAccountCode(), header.getId())
             .update(context);
 
         return delete;
@@ -80,31 +94,29 @@ public class StatementDetailRepository {
 
     public StatementDetail checkDataRowToStatemenDetail(final DataRow dataRow) {
 
-        StatementDetail statementDetail = new StatementDetail();
-        //TODO obtener key con un stream
         if (dataRow != null) {
-            StatementDetail finalStatementDetail = statementDetail;
-            dataRow.forEach((k, v) -> FormatUtil.dataRowToStatementDetail(k, v, finalStatementDetail));
-            statementDetail = finalStatementDetail;
+            StatementDetail statementDetail = StatementDetail.getStatementDetail(dataRow);
+            if (statementDetail != null) {
+                return statementDetail;
+            } else {
+                return null;
+            }
         } else {
-            statementDetail = null;
+            return null;
         }
-
-        return statementDetail;
     }
 
     public DetailPayload checkDataRowToDetailPayload(final DataRow dataRow) {
 
-        DetailPayload detailPayload = new DetailPayload();
-
         if (dataRow != null) {
-            DetailPayload finaldetailPayload = detailPayload;
-            dataRow.forEach((k, v) -> FormatUtil.dataRowToDetailPayload(k, v, finaldetailPayload));
-            detailPayload = finaldetailPayload;
+            DetailPayload detailPayload = new DetailPayload(dataRow);
+            if (detailPayload != null) {
+                return detailPayload;
+            } else {
+                return null;
+            }
         } else {
-            detailPayload = null;
+            return null;
         }
-
-        return detailPayload;
-    }
+   }
 }

@@ -2,7 +2,6 @@ package cc.viridian.servicebatchconverter.service;
 
 import cc.viridian.servicebatchconverter.payload.DetailPayload;
 import cc.viridian.servicebatchconverter.payload.HeaderPayload;
-import cc.viridian.servicebatchconverter.payload.StatementPayload;
 import cc.viridian.servicebatchconverter.persistence.StatementHeader;
 import cc.viridian.servicebatchconverter.repository.StatementHeaderRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -23,14 +22,6 @@ public class StatementHeaderService {
         this.headerRepository = headerRepository;
     }
 
-    public String insertToDatabase(final List<StatementPayload> statementPayloadList) {
-
- /*       statementPayloadList.stream().forEach(statementPayload ->
-                                                  this.headerRepository
-                                                      .saveStatementHeader(statementPayload.getHeader()));
-*/
-        return "PARSED";
-    }
 
     public Integer insertOneInToDatabase(final HeaderPayload headerPayload) {
         this.headerRepository.saveStatementHeader(headerPayload);
@@ -52,15 +43,7 @@ public class StatementHeaderService {
 
     public Boolean existFileHash(final String hashCode) {
         StatementHeader statementHeader = this.headerRepository.getOneStatementHeaderByFileHash(hashCode);
-        return statementHeader != null;
-    }
-
-    public String getCurrentFilePath() {
-        return currentFilePath;
-    }
-
-    public void setCurrentFilePath(final String currentFilePath) {
-        this.currentFilePath = currentFilePath;
+        return (statementHeader != null) ? true : false;
     }
 
     public void delete(final HeaderPayload headerPayload) {
