@@ -101,6 +101,7 @@ public class CommonProcessFileService {
         DetailPayload detail = detailPayload;
         HeaderPayload statementHeader = headerPayload;
         Integer colSum = 0;
+        Integer res = 0;
 
         if (!line.contains("Total") && !line.contains("Date:")) {
 
@@ -108,7 +109,8 @@ public class CommonProcessFileService {
                 colSum = 0;
 
                 //Date
-                String colDate = line.substring(colSum, colSum + dateSize);
+                res = colSum + dateSize;
+                String colDate = line.substring(colSum, res);
                 detail.setDate(colDate.split(" ")[0]);
                 //LocalDateTime
                 String[] sptDate = colDate.split(" ")[0].split("-");
@@ -123,22 +125,31 @@ public class CommonProcessFileService {
                 ));
                 //Description
                 colSum += dateSize;
-                String colDesc = line.substring(colSum, colSum + descSize);
+                res = colSum + descSize;
+                String colDesc = line.substring(colSum, res);
                 detail.setSecondaryInfo(colDesc);
 
                 //Ref
                 colSum += descSize;
-                String colRef = line.substring(colSum, colSum + refSize);
+                res = colSum + refSize;
+                String colRef = line.substring(colSum, res);
                 detail.setReferenceNumber(colRef);
 
                 //Amount
                 colSum += refSize;
-                String colAmount = line.substring(colSum, colSum + amountSize);
+                res = colSum + amountSize;
+                String colAmount = line.substring(colSum, res);
                 detail.setAmount(BigDecimal.valueOf(Double.valueOf(colAmount)));
 
                 //Operation
                 colSum += amountSize;
-                String colOperation = line.substring(colSum, colSum + operationSize);
+                res = colSum + operationSize;
+                if(line.contains("DEBITO")){
+                    res = colSum + "DEBITO".length();
+                }else {
+                    res = colSum + "CREDITO".length();
+                }
+                String colOperation = line.substring(colSum, res);
                 detail.setDebitCredit(colOperation);
 
                 //Account code
