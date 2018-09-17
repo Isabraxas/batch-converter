@@ -48,7 +48,7 @@ public class ReadStatementsFileService {
         Boolean isSaved = this.statementHeaderService.existFileHash(hashCodeFile);
 
         if (isSaved) {
-            log.warn("This file alredy is saved");
+            log.warn("This file alredy is saved hash: " + hashCodeFile);
         } else {
             while ((line = b.readLine()) != null) {
 
@@ -110,8 +110,8 @@ public class ReadStatementsFileService {
 
             //if(fileIsFine) {//<--- Cuando el archivo esta corrupto y no se debe guardar nada
             if (true) {
+                fileInfoResponse = parseStatementsFileService.parseContent(filePath);
                 log.info("Saving Statements");
-                parseStatementsFileService.parseContent(filePath);
             }
         }
 
