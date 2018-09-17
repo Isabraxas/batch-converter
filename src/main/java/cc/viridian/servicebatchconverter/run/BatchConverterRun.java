@@ -28,14 +28,14 @@ public class BatchConverterRun implements CommandLineRunner {
             firtsParamPathFile = args[0].split("=")[1];
             if (checkParameters(args)) {
                 try {
-                    System.out.print("Leyendo archivo ...");
+                    System.out.print("Reading file ...");
                     FileInfoResponse fileInfoResponse = this.readStatementsFileService.readContent(firtsParamPathFile);
                     if (!fileInfoResponse.getHashExist()) {
-                        message = "El hash del archivo no coincide con ningun registro almacenado \n"
-                            + "pero exiten " + fileInfoResponse.getDuplicatedHeaders() + " headers duplicados\n"
-                            + " con " + fileInfoResponse.getDuplicatedDetails() + " details duplicados\n";
+                        message = "The hash file not matching with any another record \n"
+                            + "but there are " + fileInfoResponse.getDuplicatedHeaders() + " duplicate headers\n"
+                            + " with " + fileInfoResponse.getDuplicatedDetails() + " duplicate details\n";
                     } else {
-                        message = "El hash del archivo coincide con un registro ya almacenado \n";
+                        message = "The hash file matching with one record \n";
                     }
 
                     System.out.print(message);
@@ -51,8 +51,7 @@ public class BatchConverterRun implements CommandLineRunner {
 
         long fin = System.currentTimeMillis();
         long time = (fin - init);
-        //System.out.println(args.length);
-        System.out.println("Tiempo de Ejecucion: " + time + " milisegundos");
+        System.out.println("Excecution time: " + time + " ml");
         System.out.println("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
     }
 

@@ -43,7 +43,7 @@ public class ReadStatementsFileService {
 
         HeaderPayload statementHeader = new HeaderPayload();
 
-        //TODO crear un hash para el archivo y verificar si existe o no
+        //Make hash file and check if exist
         String hashCodeFile = HashCode.getCodigoHash(filePath);
         Boolean isSaved = this.statementHeaderService.existFileHash(hashCodeFile);
 
