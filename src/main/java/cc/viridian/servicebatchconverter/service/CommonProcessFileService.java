@@ -3,10 +3,12 @@ package cc.viridian.servicebatchconverter.service;
 import cc.viridian.servicebatchconverter.payload.DetailPayload;
 import cc.viridian.servicebatchconverter.payload.HeaderPayload;
 import cc.viridian.servicebatchconverter.utils.FormatUtil;
+import lombok.extern.slf4j.Slf4j;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+@Slf4j
 public class CommonProcessFileService {
 
     static Integer dateSize = null;
@@ -155,9 +157,7 @@ public class CommonProcessFileService {
             colSum += dateSize + descSize + refSize;
             String colTotal = line.substring(colSum, colSum + amountSize);
 
-            //Banlace al monto con el que debe cerrar cada transaccion
-            //detail.setBalance(BigDecimal.valueOf(Double.valueOf(colTotal)));
-
+            log.debug("TOTAL= " + Double.valueOf(colTotal));
             statementHeader.setBalanceEnd(BigDecimal.valueOf(Double.valueOf(colTotal)));
         }
     }

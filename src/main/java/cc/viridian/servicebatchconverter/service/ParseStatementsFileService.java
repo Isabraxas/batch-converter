@@ -80,7 +80,7 @@ public class ParseStatementsFileService {
 
                 if (addHeader) {
                     statement.setHeader(statementHeader);
-                    //System.out.println("HEADER: " + statementHeader);
+                    log.debug("HEADER: " + statementHeader);
                 }
                 statement.setDetails(detailList);
             } catch (StringIndexOutOfBoundsException se) {
@@ -88,62 +88,47 @@ public class ParseStatementsFileService {
                 statement.setHeader(null);
                 addHeader = false;
             }
+
             if (line.contains("-----------------")) {
 
                 HeaderPayload headerPayload = this.statementHeaderService.getStatementHeaderPayload(
                     statementHeader);
 
-                //TODO crear un hash para el archivo y guardarlo en el header statement_title
+                //Make hash and set to statemetHeader
                 String hash = HashCode.getCodigoHash(filePath);
                 statementHeader.setFileHash(hash);
 
-                //TODO comprobar si ya existe alguno de los details
+                //Check if exist this details
                 detailList.stream().forEach(detailP -> {
                     if (statementDetailService.exist(detailP)) {
                         fileInfoResponse.incrementDuplicatedDetails();
-                        log.warn("El statement detail ya existe: " + detailP.toString());
+                        log.warn("This detail already exist: " + detailP.toString());
                     }
                 });
 
-                //TODO comprobar si ya existe el header
+                //Check if this header is null
                 if (statement.getHeader() != null) {
-                    //TODO comprobar si ya existe alguno de los headers
+                    //Check if exist this header
                     if (statementHeaderService.exist(statement.getHeader())) {
                         fileInfoResponse.incrementDuplicatedHeaders();
-                        log.warn("El statement header ya existe: " + statementHeader.toString());
-                        //TODO eliminar header y detail si el archivo nuevo(distinto hash) contiene el mismo header
+                        log.warn("This header already exist: " + statementHeader.toString());
+
+                        //Delete headers and details related
                         if (headerPayload != null) {
                             if (!HashCode.areEqualsFileAndHash(filePath, headerPayload.getFileHash())) {
+                                log.warn("Deleting this header: " + headerPayload.toString());
                                 this.statementHeaderService.delete(statementHeader);
-                                log.warn("Se ha eliminado este header: " + headerPayload.toString());
                             }
                         }
-                    }else if (!statementHeaderService.exist(statementHeader)) {
+                    }
+
+                    if (!statementHeaderService.exist(statementHeader)) {
+                        log.info("Saving Statements data");
                         statementHeaderService.insertOneInToDatabase(statementHeader, detailList);
                         fileInfoResponse.incrementReplacedHeaders();
                         fileInfoResponse.incrementReplacedDetails(detailList.size());
                     }
                 }
-
-               /* //TODO guardar en la base de datos
-                if (statement.getHeader() != null) {
-                    if (!statementHeaderService.exist(statementHeader)) {
-                        statementHeaderService.insertOneInToDatabase(statementHeader, detailList);
-                        fileInfoResponse.incrementReplacedHeaders();
-                        fileInfoResponse.incrementReplacedDetails(detailList.size());
-                    } else {
-                        log.error("El statement header ya existe: " + statementHeader.toString());
-                        //TODO comprobar si ya existe alguno de los details y guardarlos si no existen
-                        HeaderPayload finalStatementHeader = statementHeader;
-                        detailList.stream().forEach(detailP -> {
-                            if (statementDetailService.exist(detailP)) {
-                                //Comentado por recurrencia
-                                //statementDetailService.insertOneInToDatabase(detailP, finalStatementHeader);
-                                log.warn("El statement detail ya existe: " + detailP.toString());
-                            }
-                        });
-                    }
-                }*/
 
                 statement = new StatementPayload();
                 statementHeader = new HeaderPayload();
@@ -157,6 +142,4 @@ public class ParseStatementsFileService {
         System.out.print("\n");
         return fileInfoResponse;
     }
-
-
 }
