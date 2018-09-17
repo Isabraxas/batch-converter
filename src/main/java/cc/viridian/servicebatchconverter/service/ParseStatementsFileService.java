@@ -108,7 +108,7 @@ public class ParseStatementsFileService {
     private void   saveStatement(final String filePath, final StatementPayload statement
         , final HeaderPayload statementHeader, final List<DetailPayload> detailList) throws
         IOException, NoSuchAlgorithmException {
-
+        log.debug("Starting save statement function");
         HeaderPayload headerPayload = this.statementHeaderService.getStatementHeaderPayload(
             statementHeader);
 
@@ -147,5 +147,7 @@ public class ParseStatementsFileService {
                 fileInfoResponse.incrementReplacedDetails(detailList.size());
             }
         }
+
+        log.debug("Ending save statement function");
     }
 }
