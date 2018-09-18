@@ -42,13 +42,13 @@ public class ParseStatementsFileService {
         Boolean addHeader = true;
 
         HeaderPayload statementHeader = new HeaderPayload();
-        System.out.print("LINE:");
+        //System.out.print("LINE:");
 
         while ((line = b.readLine()) != null) {
 
             DetailPayload detail = new DetailPayload();
             currentLine++;
-            System.out.print(", " + currentLine);
+            //System.out.print(", " + currentLine);
             try {
 
                 if (!line.contains("-----------------") && !line.equals("")) {

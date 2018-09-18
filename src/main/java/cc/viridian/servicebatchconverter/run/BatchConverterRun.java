@@ -1,7 +1,9 @@
 package cc.viridian.servicebatchconverter.run;
 
+import cc.viridian.servicebatchconverter.hash.HashCode;
 import cc.viridian.servicebatchconverter.payload.FileInfoResponse;
 import cc.viridian.servicebatchconverter.service.ReadStatementsFileService;
+import cc.viridian.servicebatchconverter.service.StatementHeaderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -16,8 +18,11 @@ public class BatchConverterRun implements CommandLineRunner {
 
     @Autowired
     private ReadStatementsFileService readStatementsFileService;
+    @Autowired
+    private StatementHeaderService statementHeaderService;
 
     private String firtsParamPathFile = "";
+    FileInfoResponse fileInfoResponse;
 
     @Override
     public void run(final String... args) throws Exception {
@@ -29,7 +34,7 @@ public class BatchConverterRun implements CommandLineRunner {
             try {
                 firtsParamPathFile = args[0].split("=")[1];
                 //firtsParamPathFile = "/home/isvar/Documents/statement/service-batch-converter" +
-                  //  "/src/main/resources/files/Statement_2.prn";
+                //  "/src/main/resources/files/Statement_2.prn";
             } catch (Exception e) {
                 log.error("Error format in file.path parameter");
                 log.error(e.getMessage());
@@ -37,19 +42,26 @@ public class BatchConverterRun implements CommandLineRunner {
             }
             if (checkParameters(args)) {
                 try {
-                    System.out.print("Reading file ...");
-                    FileInfoResponse fileInfoResponse = this.readStatementsFileService.readContent(firtsParamPathFile);
-                    if (!fileInfoResponse.getHashExist()) {
+                    String fileName = firtsParamPathFile.substring(firtsParamPathFile.lastIndexOf("/") + 1);
+                    System.out.println("Reading file " + fileName + " ... ");
+                    System.out.println("File path: " + firtsParamPathFile);
+                    //Make hash file and check if exist
+                    String hashCodeFile = HashCode.getCodigoHash(firtsParamPathFile);
+                    Boolean isSaved = this.statementHeaderService.existFileHash(hashCodeFile);
+                    if (!isSaved) {
+                        fileInfoResponse = this.readStatementsFileService.readContent(firtsParamPathFile);
                         message = "The hash file not matching with any another record \n"
                             + "but there are " + fileInfoResponse.getDuplicatedHeaders() + " duplicate headers,"
                             + " " + fileInfoResponse.getReplacedHeaders() + " inserts headers \n"
                             + " with " + fileInfoResponse.getDuplicatedDetails() + " duplicate details,"
                             + " " + fileInfoResponse.getReplacedDetails() + " inserts details \n";
                     } else {
-                        message = "The hash file matching with one record \n";
+                        //TODO hacer la funcion para logs del usuario en la app
+                        log.warn("The hash file matching with another file alredy prosecced hash --> " + hashCodeFile);
+                        message = "The hash file matching with another file alredy prosecced";
                     }
 
-                    System.out.print(message);
+                    System.out.println(message);
                 } catch (FileNotFoundException e) {
                     log.error("File not found " + firtsParamPathFile);
                     e.printStackTrace();

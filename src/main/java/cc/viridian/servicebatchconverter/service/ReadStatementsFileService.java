@@ -20,8 +20,7 @@ import java.util.List;
 @Service
 public class ReadStatementsFileService {
 
-    @Autowired
-    private StatementHeaderService statementHeaderService;
+
     @Autowired
     private ParseStatementsFileService parseStatementsFileService;
 
@@ -43,79 +42,71 @@ public class ReadStatementsFileService {
 
         HeaderPayload statementHeader = new HeaderPayload();
 
-        //Make hash file and check if exist
-        String hashCodeFile = HashCode.getCodigoHash(filePath);
-        Boolean isSaved = this.statementHeaderService.existFileHash(hashCodeFile);
+        while ((line = b.readLine()) != null) {
 
-        if (isSaved) {
-            log.warn("This file alredy is saved hash: " + hashCodeFile);
-        } else {
-            while ((line = b.readLine()) != null) {
+            DetailPayload detail = new DetailPayload();
+            currentLine++;
+            System.out.print(", " + currentLine);
+            try {
+                if (!line.contains("-----------------") && !line.equals("")) {
 
-                DetailPayload detail = new DetailPayload();
-                currentLine++;
-                System.out.print(", " + currentLine);
-                try {
-                    if (!line.contains("-----------------") && !line.equals("")) {
+                    //System.out.println(line);
 
-                        //System.out.println(line);
+                    //Try fill the Header
+                    statementHeader = CommonProcessFileService.fillStatementAccountHeader(line, statementHeader);
 
-                        //Try fill the Header
-                        statementHeader = CommonProcessFileService.fillStatementAccountHeader(line, statementHeader);
+                    //Set size columns and return if start read details lines
+                    startReadDetails = CommonProcessFileService
+                        .setSizeColumnsOfStatementAccountDetailHeader(line, startReadDetails);
 
-                        //Set size columns and return if start read details lines
-                        startReadDetails = CommonProcessFileService
-                            .setSizeColumnsOfStatementAccountDetailHeader(line, startReadDetails);
-
-                        //Fill statement details
-                        if (startReadDetails) {
-                            detail = CommonProcessFileService
-                                .fillStatementDetailAccountRecord(line, detail, statementHeader);
-                            if (detail != null) {
-                                detailList.add(detail);
-                            }
-                        }
-                        //Set Total amount
-                        if (!startReadDetails) {
-                            CommonProcessFileService.setTotalAmount(line, statementHeader);
+                    //Fill statement details
+                    if (startReadDetails) {
+                        detail = CommonProcessFileService
+                            .fillStatementDetailAccountRecord(line, detail, statementHeader);
+                        if (detail != null) {
+                            detailList.add(detail);
                         }
                     }
-
-                    if (addHeader) {
-                        statement.setHeader(statementHeader);
-                        //System.out.println("HEADER: " + statementHeader);
+                    //Set Total amount
+                    if (!startReadDetails) {
+                        CommonProcessFileService.setTotalAmount(line, statementHeader);
                     }
-                    statement.setDetails(detailList);
-                    //System.out.println("DETAILS: " + detailList);
-                } catch (Exception e) {
-                    System.out.println();
-                    log.error("Error while reading the file on the line :" + currentLine
-                                  + " account-code ---> " + statementHeader.getAccountCode());
-                    log.error(e.getMessage());
-                    statement.setHeader(null);
-                    addHeader = false;
-                    fileIsFine = false;
                 }
 
-                if (line.contains("-----------------")) {
-
-                    statement = new StatementPayload();
-                    statementHeader = new HeaderPayload();
-                    detailList = new ArrayList<DetailPayload>();
-                    startReadDetails = false;
-                    addHeader = true;
+                if (addHeader) {
+                    statement.setHeader(statementHeader);
+                    //System.out.println("HEADER: " + statementHeader);
                 }
+                statement.setDetails(detailList);
+                //System.out.println("DETAILS: " + detailList);
+            } catch (Exception e) {
+                System.out.println();
+                log.error("Error while reading the file on the line :" + currentLine
+                              + " account-code ---> " + statementHeader.getAccountCode());
+                log.error(e.getMessage());
+                statement.setHeader(null);
+                addHeader = false;
+                fileIsFine = false;
             }
-            b.close();
 
-            //if(fileIsFine) {//<--- Cuando el archivo esta corrupto y no se debe guardar nada
-            if (true) {
-                fileInfoResponse = parseStatementsFileService.parseContent(filePath);
-                log.info("Saving Statements");
+            if (line.contains("-----------------")) {
+
+                statement = new StatementPayload();
+                statementHeader = new HeaderPayload();
+                detailList = new ArrayList<DetailPayload>();
+                startReadDetails = false;
+                addHeader = true;
             }
         }
+        b.close();
 
-        fileInfoResponse.setHashExist(isSaved);
+        //if(fileIsFine) {//<--- Cuando el archivo esta corrupto y no se debe guardar nada
+        if (true) {
+            //TODO hacer solo los sets correspondientes
+            fileInfoResponse = parseStatementsFileService.parseContent(filePath);
+            log.info("Saving Statements");
+        }
+
         System.out.print("\n");
         return fileInfoResponse;
     }
