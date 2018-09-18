@@ -24,13 +24,13 @@ public class BatchConverterRun implements CommandLineRunner {
         System.out.println("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
         long init = System.currentTimeMillis();
 
-
         if (args.length > 0) {
             String message = "";
             try {
                 firtsParamPathFile = args[0].split("=")[1];
-                //firtsParamPathFile = "/home/isvar/Documents/statement/service-batch-converter/src/main/resources/files/Statement_2.prn";
-            }catch (Exception e){
+                //firtsParamPathFile = "/home/isvar/Documents/statement/service-batch-converter" +
+                  //  "/src/main/resources/files/Statement_2.prn";
+            } catch (Exception e) {
                 log.error("The file.path parameter is required");
                 log.error(e.getMessage());
                 e.printStackTrace();
@@ -58,7 +58,7 @@ public class BatchConverterRun implements CommandLineRunner {
                     e.printStackTrace();
                 }
             }
-        }else {
+        } else {
             log.error("The file.path parameter is required");
         }
 
