@@ -5,6 +5,7 @@ import cc.viridian.servicebatchconverter.payload.DetailPayload;
 import cc.viridian.servicebatchconverter.payload.FileInfoResponse;
 import cc.viridian.servicebatchconverter.payload.HeaderPayload;
 import cc.viridian.servicebatchconverter.payload.StatementPayload;
+import cc.viridian.servicebatchconverter.utils.CommonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,14 +28,17 @@ public class ParseStatementsFileService {
     @Autowired
     private StatementDetailService statementDetailService;
 
+    Long currentLine = 0L;
+    Long rateLines = currentLine + 10L;
+    Long totalLines = 0L;
+    Integer countStatements = 0;
+    CommonUtils commonUtils = new CommonUtils();
+
     public FileInfoResponse parseContent(final String filePath)
         throws FileNotFoundException, IOException, NoSuchAlgorithmException {
         FileReader f = new FileReader(filePath);
         BufferedReader b = new BufferedReader(f);
-
         String line;
-
-        Integer currentLine = 0;
 
         StatementPayload statement = new StatementPayload();
         List<DetailPayload> detailList = new ArrayList<DetailPayload>();
@@ -42,12 +46,13 @@ public class ParseStatementsFileService {
         Boolean addHeader = true;
 
         HeaderPayload statementHeader = new HeaderPayload();
-        //System.out.print("LINE:");
+        totalLines = commonUtils.getFileLines(filePath);
 
         while ((line = b.readLine()) != null) {
 
             DetailPayload detail = new DetailPayload();
             currentLine++;
+            updateProgress();
             //System.out.print(", " + currentLine);
             try {
 
@@ -99,13 +104,22 @@ public class ParseStatementsFileService {
                 addHeader = true;
             }
         }
-        b.close();
 
+        b.close();
         System.out.print("\n");
         return fileInfoResponse;
     }
 
-    private void   saveStatement(final String filePath, final StatementPayload statement
+    private void updateProgress() {
+        if (currentLine == rateLines ) {
+            //TODO llamar a la funcion util para incrementar la barra de progreso y reiniciar el contador
+            commonUtils.incrementProgressBar(currentLine, totalLines);
+            System.out.println("ESTADO: " + commonUtils.getProgressBar() + "%");
+            rateLines = currentLine + 10;
+        }
+    }
+
+    private void saveStatement(final String filePath, final StatementPayload statement
         , final HeaderPayload statementHeader, final List<DetailPayload> detailList) throws
         IOException, NoSuchAlgorithmException {
         log.debug("Starting save statement function");
@@ -143,8 +157,8 @@ public class ParseStatementsFileService {
             if (!statementHeaderService.exist(statementHeader)) {
                 log.info("Saving Statements data");
                 statementHeaderService.insertOneInToDatabase(statementHeader, detailList);
-                fileInfoResponse.incrementReplacedHeaders();
-                fileInfoResponse.incrementReplacedDetails(detailList.size());
+                fileInfoResponse.incrementInsertedHeaders();
+                fileInfoResponse.incrementInsertedDetails(detailList.size());
             }
         }
 

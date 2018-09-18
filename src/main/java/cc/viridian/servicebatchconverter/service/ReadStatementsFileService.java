@@ -1,6 +1,5 @@
 package cc.viridian.servicebatchconverter.service;
 
-import cc.viridian.servicebatchconverter.hash.HashCode;
 import cc.viridian.servicebatchconverter.payload.DetailPayload;
 import cc.viridian.servicebatchconverter.payload.HeaderPayload;
 import cc.viridian.servicebatchconverter.payload.FileInfoResponse;
@@ -46,27 +45,41 @@ public class ReadStatementsFileService {
 
             DetailPayload detail = new DetailPayload();
             currentLine++;
-            System.out.print(", " + currentLine);
+            //System.out.print(", " + currentLine);
             try {
                 if (!line.contains("-----------------") && !line.equals("")) {
 
                     //System.out.println(line);
 
                     //Try fill the Header
-                    statementHeader = CommonProcessFileService.fillStatementAccountHeader(line, statementHeader);
+                    try {
+                        statementHeader = CommonProcessFileService.fillStatementAccountHeader(line, statementHeader);
+                    }catch (Exception e){
+                        System.out.println();
+                        log.error("Error while reading the file on the line :" + currentLine
+                                      + " account-code ---> " + statementHeader.getAccountCode());
+                        fileInfoResponse.incrementErrorHeaders();
+                    }
 
                     //Set size columns and return if start read details lines
                     startReadDetails = CommonProcessFileService
                         .setSizeColumnsOfStatementAccountDetailHeader(line, startReadDetails);
 
                     //Fill statement details
-                    if (startReadDetails) {
-                        detail = CommonProcessFileService
-                            .fillStatementDetailAccountRecord(line, detail, statementHeader);
-                        if (detail != null) {
-                            detailList.add(detail);
+                    try {
+                        if (startReadDetails) {
+                            detail = CommonProcessFileService
+                                .fillStatementDetailAccountRecord(line, detail, statementHeader);
+                            if (detail != null) {
+                                detailList.add(detail);
+                            }
                         }
+                    }catch (Exception e){
+                        log.error("Error while reading the file on the line :" + currentLine
+                                      + " account-code ---> " + statementHeader.getAccountCode());
+                        fileInfoResponse.incrementErrorDetails();
                     }
+
                     //Set Total amount
                     if (!startReadDetails) {
                         CommonProcessFileService.setTotalAmount(line, statementHeader);
@@ -103,7 +116,11 @@ public class ReadStatementsFileService {
         //if(fileIsFine) {//<--- Cuando el archivo esta corrupto y no se debe guardar nada
         if (true) {
             //TODO hacer solo los sets correspondientes
-            fileInfoResponse = parseStatementsFileService.parseContent(filePath);
+            FileInfoResponse infoResponse = parseStatementsFileService.parseContent(filePath);
+            fileInfoResponse.setDuplicatedDetails(infoResponse.getDuplicatedDetails());
+            fileInfoResponse.setDuplicatedHeaders(infoResponse.getDuplicatedHeaders());
+            fileInfoResponse.setInsertedDetails(infoResponse.getInsertedDetails());
+            fileInfoResponse.setInsertedHeaders(infoResponse.getInsertedHeaders());
             log.info("Saving Statements");
         }
 

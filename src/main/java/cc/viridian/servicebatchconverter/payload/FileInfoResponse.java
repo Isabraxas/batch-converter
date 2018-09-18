@@ -12,10 +12,12 @@ import lombok.ToString;
 @Getter
 @ToString
 public class FileInfoResponse {
+    private Integer errorsHeaders = 0;
+    private Integer errorsDetails = 0;
     private Integer duplicatedHeaders = 0;
     private Integer duplicatedDetails = 0;
-    private Integer replacedHeaders = 0;
-    private Integer replacedDetails = 0;
+    private Integer insertedHeaders = 0;
+    private Integer insertedDetails = 0;
     private Boolean hashExist;
     private Boolean isItWriteable;
 
@@ -27,11 +29,19 @@ public class FileInfoResponse {
         duplicatedDetails++;
     }
 
-    public void incrementReplacedHeaders() {
-        replacedHeaders++;
+    public void incrementErrorHeaders() {
+        errorsHeaders++;
     }
 
-    public void incrementReplacedDetails(final Integer quantity) {
-        replacedDetails = replacedDetails + quantity;
+    public void incrementErrorDetails() {
+        errorsDetails++;
+    }
+
+    public void incrementInsertedHeaders() {
+        insertedHeaders++;
+    }
+
+    public void incrementInsertedDetails(final Integer quantity) {
+        insertedDetails = insertedDetails + quantity;
     }
 }
