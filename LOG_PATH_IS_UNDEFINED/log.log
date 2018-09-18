@@ -65,3 +65,5 @@ Caused by: java.lang.ArrayIndexOutOfBoundsException: 1
 	... 11 common frames omitted
 18-09-2018 19:46:21.823 [main] WARN  c.v.s.run.BatchConverterRun.run - The hash file matching with another file alredy processed hash --> 4dade435feb87937ae280999d49e0084
 18-09-2018 19:47:27.330 [main] WARN  c.v.s.run.BatchConverterRun.run - The hash file matching with another file alredy processed hash --> 4dade435feb87937ae280999d49e0084
+18-09-2018 19:55:15.928 [main] WARN  c.v.s.run.BatchConverterRun.run - The hash file matching with another file alredy processed hash --> 4dade435feb87937ae280999d49e0084
+18-09-2018 19:56:17.914 [main] WARN  c.v.s.run.BatchConverterRun.run - The hash file matching with another file alredy processed hash --> 4dade435feb87937ae280999d49e0084

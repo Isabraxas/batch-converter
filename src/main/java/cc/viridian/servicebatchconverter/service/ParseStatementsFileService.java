@@ -111,7 +111,7 @@ public class ParseStatementsFileService {
     }
 
     private void updateProgress() {
-        if (currentLine.toString().equals(rateLines.toString())) {
+        if (currentLine.toString().equals(rateLines.toString()) || currentLine.toString().equals(totalLines.toString()) ) {
             //TODO llamar a la funcion util para incrementar la barra de progreso y reiniciar el contador
             commonUtils.incrementProgressBar(currentLine, totalLines);
             System.out.println("ESTADO: " + commonUtils.getProgressBar() + "%");
