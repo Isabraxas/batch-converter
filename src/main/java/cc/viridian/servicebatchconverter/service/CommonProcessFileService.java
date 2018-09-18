@@ -144,9 +144,9 @@ public class CommonProcessFileService {
                 //Operation
                 colSum += amountSize;
                 res = colSum + operationSize;
-                if(line.contains("DEBITO")){
+                if (line.contains("DEBITO")) {
                     res = colSum + "DEBITO".length();
-                }else {
+                } else {
                     res = colSum + "CREDITO".length();
                 }
                 String colOperation = line.substring(colSum, res);
