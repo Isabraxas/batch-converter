@@ -26,7 +26,7 @@ public class BatchConverterRun implements CommandLineRunner {
     private CommonUtils commonUtils = new CommonUtils();
     private String firtsParamPathFile = "";
     private FileInfoResponse fileInfoResponse;
-    private Userlog userlog = new Userlog();
+    private Userlog userlog ;
 
     @Override
     public void run(final String... args) throws Exception {
@@ -48,6 +48,7 @@ public class BatchConverterRun implements CommandLineRunner {
             }
             if (checkParameters(args)) {
                 try {
+                    userlog =new  Userlog(args[1].split("=")[1]);
                     String fileName = firtsParamPathFile.substring(firtsParamPathFile.lastIndexOf("/") + 1);
                     System.out.println("Reading file " + fileName + " ... ");
                     System.out.println("File path: " + firtsParamPathFile);
@@ -102,11 +103,27 @@ public class BatchConverterRun implements CommandLineRunner {
             if (params[0].contains("file.path")) {
                 isValid = true;
             } else {
-                log.error("The parameter is invalid");
+                log.error("The first parameter is invalid");
                 isValid = false;
             }
+
         } catch (Exception e) {
             log.error("The file.path parameter is required");
+            log.error(e.getMessage());
+            e.printStackTrace();
+        }
+
+        try {
+            String[] params = args[1].split("=");
+            if (params[0].contains("file.log.path")) {
+                isValid = true;
+            } else {
+                log.error("The seccond parameter is invalid");
+                isValid = false;
+            }
+
+        } catch (Exception e) {
+            log.error("The file.log.path parameter is required");
             log.error(e.getMessage());
             e.printStackTrace();
         }

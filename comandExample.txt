@@ -1,0 +1,3 @@
+java -jar target/service-batch-converter-0.1.9999.jar
+file.path=/home/isvar/Documents/statement/service-batch-converter/src/main/resources/files/Statement_2.prn
+file.log.path=/home/isvar/Documents/statement/service-batch-converter/src/main/resources/user/miLog.txt

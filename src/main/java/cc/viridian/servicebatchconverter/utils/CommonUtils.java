@@ -93,7 +93,7 @@ public class CommonUtils {
 
         operativSystem = getOperativSystem();
         System.out.println(operativSystem);
-        System.out.print(clear() + blue() + moveTo(100, 0));
+        System.out.print(clear() + blue() + moveTo(0, 0));
         System.out.println(" ____    _  _____ ____ _   _ ");
         System.out.println("| __ )  / \\|_   _/ ___| | | |");
         System.out.println("|  _ \\ / _ \\ | || |   | |_| |");
@@ -137,7 +137,8 @@ public class CommonUtils {
         if (currentLine == totalLines) {
             currentProgress = true;
         }
-        progressBar = String.valueOf((currentLine * 100) / totalLines);
+        Long percentage = (currentLine * 100) / totalLines;
+        progressBar = String.valueOf(percentage);
     }
 
     public String getProgressBar() {
