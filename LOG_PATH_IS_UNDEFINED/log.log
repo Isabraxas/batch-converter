@@ -1,0 +1,67 @@
+18-09-2018 19:41:08.468 [main] ERROR c.v.s.run.BatchConverterRun.checkParameters - The seccond parameter is invalid
+18-09-2018 19:41:08.494 [main] ERROR o.s.boot.SpringApplication.reportFailure - Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:803)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:784)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:338)
+	at cc.viridian.servicebatchconverter.ServiceBatchConverterApplication.main(ServiceBatchConverterApplication.java:14)
+Caused by: java.lang.NullPointerException: null
+	at cc.viridian.servicebatchconverter.run.BatchConverterRun.run(BatchConverterRun.java:94)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:800)
+	... 3 common frames omitted
+18-09-2018 19:42:04.252 [main] ERROR c.v.s.run.BatchConverterRun.checkParameters - The seccond parameter is invalid
+18-09-2018 19:42:04.295 [main] ERROR o.s.boot.SpringApplication.reportFailure - Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:803)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:784)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:338)
+	at cc.viridian.servicebatchconverter.ServiceBatchConverterApplication.main(ServiceBatchConverterApplication.java:14)
+Caused by: java.lang.NullPointerException: null
+	at cc.viridian.servicebatchconverter.run.BatchConverterRun.run(BatchConverterRun.java:94)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:800)
+	... 3 common frames omitted
+18-09-2018 19:43:29.802 [main] ERROR c.v.s.run.BatchConverterRun.checkParameters - The seccond parameter is invalid
+18-09-2018 19:43:29.841 [main] ERROR o.s.boot.SpringApplication.reportFailure - Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:803)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:784)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:338)
+	at cc.viridian.servicebatchconverter.ServiceBatchConverterApplication.main(ServiceBatchConverterApplication.java:14)
+Caused by: java.lang.NullPointerException: null
+	at cc.viridian.servicebatchconverter.run.BatchConverterRun.run(BatchConverterRun.java:94)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:800)
+	... 3 common frames omitted
+18-09-2018 19:44:47.478 [main] ERROR c.v.s.run.BatchConverterRun.checkParameters - The seccond parameter is invalid
+18-09-2018 19:44:47.518 [main] ERROR o.s.boot.SpringApplication.reportFailure - Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:803)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:784)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:338)
+	at cc.viridian.servicebatchconverter.ServiceBatchConverterApplication.main(ServiceBatchConverterApplication.java:14)
+Caused by: java.lang.NullPointerException: null
+	at cc.viridian.servicebatchconverter.run.BatchConverterRun.run(BatchConverterRun.java:94)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:800)
+	... 3 common frames omitted
+18-09-2018 19:45:05.905 [main] WARN  c.v.s.run.BatchConverterRun.run - The hash file matching with another file alredy processed hash --> 4dade435feb87937ae280999d49e0084
+18-09-2018 19:45:36.029 [main] ERROR c.v.s.run.BatchConverterRun.checkParameters - The file.log.path parameter is required
+18-09-2018 19:45:36.030 [main] ERROR c.v.s.run.BatchConverterRun.checkParameters - 1
+18-09-2018 19:45:36.035 [main] ERROR o.s.boot.SpringApplication.reportFailure - Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:803)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:784)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:338)
+	at cc.viridian.servicebatchconverter.ServiceBatchConverterApplication.main(ServiceBatchConverterApplication.java:14)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.boot.loader.MainMethodRunner.run(MainMethodRunner.java:48)
+	at org.springframework.boot.loader.Launcher.launch(Launcher.java:87)
+	at org.springframework.boot.loader.Launcher.launch(Launcher.java:50)
+	at org.springframework.boot.loader.JarLauncher.main(JarLauncher.java:51)
+Caused by: java.lang.ArrayIndexOutOfBoundsException: 1
+	at cc.viridian.servicebatchconverter.run.BatchConverterRun.run(BatchConverterRun.java:51)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:800)
+	... 11 common frames omitted
+18-09-2018 19:46:21.823 [main] WARN  c.v.s.run.BatchConverterRun.run - The hash file matching with another file alredy processed hash --> 4dade435feb87937ae280999d49e0084
+18-09-2018 19:47:27.330 [main] WARN  c.v.s.run.BatchConverterRun.run - The hash file matching with another file alredy processed hash --> 4dade435feb87937ae280999d49e0084
