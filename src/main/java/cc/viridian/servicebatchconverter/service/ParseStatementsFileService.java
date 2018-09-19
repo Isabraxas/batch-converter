@@ -33,6 +33,8 @@ public class ParseStatementsFileService {
     Long totalLines = 0L;
     Integer countStatements = 0;
     CommonUtils commonUtils = new CommonUtils();
+    Thread t;
+    long bytesRead = 0;
 
     public FileInfoResponse parseContent(final String filePath)
         throws FileNotFoundException, IOException, NoSuchAlgorithmException {
@@ -47,12 +49,19 @@ public class ParseStatementsFileService {
 
         HeaderPayload statementHeader = new HeaderPayload();
         totalLines = commonUtils.getFileLines(filePath);
-
+        final int[] i = {0};
         while ((line = b.readLine()) != null) {
+            bytesRead += line.length();
+
+                if (i[0] > 100) {
+                    CommonUtils.showPercentageByBytes(filePath, bytesRead);
+                    i[0] = 0;
+                }
+
 
             DetailPayload detail = new DetailPayload();
             currentLine++;
-            updateProgress();
+            //updateProgress();
             //System.out.print(", " + currentLine);
             try {
 
@@ -103,6 +112,8 @@ public class ParseStatementsFileService {
                 startReadDetails = false;
                 addHeader = true;
             }
+
+            i[0]++;
         }
 
         b.close();

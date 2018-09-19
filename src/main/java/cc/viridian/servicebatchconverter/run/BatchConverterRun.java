@@ -36,7 +36,7 @@ public class BatchConverterRun implements CommandLineRunner {
         System.out.println("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
         commonUtils.setTitle("BATCH CONVERTER");
         System.out.println("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
-        long init = System.currentTimeMillis();
+        long init = CommonUtils.getInitTime();
         userlog = new Userlog();
         appParams = checkParameters(args);
 
@@ -49,7 +49,6 @@ public class BatchConverterRun implements CommandLineRunner {
                 System.out.println("\nReading file " + fileName + " ... ");
                 System.out.println("File path: " + firtsParamPathFile);
                 userlog.setProcessedFile(fileName);
-                commonUtils.expectedTime(firtsParamPathFile);
                 //Make hash file and check if exist
                 String hashCodeFile = HashCode.getCodigoHash(firtsParamPathFile);
                 Boolean isSaved = this.statementHeaderService.existFileHash(hashCodeFile);
@@ -57,6 +56,7 @@ public class BatchConverterRun implements CommandLineRunner {
                 userlog.info("REPORT:");
                 if (!isSaved) {
                     userlog.info("The hash file not matching with any another processed file");
+                    //CommonUtils.processing();
                     fileInfoResponse = this.readStatementsFileService.readContent(firtsParamPathFile);
                     message = this.getReportStatus(fileInfoResponse);
                     userlog.info(message);
@@ -79,8 +79,7 @@ public class BatchConverterRun implements CommandLineRunner {
             log.error("The file.path parameter is required");
         }
 
-        long fin = System.currentTimeMillis();
-        long time = (fin - init);
+        long time = CommonUtils.getCurrentRunTime();
         userlog.info("Excecution time: " + time + " ms");
         System.out.println("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
         userlog.closeLog();
