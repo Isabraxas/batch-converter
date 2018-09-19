@@ -19,7 +19,6 @@ import java.util.List;
 @Service
 public class ReadStatementsFileService {
 
-
     @Autowired
     private ParseStatementsFileService parseStatementsFileService;
 
@@ -54,7 +53,7 @@ public class ReadStatementsFileService {
                     //Try fill the Header
                     try {
                         statementHeader = CommonProcessFileService.fillStatementAccountHeader(line, statementHeader);
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         System.out.println();
                         log.error("Error while reading the file on the line :" + currentLine
                                       + " account-code ---> " + statementHeader.getAccountCode());
@@ -74,7 +73,7 @@ public class ReadStatementsFileService {
                                 detailList.add(detail);
                             }
                         }
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         log.error("Error while reading the file on the line :" + currentLine
                                       + " account-code ---> " + statementHeader.getAccountCode());
                         fileInfoResponse.incrementErrorDetails();
