@@ -8,7 +8,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-
 /**
  * A common methods and utils for the data generator for the baku stadium example.
  *
@@ -20,9 +19,12 @@ public class CommonUtils {
     static final float BYTES_FILE = (float) 370460.00;
     static final long EXECUTION_TIME_FILE = 5006;
     static final int STATEMENTS = 10;
-
+    static long initTime = 0;
+    static long currentRunTime = 0;
     Boolean currentProgress;
     String progressBar = "[";
+
+    static Thread t = new Thread();
 
     ArrayList<HashMap<String, Object>> logicalReaders;
 
@@ -103,6 +105,7 @@ public class CommonUtils {
         System.out.println(black());
 
         System.out.print(moveTo(1, 9));
+        //System.out.print( red() + moveTo(10, 10)+ percent);
     }
 
     public void expectedTime(final String filepath) {
@@ -119,7 +122,7 @@ public class CommonUtils {
         float numRegs = currentFileBytes * (STATEMENTS / BYTES_FILE);
         long expectedTime = (long) ((Math.round(currentFileBytes) * EXECUTION_TIME_FILE) / BYTES_FILE);
 
-        System.out.println("Tiempo estimado " + expectedTime + "ms");
+        System.out.println("Expected Time " + expectedTime + "ms\n");
     }
 
     public Long getFileLines(final String filePath) throws IOException {
@@ -149,5 +152,38 @@ public class CommonUtils {
         return currentProgress;
     }
 
+    public static void showPercentageByBytes(String filePath, long myBytesRead) {
+        File file = new File(filePath);
+        long totalBytes = file.length();
+        long bytesRead = myBytesRead;
 
+        long percent = (bytesRead * 100L / totalBytes);
+
+        //System.out.print("PERCENT: ");
+            System.out.println(String.valueOf(percent) + "%");
+
+        long expectedTime = ((getCurrentRunTime() * totalBytes) / myBytesRead) - getCurrentRunTime();
+
+        System.out.println( expectedTime + " ms ");
+
+    }
+
+
+    public static long getInitTime() {
+        initTime = System.currentTimeMillis();
+        return initTime;
+    }
+
+    public void setInitTime(long initTime) {
+        this.initTime = initTime;
+    }
+
+    public static long getCurrentRunTime() {
+        currentRunTime = System.currentTimeMillis() - initTime;
+        return currentRunTime;
+    }
+
+    public void setEndTime(long endTime) {
+        this.currentRunTime = endTime;
+    }
 }

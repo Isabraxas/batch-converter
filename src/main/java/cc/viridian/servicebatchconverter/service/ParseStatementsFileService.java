@@ -33,6 +33,8 @@ public class ParseStatementsFileService {
     Long totalLines = 0L;
     Integer countStatements = 0;
     CommonUtils commonUtils = new CommonUtils();
+    Thread t;
+    long bytesRead = 0;
 
     public FileInfoResponse parseContent(final String filePath)
         throws FileNotFoundException, IOException, NoSuchAlgorithmException {
@@ -47,12 +49,19 @@ public class ParseStatementsFileService {
 
         HeaderPayload statementHeader = new HeaderPayload();
         totalLines = commonUtils.getFileLines(filePath);
-
+        final int[] i = {0};
         while ((line = b.readLine()) != null) {
+            bytesRead += line.length();
+
+                if (i[0] > 100) {
+                    CommonUtils.showPercentageByBytes(filePath, bytesRead);
+                    i[0] = 0;
+                }
+
 
             DetailPayload detail = new DetailPayload();
             currentLine++;
-            updateProgress();
+            //updateProgress();
             //System.out.print(", " + currentLine);
             try {
 
@@ -103,6 +112,8 @@ public class ParseStatementsFileService {
                 startReadDetails = false;
                 addHeader = true;
             }
+
+            i[0]++;
         }
 
         b.close();
@@ -111,10 +122,12 @@ public class ParseStatementsFileService {
     }
 
     private void updateProgress() {
-        if (currentLine.toString().equals(rateLines.toString()) || currentLine.toString().equals(totalLines.toString()) ) {
+        if (currentLine.toString().equals(rateLines.toString()) || currentLine.toString().equals(
+            totalLines.toString())) {
             //TODO llamar a la funcion util para incrementar la barra de progreso y reiniciar el contador
             commonUtils.incrementProgressBar(currentLine, totalLines);
-            System.out.println("ESTADO: " + commonUtils.getProgressBar() + "%");
+            System.out.print(" ");
+            System.out.print(commonUtils.getProgressBar() + "%");
             rateLines = currentLine + 11;
         }
     }
@@ -131,12 +144,14 @@ public class ParseStatementsFileService {
         statementHeader.setFileHash(hash);
 
         //Check if exist this details
-        detailList.stream().forEach(detailP -> {
-            if (statementDetailService.exist(detailP)) {
-                fileInfoResponse.incrementDuplicatedDetails();
-                log.warn("This detail already exist: " + detailP.toString());
-            }
-        });
+        if (statement.getHeader() != null) {
+            detailList.stream().forEach(detailP -> {
+                if (statementDetailService.exist(detailP)) {
+                    fileInfoResponse.incrementDuplicatedDetails();
+                    log.warn("This detail already exist: " + detailP.toString());
+                }
+            });
+        }
 
         //Check if this header is null
         if (statement.getHeader() != null) {

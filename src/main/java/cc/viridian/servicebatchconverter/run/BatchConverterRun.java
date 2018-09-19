@@ -5,6 +5,7 @@ import cc.viridian.servicebatchconverter.payload.FileInfoResponse;
 import cc.viridian.servicebatchconverter.service.ReadStatementsFileService;
 import cc.viridian.servicebatchconverter.service.StatementHeaderService;
 import cc.viridian.servicebatchconverter.utils.CommonUtils;
+import cc.viridian.servicebatchconverter.utils.FormatUtil;
 import cc.viridian.servicebatchconverter.writer.Userlog;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 
 @Slf4j
 @Service
@@ -26,107 +28,147 @@ public class BatchConverterRun implements CommandLineRunner {
     private CommonUtils commonUtils = new CommonUtils();
     private String firtsParamPathFile = "";
     private FileInfoResponse fileInfoResponse;
-    private Userlog userlog ;
+    private Userlog userlog;
+    HashMap<String, Object> appParams = new HashMap<>();
 
     @Override
     public void run(final String... args) throws Exception {
         System.out.println("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
         commonUtils.setTitle("BATCH CONVERTER");
         System.out.println("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
-        long init = System.currentTimeMillis();
+        long init = CommonUtils.getInitTime();
+        userlog = new Userlog();
+        appParams = checkParameters(args);
 
-        if (args.length > 0) {
+        if (appParams.size() > 0) {
             String message = "";
             try {
-                firtsParamPathFile = args[0].split("=")[1];
-                //firtsParamPathFile = "/home/isvar/Documents/statement/service-batch-converter" +
-                //  "/src/main/resources/files/Statement_2.prn";
-            } catch (Exception e) {
-                log.error("Error format in file.path parameter");
-                log.error(e.getMessage());
-                e.printStackTrace();
-            }
-            if (checkParameters(args)) {
-                try {
-                    userlog =new  Userlog(args[1].split("=")[1]);
-                    String fileName = firtsParamPathFile.substring(firtsParamPathFile.lastIndexOf("/") + 1);
-                    System.out.println("Reading file " + fileName + " ... ");
-                    System.out.println("File path: " + firtsParamPathFile);
-                    userlog.setProcessedFile(fileName);
-                    commonUtils.expectedTime(firtsParamPathFile);
-                    //Make hash file and check if exist
-                    String hashCodeFile = HashCode.getCodigoHash(firtsParamPathFile);
-                    Boolean isSaved = this.statementHeaderService.existFileHash(hashCodeFile);
-                    if (!isSaved) {
-                        fileInfoResponse = this.readStatementsFileService.readContent(firtsParamPathFile);
-                        message = "The hash file not matching with any another record \n"
-                            + "but there are " + fileInfoResponse.getDuplicatedHeaders() + " duplicate headers,"
-                            + " " + fileInfoResponse.getErrorsHeaders() + " errors headers, "
-                            + " " + fileInfoResponse.getInsertedHeaders() + " inserts headers \n"
-                            + " with " + fileInfoResponse.getDuplicatedDetails() + " duplicate details,"
-                            + " " + fileInfoResponse.getErrorsDetails() + " errors details, "
-                            + " " + fileInfoResponse.getInsertedDetails() + " inserts details \n";
-                        userlog.info(message);
-                    } else {
-                        //TODO hacer la funcion para logs del usuario en la app
-                        log.warn("The hash file matching with another file alredy processed hash --> " + hashCodeFile);
-                        message = "The hash file matching with another file alredy processed";
-                        userlog.info(message);
-                    }
+                firtsParamPathFile = (String) appParams.get("file.path");
 
-                    System.out.println(message);
-                } catch (FileNotFoundException e) {
-                    log.error("File not found " + firtsParamPathFile);
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (NoSuchAlgorithmException e) {
-                    e.printStackTrace();
+                String fileName = firtsParamPathFile.substring(firtsParamPathFile.lastIndexOf("/") + 1);
+                System.out.println("\nReading file " + fileName + " ... ");
+                System.out.println("File path: " + firtsParamPathFile);
+                userlog.setProcessedFile(fileName);
+                //Make hash file and check if exist
+                String hashCodeFile = HashCode.getCodigoHash(firtsParamPathFile);
+                Boolean isSaved = this.statementHeaderService.existFileHash(hashCodeFile);
+
+                userlog.info("REPORT:");
+                if (!isSaved) {
+                    userlog.info("The hash file not matching with any another processed file");
+                    //CommonUtils.processing();
+                    fileInfoResponse = this.readStatementsFileService.readContent(firtsParamPathFile);
+                    message = this.getReportStatus(fileInfoResponse);
+                    userlog.info(message);
+                } else {
+                    //TODO hacer la funcion para logs del usuario en la app
+                    message = "The hash file matching with another file alredy processed hash --> " + hashCodeFile;
+                    log.warn(message);
+                    userlog.info(message);
                 }
+            } catch (FileNotFoundException e) {
+                log.error("File not found " + firtsParamPathFile);
+                userlog.info("File not found " + firtsParamPathFile);
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
             }
         } else {
             log.error("The file.path parameter is required");
         }
 
-        long fin = System.currentTimeMillis();
-        long time = (fin - init);
-        System.out.println("Excecution time: " + time + " ms");
+        long time = CommonUtils.getCurrentRunTime();
         userlog.info("Excecution time: " + time + " ms");
         System.out.println("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
         userlog.closeLog();
     }
 
-    private Boolean checkParameters(final String[] args) {
-        Boolean isValid = false;
-        try {
-            String[] params = args[0].split("=");
-            if (params[0].contains("file.path")) {
-                isValid = true;
-            } else {
-                log.error("The first parameter is invalid");
-                isValid = false;
+    private HashMap<String, Object> checkParameters(final String[] args) throws IOException {
+
+        HashMap<String, Object> hasParams = new HashMap<>();
+
+        for (int i = 0; i < args.length; i++) {
+            String[] params = args[i].split("=");
+            switch (params[0]) {
+                case "--file.log.path":
+                    try {
+                        if (params[0].contains("--file.log.path")) {
+                            hasParams.put("file.log.path", params[1]);
+                            userlog = new Userlog((String) hasParams.get("file.log.path"));
+                            userlog.info("New file path to save user log : " + (String) hasParams.get("file.log.path"));
+                        } else {
+                            log.error("The seccond parameter is invalid");
+                            userlog.info("The seccond parameter is invalid");
+                        }
+                    } catch (Exception e) {
+                        log.error("The file.log.path parameter is required");
+                        log.error(e.getMessage());
+                        e.printStackTrace();
+                    }
+                    break;
+
+                default:
+                    try {
+                        if (params[0].contains("--file.path") && i == 0) {
+                            hasParams.put("file.path", params[1]);
+                        } else {
+                            log.error("The first parameter is invalid");
+                            userlog.info("The first parameter is invalid");
+                        }
+                    } catch (Exception e) {
+                        log.error("The file.path parameter is required");
+                        log.error(e.getMessage());
+                        e.printStackTrace();
+                    }
+                    break;
             }
-
-        } catch (Exception e) {
-            log.error("The file.path parameter is required");
-            log.error(e.getMessage());
-            e.printStackTrace();
         }
+        return hasParams;
+    }
 
-        try {
-            String[] params = args[1].split("=");
-            if (params[0].contains("file.log.path")) {
-                isValid = true;
-            } else {
-                log.error("The seccond parameter is invalid");
-                isValid = false;
-            }
+    private String getReportStatus(final FileInfoResponse response) {
+        String message = "";
+        Integer newsHeaders = response.getInsertedHeaders() - response.getDuplicatedHeaders();
+        Integer newsDetails = response.getInsertedDetails() - response.getDuplicatedDetails();
+        int statemetCol = 20, headersCol = 20, detailsCol = 20;
 
-        } catch (Exception e) {
-            log.error("The file.log.path parameter is required");
-            log.error(e.getMessage());
-            e.printStackTrace();
-        }
-        return isValid;
+        message += String.valueOf(FormatUtil.returnDelimArray("Statement", statemetCol));
+        message += String.valueOf(FormatUtil.returnDelimArray("Headers", headersCol));
+        message += String.valueOf(FormatUtil.returnDelimArray("Details", detailsCol)) + "\n";
+
+        message += String.valueOf(FormatUtil.returnDelimArray("News", statemetCol));
+        message += String.valueOf(FormatUtil.returnDelimArray(newsHeaders.toString(), headersCol));
+        message += String.valueOf(FormatUtil.returnDelimArray(newsDetails.toString(), detailsCol)) + "\n";
+
+        message += String.valueOf(FormatUtil.returnDelimArray("Duplicates", statemetCol));
+        message += String.valueOf(FormatUtil.returnDelimArray(response.getDuplicatedHeaders().toString(), headersCol));
+        message += String.valueOf(
+            FormatUtil.returnDelimArray(response.getDuplicatedDetails().toString(), detailsCol)) + "\n";
+
+        message += "---------------------------------------------------------\n";
+
+        message += String.valueOf(FormatUtil.returnDelimArray("TOTAL", statemetCol));
+        message += String.valueOf(FormatUtil.returnDelimArray(response.getInsertedHeaders().toString(), headersCol));
+        message += String.valueOf(
+            FormatUtil.returnDelimArray(response.getInsertedDetails().toString(), detailsCol)) + "\n";
+
+        message += this.getReportErros(response);
+
+        return message;
+    }
+
+    private String getReportErros(final FileInfoResponse response) {
+        String message = "";
+        int statemetCol = 20, headersCol = 20, detailsCol = 20;
+
+        message += "\n";
+        message += String.valueOf(FormatUtil.returnDelimArray("Errros", statemetCol));
+        message += String.valueOf(FormatUtil.returnDelimArray(response.getErrorsHeaders().toString(), headersCol));
+        message += String.valueOf(
+            FormatUtil.returnDelimArray(response.getErrorsDetails().toString(), detailsCol)) + "\n";
+
+        return message;
     }
 }
