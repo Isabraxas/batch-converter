@@ -119,7 +119,7 @@ public class CommonUtils {
         float numRegs = currentFileBytes * (STATEMENTS / BYTES_FILE);
         long expectedTime = (long) ((Math.round(currentFileBytes) * EXECUTION_TIME_FILE) / BYTES_FILE);
 
-        System.out.println("Tiempo estimado " + expectedTime + "ms");
+        System.out.println("Expected Time " + expectedTime + "ms\n");
     }
 
     public Long getFileLines(final String filePath) throws IOException {

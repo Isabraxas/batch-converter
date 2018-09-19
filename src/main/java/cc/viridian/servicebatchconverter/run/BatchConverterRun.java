@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 
 @Slf4j
 @Service
@@ -28,6 +29,7 @@ public class BatchConverterRun implements CommandLineRunner {
     private String firtsParamPathFile = "";
     private FileInfoResponse fileInfoResponse;
     private Userlog userlog;
+    HashMap<String, Object> appParams = new HashMap<>();
 
     @Override
     public void run(final String... args) throws Exception {
@@ -35,48 +37,43 @@ public class BatchConverterRun implements CommandLineRunner {
         commonUtils.setTitle("BATCH CONVERTER");
         System.out.println("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
         long init = System.currentTimeMillis();
+        userlog = new Userlog();
+        appParams = checkParameters(args);
 
-        if (args.length > 0) {
+        if (appParams.size() > 0) {
             String message = "";
             try {
-                firtsParamPathFile = args[0].split("=")[1];
-                //firtsParamPathFile = "/home/isvar/Documents/statement/service-batch-converter" +
-                //  "/src/main/resources/files/Statement_2.prn";
-            } catch (Exception e) {
-                log.error("Error format in file.path parameter");
-                log.error(e.getMessage());
-                e.printStackTrace();
-            }
-            if (checkParameters(args)) {
-                try {
-                    userlog = new Userlog();
-                    String fileName = firtsParamPathFile.substring(firtsParamPathFile.lastIndexOf("/") + 1);
-                    System.out.println("Reading file " + fileName + " ... ");
-                    System.out.println("File path: " + firtsParamPathFile);
-                    userlog.setProcessedFile(fileName);
-                    commonUtils.expectedTime(firtsParamPathFile);
-                    //Make hash file and check if exist
-                    String hashCodeFile = HashCode.getCodigoHash(firtsParamPathFile);
-                    Boolean isSaved = this.statementHeaderService.existFileHash(hashCodeFile);
-                    if (!isSaved) {
-                        userlog.info("The hash file not matching with any another processed file");
-                        fileInfoResponse = this.readStatementsFileService.readContent(firtsParamPathFile);
-                        message = this.getReportStatus(fileInfoResponse);
-                        userlog.info(message);
-                    } else {
-                        //TODO hacer la funcion para logs del usuario en la app
-                        message = "The hash file matching with another file alredy processed hash --> " + hashCodeFile;
-                        log.warn(message);
-                        userlog.info(message);
-                    }
-                } catch (FileNotFoundException e) {
-                    log.error("File not found " + firtsParamPathFile);
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (NoSuchAlgorithmException e) {
-                    e.printStackTrace();
+                firtsParamPathFile = (String) appParams.get("file.path");
+
+                String fileName = firtsParamPathFile.substring(firtsParamPathFile.lastIndexOf("/") + 1);
+                System.out.println("\nReading file " + fileName + " ... ");
+                System.out.println("File path: " + firtsParamPathFile);
+                userlog.setProcessedFile(fileName);
+                commonUtils.expectedTime(firtsParamPathFile);
+                //Make hash file and check if exist
+                String hashCodeFile = HashCode.getCodigoHash(firtsParamPathFile);
+                Boolean isSaved = this.statementHeaderService.existFileHash(hashCodeFile);
+
+                userlog.info("REPORT:");
+                if (!isSaved) {
+                    userlog.info("The hash file not matching with any another processed file");
+                    fileInfoResponse = this.readStatementsFileService.readContent(firtsParamPathFile);
+                    message = this.getReportStatus(fileInfoResponse);
+                    userlog.info(message);
+                } else {
+                    //TODO hacer la funcion para logs del usuario en la app
+                    message = "The hash file matching with another file alredy processed hash --> " + hashCodeFile;
+                    log.warn(message);
+                    userlog.info(message);
                 }
+            } catch (FileNotFoundException e) {
+                log.error("File not found " + firtsParamPathFile);
+                userlog.info("File not found " + firtsParamPathFile);
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
             }
         } else {
             log.error("The file.path parameter is required");
@@ -89,36 +86,47 @@ public class BatchConverterRun implements CommandLineRunner {
         userlog.closeLog();
     }
 
-    private Boolean checkParameters(final String[] args) {
-        Boolean isValid = false;
-        try {
-            String[] params = args[0].split("=");
-            if (params[0].contains("file.path")) {
-                isValid = true;
-            } else {
-                log.error("The first parameter is invalid");
-                isValid = false;
-            }
-        } catch (Exception e) {
-            log.error("The file.path parameter is required");
-            log.error(e.getMessage());
-            e.printStackTrace();
-        }
+    private HashMap<String, Object> checkParameters(final String[] args) throws IOException {
 
-        try {
-            String[] params = args[1].split("=");
-            if (params[0].contains("file.log.path")) {
-                isValid = true;
-            } else {
-                log.error("The seccond parameter is invalid");
-                isValid = false;
+        HashMap<String, Object> hasParams = new HashMap<>();
+
+        for (int i = 0; i < args.length; i++) {
+            String[] params = args[i].split("=");
+            switch (params[0]) {
+                case "--file.log.path":
+                    try {
+                        if (params[0].contains("--file.log.path")) {
+                            hasParams.put("file.log.path", params[1]);
+                            userlog = new Userlog((String) hasParams.get("file.log.path"));
+                            userlog.info("New file path to save user log : " + (String) hasParams.get("file.log.path"));
+                        } else {
+                            log.error("The seccond parameter is invalid");
+                            userlog.info("The seccond parameter is invalid");
+                        }
+                    } catch (Exception e) {
+                        log.error("The file.log.path parameter is required");
+                        log.error(e.getMessage());
+                        e.printStackTrace();
+                    }
+                    break;
+
+                default:
+                    try {
+                        if (params[0].contains("--file.path") && i == 0) {
+                            hasParams.put("file.path", params[1]);
+                        } else {
+                            log.error("The first parameter is invalid");
+                            userlog.info("The first parameter is invalid");
+                        }
+                    } catch (Exception e) {
+                        log.error("The file.path parameter is required");
+                        log.error(e.getMessage());
+                        e.printStackTrace();
+                    }
+                    break;
             }
-        } catch (Exception e) {
-            log.error("The file.log.path parameter is required");
-            log.error(e.getMessage());
-            e.printStackTrace();
         }
-        return isValid;
+        return hasParams;
     }
 
     private String getReportStatus(final FileInfoResponse response) {

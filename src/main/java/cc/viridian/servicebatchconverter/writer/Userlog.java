@@ -32,8 +32,7 @@ public class Userlog {
             }
         }
 
-        String encoding = "UTF-8";
-        System.out.println("Working directory - save file: " + filePath);
+        System.out.println("Default file path to save user log : " + filePath);
 
         try {
             FileWriter fileWriter = new FileWriter(userLogFile, true);
@@ -48,14 +47,23 @@ public class Userlog {
     }
 
     public Userlog(final String filePath) {
-        LocalDate localDate = LocalDate.now();
-        String encoding = "UTF-8";
-        int i = 1;
+        File userLogFile = new File(filePath);
+        if (!userLogFile.exists()) {
+            try {
+                userLogFile.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         try {
-            writer = new PrintWriter(filePath, encoding);
+            FileWriter fileWriter = new FileWriter(userLogFile, true);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            writer = new PrintWriter(bufferedWriter);
+            writer.println();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
