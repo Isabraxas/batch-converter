@@ -1,6 +1,7 @@
 /target/
 dist/
 .mvn/
+LOG_PATH_IS_UNDEFINED/
 
 !.mvn/wrapper/maven-wrapper.jar
 
