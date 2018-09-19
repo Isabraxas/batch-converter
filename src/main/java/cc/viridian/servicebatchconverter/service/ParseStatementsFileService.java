@@ -29,7 +29,7 @@ public class ParseStatementsFileService {
     private StatementDetailService statementDetailService;
 
     Long currentLine = 0L;
-    Long rateLines = currentLine + 10L;
+    Long rateLines = 10L;
     Long totalLines = 0L;
     Integer countStatements = 0;
     CommonUtils commonUtils = new CommonUtils();
@@ -111,11 +111,11 @@ public class ParseStatementsFileService {
     }
 
     private void updateProgress() {
-        if (currentLine == rateLines ) {
+        if (currentLine.toString().equals(rateLines.toString()) || currentLine.toString().equals(totalLines.toString()) ) {
             //TODO llamar a la funcion util para incrementar la barra de progreso y reiniciar el contador
             commonUtils.incrementProgressBar(currentLine, totalLines);
             System.out.println("ESTADO: " + commonUtils.getProgressBar() + "%");
-            rateLines = currentLine + 10;
+            rateLines = currentLine + 11;
         }
     }
 
