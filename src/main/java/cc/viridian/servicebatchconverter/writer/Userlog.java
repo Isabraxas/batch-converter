@@ -38,6 +38,7 @@ public class Userlog {
             FileWriter fileWriter = new FileWriter(userLogFile, true);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             writer = new PrintWriter(bufferedWriter);
+            writer.println();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (Exception e) {
@@ -69,7 +70,7 @@ public class Userlog {
     }
 
     public void closeLog() throws IOException {
-        writer.println("----------------------------------------------------");
+        writer.println("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
         writer.close();
     }
 
