@@ -48,7 +48,7 @@ public class BatchConverterRun implements CommandLineRunner {
             }
             if (checkParameters(args)) {
                 try {
-                    userlog = new Userlog(args[1].split("=")[1]);
+                    userlog = new Userlog();
                     String fileName = firtsParamPathFile.substring(firtsParamPathFile.lastIndexOf("/") + 1);
                     System.out.println("Reading file " + fileName + " ... ");
                     System.out.println("File path: " + firtsParamPathFile);
@@ -58,9 +58,9 @@ public class BatchConverterRun implements CommandLineRunner {
                     String hashCodeFile = HashCode.getCodigoHash(firtsParamPathFile);
                     Boolean isSaved = this.statementHeaderService.existFileHash(hashCodeFile);
                     if (!isSaved) {
+                        userlog.info("The hash file not matching with any another record");
                         fileInfoResponse = this.readStatementsFileService.readContent(firtsParamPathFile);
-                        message = "The hash file not matching with any another record \n"
-                            + "but there are " + fileInfoResponse.getDuplicatedHeaders() + " duplicate headers,"
+                        message = "There are " + fileInfoResponse.getDuplicatedHeaders() + " duplicate headers,"
                             + " " + fileInfoResponse.getErrorsHeaders() + " errors headers, "
                             + " " + fileInfoResponse.getInsertedHeaders() + " inserts headers \n"
                             + " with " + fileInfoResponse.getDuplicatedDetails() + " duplicate details,"
@@ -69,12 +69,11 @@ public class BatchConverterRun implements CommandLineRunner {
                         userlog.info(message);
                     } else {
                         //TODO hacer la funcion para logs del usuario en la app
-                        log.warn("The hash file matching with another file alredy processed hash --> " + hashCodeFile);
-                        message = "The hash file matching with another file alredy processed";
+                        message = "The hash file matching with another file alredy processed hash --> " + hashCodeFile;
+                        log.warn(message);
                         userlog.info(message);
                     }
 
-                    System.out.println(message);
                 } catch (FileNotFoundException e) {
                     log.error("File not found " + firtsParamPathFile);
                     e.printStackTrace();
@@ -90,7 +89,6 @@ public class BatchConverterRun implements CommandLineRunner {
 
         long fin = System.currentTimeMillis();
         long time = (fin - init);
-        System.out.println("Excecution time: " + time + " ms");
         userlog.info("Excecution time: " + time + " ms");
         System.out.println("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
         userlog.closeLog();

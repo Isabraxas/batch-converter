@@ -1,45 +1,46 @@
 package cc.viridian.servicebatchconverter.writer;
 
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.net.URL;
+
 import java.time.LocalDate;
 
 public class Userlog {
 
-    URL fileResource;
+    String fileResource;
     private static PrintWriter writer;
 
     public Userlog() {
-        fileResource = this.getClass().getResource("/user/base.txt");
+        fileResource = System.getProperty("user.dir");
         LocalDate localDate = LocalDate.now();
         String filePath;
-        /*
-        String fileName = "Statement" + ".txt";
-        filePath = fileResource.getPath()
-                                      .substring(0, fileResource.getPath().lastIndexOf("/") + 1);
-        String[] filePathParts = filePath.split("/");
-        int i=0;
-        int f=0;
-        String tmpFilePath = "";
-        while (f < 4){
-            if(filePathParts[f].length() > 1) {
-                tmpFilePath = tmpFilePath + "/" + filePathParts[f];
+        filePath = fileResource + "/" + localDate + ".txt";
+        File userLogFile =new File(filePath);
+        if(!userLogFile.exists()){
+            try {
+                userLogFile.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            f++;
         }
-        filePath = tmpFilePath +"/"+ localDate + ".txt";
-        */
-        filePath = fileResource.getPath();
+
+
         String encoding = "UTF-8";
+        System.out.println("Working directory - save file: " + filePath);
 
         try {
-            writer = new PrintWriter(filePath, encoding);
+            FileWriter fileWriter = new FileWriter(userLogFile, true);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            writer = new PrintWriter(bufferedWriter);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -64,9 +65,11 @@ public class Userlog {
     public void info(final String message) throws IOException {
         LocalDate localDate = LocalDate.now();
         writer.println(localDate + " - " + message);
+        System.out.println(message);
     }
 
     public void closeLog() throws IOException {
+        writer.println("----------------------------------------------------");
         writer.close();
     }
 
