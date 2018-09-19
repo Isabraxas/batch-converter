@@ -10,6 +10,7 @@ import org.apache.cayenne.DataRow;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.Objects;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -85,5 +86,26 @@ public class HeaderPayload {
                 this.id = ((Integer) value);
             }
         });
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        HeaderPayload that = (HeaderPayload) o;
+        return Objects.equals(accountCode, that.accountCode) &&
+            Objects.equals(customerCode, that.customerCode) &&
+            Objects.equals(dateFrom, that.dateFrom) &&
+            Objects.equals(dateTo, that.dateTo);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(accountCode, customerCode, dateFrom, dateTo);
     }
 }

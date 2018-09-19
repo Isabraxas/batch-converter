@@ -39,6 +39,8 @@ public class ReadStatementsFileService {
         Boolean fileIsFine = true;
 
         HeaderPayload statementHeader = new HeaderPayload();
+        HeaderPayload errorHeader = new HeaderPayload();
+        int countErrorHeader = 0;
 
         while ((line = b.readLine()) != null) {
 
@@ -50,22 +52,15 @@ public class ReadStatementsFileService {
 
                     //System.out.println(line);
 
-                    //Try fill the Header
                     try {
+                        //Try fill the Header
                         statementHeader = CommonProcessFileService.fillStatementAccountHeader(line, statementHeader);
-                    } catch (Exception e) {
-                        System.out.println();
-                        log.error("Error while reading the file on the line :" + currentLine
-                                      + " account-code ---> " + statementHeader.getAccountCode());
-                        fileInfoResponse.incrementErrorHeaders();
-                    }
 
-                    //Set size columns and return if start read details lines
-                    startReadDetails = CommonProcessFileService
-                        .setSizeColumnsOfStatementAccountDetailHeader(line, startReadDetails);
+                        //Set size columns and return if start read details lines
+                        startReadDetails = CommonProcessFileService
+                            .setSizeColumnsOfStatementAccountDetailHeader(line, startReadDetails);
 
-                    //Fill statement details
-                    try {
+                        //Fill statement details
                         if (startReadDetails) {
                             detail = CommonProcessFileService
                                 .fillStatementDetailAccountRecord(line, detail, statementHeader);
@@ -77,6 +72,10 @@ public class ReadStatementsFileService {
                         log.error("Error while reading the file on the line :" + currentLine
                                       + " account-code ---> " + statementHeader.getAccountCode());
                         fileInfoResponse.incrementErrorDetails();
+                        if (!errorHeader.equals(statementHeader)){
+                            fileInfoResponse.incrementErrorHeaders();
+                            errorHeader = statementHeader;
+                        }
                     }
 
                     //Set Total amount

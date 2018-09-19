@@ -1,5 +1,6 @@
 package cc.viridian.servicebatchconverter.writer;
 
+import cc.viridian.servicebatchconverter.utils.FormatUtil;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -10,6 +11,7 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Userlog {
 
@@ -21,15 +23,14 @@ public class Userlog {
         LocalDate localDate = LocalDate.now();
         String filePath;
         filePath = fileResource + "/" + localDate + ".txt";
-        File userLogFile =new File(filePath);
-        if(!userLogFile.exists()){
+        File userLogFile = new File(filePath);
+        if (!userLogFile.exists()) {
             try {
                 userLogFile.createNewFile();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-
 
         String encoding = "UTF-8";
         System.out.println("Working directory - save file: " + filePath);
@@ -60,12 +61,19 @@ public class Userlog {
     }
 
     public void setProcessedFile(final String fileName) throws IOException {
-        writer.println(fileName);
+        LocalDateTime localDateTime = LocalDateTime.now();
+        String dateline="Date: " + localDateTime;
+        int colsize=30;
+
+        writer.println("  ------------------------------");
+        writer.println("| "+ String.valueOf(FormatUtil.returnDelimArray(dateline, colsize)) + " |");
+        writer.println("  ------------------------------");
+        writer.println("*** File name: " + fileName + " ***");
+        writer.println();
     }
 
     public void info(final String message) throws IOException {
-        LocalDate localDate = LocalDate.now();
-        writer.println(localDate + " - " + message);
+        writer.println( message);
         System.out.println(message);
     }
 

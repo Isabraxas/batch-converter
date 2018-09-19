@@ -59,7 +59,7 @@ public class BatchConverterRun implements CommandLineRunner {
                     String hashCodeFile = HashCode.getCodigoHash(firtsParamPathFile);
                     Boolean isSaved = this.statementHeaderService.existFileHash(hashCodeFile);
                     if (!isSaved) {
-                        userlog.info("The hash file not matching with any another record");
+                        userlog.info("The hash file not matching with any another processed file");
                         fileInfoResponse = this.readStatementsFileService.readContent(firtsParamPathFile);
                         message = this.getReportStatus(fileInfoResponse);
                         userlog.info(message);
@@ -69,7 +69,6 @@ public class BatchConverterRun implements CommandLineRunner {
                         log.warn(message);
                         userlog.info(message);
                     }
-
                 } catch (FileNotFoundException e) {
                     log.error("File not found " + firtsParamPathFile);
                     e.printStackTrace();
@@ -122,38 +121,47 @@ public class BatchConverterRun implements CommandLineRunner {
         return isValid;
     }
 
-    private String getReportStatus(final FileInfoResponse response){
-        String message ="";
+    private String getReportStatus(final FileInfoResponse response) {
+        String message = "";
         Integer newsHeaders = response.getInsertedHeaders() - response.getDuplicatedHeaders();
         Integer newsDetails = response.getInsertedDetails() - response.getDuplicatedDetails();
         int statemetCol = 20, headersCol = 20, detailsCol = 20;
 
-        message+= String.valueOf(FormatUtil.returnDelimArray("Statement", statemetCol));
-        message+= String.valueOf(FormatUtil.returnDelimArray("Headers", headersCol));
-        message+= String.valueOf(FormatUtil.returnDelimArray("Details", detailsCol))+"\n";
+        message += String.valueOf(FormatUtil.returnDelimArray("Statement", statemetCol));
+        message += String.valueOf(FormatUtil.returnDelimArray("Headers", headersCol));
+        message += String.valueOf(FormatUtil.returnDelimArray("Details", detailsCol)) + "\n";
 
-        message+= String.valueOf(FormatUtil.returnDelimArray("News", statemetCol));
-        message+= String.valueOf(FormatUtil.returnDelimArray(newsHeaders.toString(), headersCol));
-        message+= String.valueOf(FormatUtil.returnDelimArray(newsDetails.toString(), detailsCol))+"\n";
+        message += String.valueOf(FormatUtil.returnDelimArray("News", statemetCol));
+        message += String.valueOf(FormatUtil.returnDelimArray(newsHeaders.toString(), headersCol));
+        message += String.valueOf(FormatUtil.returnDelimArray(newsDetails.toString(), detailsCol)) + "\n";
 
-        message+= String.valueOf(FormatUtil.returnDelimArray("Duplicates", statemetCol));
-        message+= String.valueOf(FormatUtil.returnDelimArray(response.getDuplicatedHeaders().toString(), headersCol));
-        message+= String.valueOf(FormatUtil.returnDelimArray(response.getDuplicatedDetails().toString(), detailsCol))+"\n";
+        message += String.valueOf(FormatUtil.returnDelimArray("Duplicates", statemetCol));
+        message += String.valueOf(FormatUtil.returnDelimArray(response.getDuplicatedHeaders().toString(), headersCol));
+        message += String.valueOf(
+            FormatUtil.returnDelimArray(response.getDuplicatedDetails().toString(), detailsCol)) + "\n";
 
-        message +="---------------------------------------------------------\n";
+        message += "---------------------------------------------------------\n";
 
-        message+= String.valueOf(FormatUtil.returnDelimArray("TOTAL", statemetCol));
-        message+= String.valueOf(FormatUtil.returnDelimArray(response.getInsertedHeaders().toString(), headersCol));
-        message+= String.valueOf(FormatUtil.returnDelimArray(response.getInsertedDetails().toString(), detailsCol))+"\n";
+        message += String.valueOf(FormatUtil.returnDelimArray("TOTAL", statemetCol));
+        message += String.valueOf(FormatUtil.returnDelimArray(response.getInsertedHeaders().toString(), headersCol));
+        message += String.valueOf(
+            FormatUtil.returnDelimArray(response.getInsertedDetails().toString(), detailsCol)) + "\n";
 
-        message +="\n";
-
-        message+= String.valueOf(FormatUtil.returnDelimArray("Errros", statemetCol));
-        message+= String.valueOf(FormatUtil.returnDelimArray(response.getErrorsHeaders().toString(), headersCol));
-        message+= String.valueOf(FormatUtil.returnDelimArray(response.getErrorsDetails().toString(), detailsCol))+"\n";
+        message += this.getReportErros(response);
 
         return message;
     }
 
+    private String getReportErros(final FileInfoResponse response) {
+        String message = "";
+        int statemetCol = 20, headersCol = 20, detailsCol = 20;
 
+        message += "\n";
+        message += String.valueOf(FormatUtil.returnDelimArray("Errros", statemetCol));
+        message += String.valueOf(FormatUtil.returnDelimArray(response.getErrorsHeaders().toString(), headersCol));
+        message += String.valueOf(
+            FormatUtil.returnDelimArray(response.getErrorsDetails().toString(), detailsCol)) + "\n";
+
+        return message;
+    }
 }

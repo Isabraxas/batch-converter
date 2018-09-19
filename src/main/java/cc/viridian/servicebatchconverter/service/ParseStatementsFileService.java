@@ -133,12 +133,14 @@ public class ParseStatementsFileService {
         statementHeader.setFileHash(hash);
 
         //Check if exist this details
-        detailList.stream().forEach(detailP -> {
-            if (statementDetailService.exist(detailP)) {
-                fileInfoResponse.incrementDuplicatedDetails();
-                log.warn("This detail already exist: " + detailP.toString());
-            }
-        });
+        if (statement.getHeader() != null) {
+            detailList.stream().forEach(detailP -> {
+                if (statementDetailService.exist(detailP)) {
+                    fileInfoResponse.incrementDuplicatedDetails();
+                    log.warn("This detail already exist: " + detailP.toString());
+                }
+            });
+        }
 
         //Check if this header is null
         if (statement.getHeader() != null) {
