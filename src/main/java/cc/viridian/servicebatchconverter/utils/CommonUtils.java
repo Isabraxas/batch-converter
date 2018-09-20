@@ -152,7 +152,7 @@ public class CommonUtils {
         return currentProgress;
     }
 
-    public static void showPercentageByBytes(String filePath, long myBytesRead) {
+    public static void showPercentageByBytes(final String filePath, final long myBytesRead) {
         File file = new File(filePath);
         long totalBytes = file.length();
         long bytesRead = myBytesRead;
@@ -160,14 +160,12 @@ public class CommonUtils {
         long percent = (bytesRead * 100L / totalBytes);
 
         //System.out.print("PERCENT: ");
-            System.out.println(String.valueOf(percent) + "%");
+        System.out.println(String.valueOf(percent) + "%");
 
         long expectedTime = ((getCurrentRunTime() * totalBytes) / myBytesRead) - getCurrentRunTime();
 
-        System.out.println( expectedTime + " ms ");
-
+        System.out.println(expectedTime + " ms ");
     }
-
 
     public static long getInitTime() {
         initTime = System.currentTimeMillis();

@@ -4,11 +4,9 @@ import cc.viridian.servicebatchconverter.utils.FormatUtil;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -70,18 +68,18 @@ public class Userlog {
 
     public void setProcessedFile(final String fileName) throws IOException {
         LocalDateTime localDateTime = LocalDateTime.now();
-        String dateline="Date: " + localDateTime;
-        int colsize=30;
+        String dateline = "Date: " + localDateTime;
+        int colsize = 30;
 
         writer.println("  ------------------------------");
-        writer.println("| "+ String.valueOf(FormatUtil.returnDelimArray(dateline, colsize)) + " |");
+        writer.println("| " + String.valueOf(FormatUtil.returnDelimArray(dateline, colsize)) + " |");
         writer.println("  ------------------------------");
         writer.println("*** File name: " + fileName + " ***");
         writer.println();
     }
 
     public void info(final String message) throws IOException {
-        writer.println( message);
+        writer.println(message);
         System.out.println(message);
     }
 
