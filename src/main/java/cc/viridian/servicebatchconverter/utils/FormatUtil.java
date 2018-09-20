@@ -36,7 +36,7 @@ public class FormatUtil {
         return localDateTime;
     }
 
-    public static char[] returnDelimArray(String string, int sizeArray) {
+    public static char[] returnDelimArray(final String string, final int sizeArray) {
         char[] charArray = new char[sizeArray];
         int i = 0;
 
