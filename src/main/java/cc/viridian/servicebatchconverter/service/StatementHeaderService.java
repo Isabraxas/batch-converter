@@ -29,8 +29,8 @@ public class StatementHeaderService {
         return count;
     }
 
-    public Integer insertOneInToDatabase(final HeaderPayload headerPayload
-        , final List<DetailPayload> detailPayloadList) {
+    public Integer insertOneInToDatabase(final HeaderPayload headerPayload,
+        final List<DetailPayload> detailPayloadList) {
         this.headerRepository.saveStatementHeader(headerPayload, detailPayloadList);
         count++;
         return count;

@@ -72,7 +72,7 @@ public class ReadStatementsFileService {
                         log.error("Error while reading the file on the line :" + currentLine
                                       + " account-code ---> " + statementHeader.getAccountCode());
                         fileInfoResponse.incrementErrorDetails();
-                        if (!errorHeader.equals(statementHeader)){
+                        if (!errorHeader.equals(statementHeader)) {
                             fileInfoResponse.incrementErrorHeaders();
                             errorHeader = statementHeader;
                         }

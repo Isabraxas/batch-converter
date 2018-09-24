@@ -1,10 +1,10 @@
 package cc.viridian.servicebatchconverter.repository;
 
-import cc.viridian.servicebatchconverter.utils.FormatUtil;
 import cc.viridian.servicebatchconverter.payload.DetailPayload;
 import cc.viridian.servicebatchconverter.payload.HeaderPayload;
 import cc.viridian.servicebatchconverter.persistence.StatementDetail;
 import cc.viridian.servicebatchconverter.persistence.StatementHeader;
+import cc.viridian.servicebatchconverter.utils.FormatUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.cayenne.DataRow;
 import org.apache.cayenne.ObjectContext;
@@ -25,8 +25,8 @@ public class StatementHeaderRepository {
     private StatementDetailRepository statementDetailRepository;
 
     @Autowired
-    public StatementHeaderRepository(ServerRuntime mainServerRuntime
-        , StatementDetailRepository statementDetailRepository) {
+    public StatementHeaderRepository(ServerRuntime mainServerRuntime,
+        StatementDetailRepository statementDetailRepository) {
         this.mainServerRuntime = mainServerRuntime;
         this.statementDetailRepository = statementDetailRepository;
     }
@@ -38,8 +38,8 @@ public class StatementHeaderRepository {
         log.info("Saving new Header in DB ");
         int insert = SQLExec
             .query(
-                "INSERT INTO STATEMENT_HEADER(ACCOUNT_CODE,CUSTOMER_CODE,ID)" +
-                    " VALUES (#bind($hAcc),#bind($hCtc),#bind($hId))")
+                "INSERT INTO STATEMENT_HEADER(ACCOUNT_CODE,CUSTOMER_CODE,ID)"
+                + " VALUES (#bind($hAcc),#bind($hCtc),#bind($hId))")
             .paramsArray(body.getAccountCode(), body.getCustomerCode(), body.getId())
             .update(context);
     }
@@ -86,10 +86,10 @@ public class StatementHeaderRepository {
                                                      + " AND CUSTOMER_CODE=#bind($CustCode)"
                                                      + " AND DATE_FROM =#bind($DateFrom)"
                                                      + " AND DATE_TO =#bind($DateTo)")
-                                   .paramsArray(body.getAccountCode()
-                                       , body.getCustomerCode()
-                                       , body.getDateFrom()
-                                       , body.getDateTo())
+                                   .paramsArray(body.getAccountCode(),
+                                       body.getCustomerCode(),
+                                       body.getDateFrom(),
+                                       body.getDateTo())
                                    .selectFirst(context);
 
         return this.checkDataRowToStatemenHeader(dataRow);
@@ -105,10 +105,11 @@ public class StatementHeaderRepository {
                                                      + " AND CUSTOMER_CODE=#bind($CustCode)"
                                                      + " AND DATE_FROM =#bind($DateFrom)"
                                                      + " AND DATE_TO =#bind($DateTo)")
-                                   .paramsArray(body.getAccountCode()
-                                       , body.getCustomerCode()
-                                       , body.getDateFrom()
-                                       , body.getDateTo())
+                                   .paramsArray(
+                                       body.getAccountCode(),
+                                       body.getCustomerCode(),
+                                       body.getDateFrom(),
+                                       body.getDateTo())
                                    .selectFirst(context);
 
         return this.checkDataRowToHeaderPayload(dataRow);
@@ -119,8 +120,8 @@ public class StatementHeaderRepository {
         ObjectContext context = mainServerRuntime.newContext();
 
         int delete = SQLExec
-            .query("DELETE FROM STATEMENT_HEADER\n" +
-                       "WHERE ID = #bind($id)")
+            .query("DELETE FROM STATEMENT_HEADER\n"
+                       + "WHERE ID = #bind($id)")
             .paramsArray(id)
             .update(context);
 
@@ -209,10 +210,11 @@ public class StatementHeaderRepository {
             + " AND H.DATE_FROM =#bind($DateFrom)"
             + " AND H.DATE_TO =#bind($DateTo)";
         SQLTemplate selectQuery = new SQLTemplate(StatementHeader.class, sql);
-        selectQuery.setParamsArray(body.getAccountCode()
-            , body.getCustomerCode()
-            , body.getDateFrom()
-            , body.getDateTo());
+        selectQuery.setParamsArray(
+            body.getAccountCode(),
+            body.getCustomerCode(),
+            body.getDateFrom(),
+            body.getDateTo());
 
         // ensure we are fetching DataRows
         selectQuery.setFetchingDataRows(true);
@@ -238,7 +240,6 @@ public class StatementHeaderRepository {
         } else {
             return null;
         }
-
     }
 
     public HeaderPayload checkDataRowToHeaderPayload(final DataRow dataRow) {

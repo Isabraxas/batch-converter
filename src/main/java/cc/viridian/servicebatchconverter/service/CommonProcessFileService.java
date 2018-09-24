@@ -73,8 +73,8 @@ public class CommonProcessFileService {
         return statementHeader;
     }
 
-    public static Boolean setSizeColumnsOfStatementAccountDetailHeader(final String line
-        , final Boolean startReadDetails) {
+    public static Boolean setSizeColumnsOfStatementAccountDetailHeader(final String line,
+        final Boolean startReadDetails) {
         Boolean rStartReadDetails;
         log.debug("Starting to set size columns vars");
         if (line.contains("Date:")) {

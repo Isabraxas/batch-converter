@@ -89,7 +89,7 @@ public class HeaderPayload {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }
@@ -97,10 +97,10 @@ public class HeaderPayload {
             return false;
         }
         HeaderPayload that = (HeaderPayload) o;
-        return Objects.equals(accountCode, that.accountCode) &&
-            Objects.equals(customerCode, that.customerCode) &&
-            Objects.equals(dateFrom, that.dateFrom) &&
-            Objects.equals(dateTo, that.dateTo);
+        return Objects.equals(accountCode, that.accountCode)
+            && Objects.equals(customerCode, that.customerCode)
+            && Objects.equals(dateFrom, that.dateFrom)
+            && Objects.equals(dateTo, that.dateTo);
     }
 
     @Override
