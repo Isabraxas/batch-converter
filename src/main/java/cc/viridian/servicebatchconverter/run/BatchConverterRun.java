@@ -5,16 +5,13 @@ import cc.viridian.servicebatchconverter.payload.FileInfoResponse;
 import cc.viridian.servicebatchconverter.service.ReadStatementsFileService;
 import cc.viridian.servicebatchconverter.service.StatementHeaderService;
 import cc.viridian.servicebatchconverter.utils.CommonUtils;
-import cc.viridian.servicebatchconverter.utils.FormatUtil;
 import cc.viridian.servicebatchconverter.writer.Userlog;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+import java.io.File;
 
 @Slf4j
 @Service
@@ -26,13 +23,119 @@ public class BatchConverterRun implements CommandLineRunner {
     private StatementHeaderService statementHeaderService;
 
     private CommonUtils commonUtils = new CommonUtils();
-    private String firtsParamPathFile = "";
+    private File prnFile = null;
+    private String prnFilename = null;
+    private String userlogPath = null;
+
     private FileInfoResponse fileInfoResponse;
     private Userlog userlog;
     HashMap<String, Object> appParams = new HashMap<>();
 
     @Override
     public void run(final String... args) throws Exception {
+        commonUtils.setTitle("BATCH CONVERTER");
+
+        userlogPath = System.getProperty("user.dir");
+
+        //check params are present and exit program if there is an error
+        if (!processArgs(args)) {
+            return;
+        }
+
+        userlog = new Userlog(userlogPath, commonUtils);
+
+        if (userlog.getWriter() == null) {
+            return;
+        }
+
+        //verify if the prn file already exists and can read it
+        if ((prnFile = verifyPrnFile(prnFilename)) == null) {
+            userlog.info("prnFile error");
+            userlog.closeLog();
+            return;
+        }
+
+        //commonUtils.expectedTime(firtsParamPathFile);
+
+        //verify hash
+        String hashCodeFile = HashCode.getCodigoHash(prnFilename);
+        Boolean isSaved = this.statementHeaderService.existFileHash(hashCodeFile);
+
+        if (isSaved) {
+            userlog.info("hash already exists in database.  Exiting");
+            userlog.closeLog();
+            return;
+        }
+        userlog.info("The hash file not matching with any another record");
+
+        //process file and report results
+        fileInfoResponse = this.readStatementsFileService.readContent(prnFilename);
+
+        String message = "There are " + fileInfoResponse.getDuplicatedHeaders() + " duplicate headers,"
+                    + " " + fileInfoResponse.getErrorsHeaders() + " errors headers, "
+                    + " " + fileInfoResponse.getInsertedHeaders() + " inserts headers \n"
+                    + " with " + fileInfoResponse.getDuplicatedDetails() + " duplicate details,"
+                    + " " + fileInfoResponse.getErrorsDetails() + " errors details, "
+                    + " " + fileInfoResponse.getInsertedDetails() + " inserts details \n";
+                userlog.info(message);
+
+        userlog.closeLog();
+    }
+
+    private void displayCommandUsage() {
+        System.out.println("usage:  java -jar service-batch-converter-0.1.29.jar "
+            + "[--log=logfile] "
+            + "<file.prn ");
+
+        System.out.println("");
+        System.out.println("example:  java -jar target/service-batch-converter-0.1.9999.jar "
+                               + "--log=miLog.txt "
+                               + "src/main/resources/files/Statement_2.prn ");
+    }
+
+    private Boolean processArgs(final String[] args) {
+        if (args.length == 0 || args.length > 2) {
+            displayCommandUsage();
+            return false;
+        }
+
+        for (int i = 0; i < args.length; i ++) {
+            if (args[i] != null) {
+                String[] params = args[i].split("=");
+                if (params.length > 0 && params[0].equalsIgnoreCase("--log") ) {
+                    userlogPath= params[1];
+                } else {
+                    prnFilename = args[i];
+                }
+            }
+        }
+
+        if (prnFilename == null) {
+            System.out.println(".prn file was not defined");
+        }
+        return (userlogPath != null && prnFilename != null);
+    }
+
+    private File verifyPrnFile(final String prnFilename) {
+        File prnFile = new File(prnFilename);
+        if (prnFile.exists() ) {
+            if (prnFile.isFile() && prnFile.canRead()) {
+                //userlog.info("Reading file " + commonUtils.blue() + prnFile.getName() + commonUtils.black());
+                userlog.info("Reading file : " + commonUtils.green() + prnFile.getAbsolutePath() + commonUtils.black());
+
+            } else {
+                userlog.error(prnFilename + " is not a file or can't read it");
+                return null;
+            }
+        } else {
+            log.error("File: " + prnFilename + " does not exist");
+            return null;
+        };
+        return prnFile;
+    };
+
+    /*
+    public void run2(final String... args) throws Exception {
         System.out.println("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
         commonUtils.setTitle("BATCH CONVERTER");
         System.out.println("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
@@ -84,91 +187,5 @@ public class BatchConverterRun implements CommandLineRunner {
         System.out.println("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
         userlog.closeLog();
     }
-
-    private HashMap<String, Object> checkParameters(final String[] args) throws IOException {
-
-        HashMap<String, Object> hasParams = new HashMap<>();
-
-        for (int i = 0; i < args.length; i++) {
-            String[] params = args[i].split("=");
-            switch (params[0]) {
-                case "--file.log.path":
-                    try {
-                        if (params[0].contains("--file.log.path")) {
-                            hasParams.put("file.log.path", params[1]);
-                            userlog = new Userlog((String) hasParams.get("file.log.path"));
-                            userlog.info("New file path to save user log : " + (String) hasParams.get("file.log.path"));
-                        } else {
-                            log.error("The seccond parameter is invalid");
-                            userlog.info("The seccond parameter is invalid");
-                        }
-                    } catch (Exception e) {
-                        log.error("The file.log.path parameter is required");
-                        log.error(e.getMessage());
-                        e.printStackTrace();
-                    }
-                    break;
-
-                default:
-                    try {
-                        if (params[0].contains("--file.path") && i == 0) {
-                            hasParams.put("file.path", params[1]);
-                        } else {
-                            log.error("The first parameter is invalid");
-                            userlog.info("The first parameter is invalid");
-                        }
-                    } catch (Exception e) {
-                        log.error("The file.path parameter is required");
-                        log.error(e.getMessage());
-                        e.printStackTrace();
-                    }
-                    break;
-            }
-        }
-        return hasParams;
-    }
-
-    private String getReportStatus(final FileInfoResponse response) {
-        String message = "";
-        Integer newsHeaders = response.getInsertedHeaders() - response.getDuplicatedHeaders();
-        Integer newsDetails = response.getInsertedDetails() - response.getDuplicatedDetails();
-        int statemetCol = 20, headersCol = 20, detailsCol = 20;
-
-        message += String.valueOf(FormatUtil.returnDelimArray("Statement", statemetCol));
-        message += String.valueOf(FormatUtil.returnDelimArray("Headers", headersCol));
-        message += String.valueOf(FormatUtil.returnDelimArray("Details", detailsCol)) + "\n";
-
-        message += String.valueOf(FormatUtil.returnDelimArray("News", statemetCol));
-        message += String.valueOf(FormatUtil.returnDelimArray(newsHeaders.toString(), headersCol));
-        message += String.valueOf(FormatUtil.returnDelimArray(newsDetails.toString(), detailsCol)) + "\n";
-
-        message += String.valueOf(FormatUtil.returnDelimArray("Duplicates", statemetCol));
-        message += String.valueOf(FormatUtil.returnDelimArray(response.getDuplicatedHeaders().toString(), headersCol));
-        message += String.valueOf(
-            FormatUtil.returnDelimArray(response.getDuplicatedDetails().toString(), detailsCol)) + "\n";
-
-        message += "---------------------------------------------------------\n";
-
-        message += String.valueOf(FormatUtil.returnDelimArray("TOTAL", statemetCol));
-        message += String.valueOf(FormatUtil.returnDelimArray(response.getInsertedHeaders().toString(), headersCol));
-        message += String.valueOf(
-            FormatUtil.returnDelimArray(response.getInsertedDetails().toString(), detailsCol)) + "\n";
-
-        message += this.getReportErros(response);
-
-        return message;
-    }
-
-    private String getReportErros(final FileInfoResponse response) {
-        String message = "";
-        int statemetCol = 20, headersCol = 20, detailsCol = 20;
-
-        message += "\n";
-        message += String.valueOf(FormatUtil.returnDelimArray("Errros", statemetCol));
-        message += String.valueOf(FormatUtil.returnDelimArray(response.getErrorsHeaders().toString(), headersCol));
-        message += String.valueOf(
-            FormatUtil.returnDelimArray(response.getErrorsDetails().toString(), detailsCol)) + "\n";
-
-        return message;
-    }
+*/
 }

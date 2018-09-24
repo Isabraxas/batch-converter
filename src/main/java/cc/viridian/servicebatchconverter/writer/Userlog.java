@@ -1,96 +1,77 @@
 package cc.viridian.servicebatchconverter.writer;
 
-import cc.viridian.servicebatchconverter.utils.FormatUtil;
-import java.io.BufferedWriter;
+import cc.viridian.servicebatchconverter.utils.CommonUtils;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Userlog {
 
-    String fileResource;
-    private static PrintWriter writer;
+    private String path;
+    private String logFilename;
+    private CommonUtils commonUtils;
 
-    public Userlog() {
-        fileResource = System.getProperty("user.dir");
+    private PrintStream writer;
+
+
+    public Userlog(final String path, final CommonUtils commonUtils) {
+        this.path = path;
+        this.commonUtils = commonUtils;
+        this.writer = null;
+
+        File pathFolder = new File(path);
+        if (!pathFolder.isDirectory() ) {
+            System.out.println(commonUtils.red() + path + " is not a valid directory");
+            return;
+        }
+        if (!pathFolder.canWrite() ) {
+            System.out.println(commonUtils.red() + pathFolder.getAbsolutePath() + " is not writable");
+            return;
+        }
+
         LocalDate localDate = LocalDate.now();
-        String filePath;
-        filePath = fileResource + "/" + localDate + ".txt";
-        File userLogFile = new File(filePath);
-        if (!userLogFile.exists()) {
-            try {
-                userLogFile.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        File logFile = new File( pathFolder.getAbsolutePath() + "/" + localDate.toString() + ".log");
+        String encoding = "UTF-8";
 
-        System.out.println("Default file path to save user log : " + filePath);
-
-        try {
-            FileWriter fileWriter = new FileWriter(userLogFile, true);
-            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            writer = new PrintWriter(bufferedWriter);
-            writer.println();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public Userlog(final String filePath) {
-        File userLogFile = new File(filePath);
-        if (!userLogFile.exists()) {
-            try {
-                userLogFile.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        if (logFile.exists()) {
+            System.out.println("append to log file: " + logFile.getName() );
+        } else {
+            System.out.println("creating log file: " + logFile.getName() );
         }
 
         try {
-            FileWriter fileWriter = new FileWriter(userLogFile, true);
-            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            writer = new PrintWriter(bufferedWriter);
-            writer.println();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
+            writer = new PrintStream(logFile.getAbsolutePath(), encoding);
+            //info("start writing log");
+        } catch (FileNotFoundException | UnsupportedEncodingException e) {
+            System.out.println(e.getMessage());
         }
     }
 
-    public void setProcessedFile(final String fileName) throws IOException {
+    public PrintStream getWriter() {
+        return writer;
+    }
+
+    //print the same message in the userlog and the console
+    public void info(final String message) {
         LocalDateTime localDateTime = LocalDateTime.now();
-        String dateline="Date: " + localDateTime;
-        int colsize=30;
-
-        writer.println("  ------------------------------");
-        writer.println("| "+ String.valueOf(FormatUtil.returnDelimArray(dateline, colsize)) + " |");
-        writer.println("  ------------------------------");
-        writer.println("*** File name: " + fileName + " ***");
-        writer.println();
-    }
-
-    public void info(final String message) throws IOException {
-        writer.println( message);
+        writer.println(localDateTime + " - " + message);
         System.out.println(message);
     }
 
-    public void closeLog() throws IOException {
-        writer.println("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
-        writer.close();
+    //print the same message in the userlog and the console as error
+    public void error(final String message) {
+        LocalDateTime localDateTime = LocalDateTime.now();
+        writer.println(localDateTime + " - " + commonUtils.red() + message + commonUtils.black());
+        System.out.println(message);
     }
 
-    public PrintWriter getPrintWriter() throws IOException {
-        return writer;
+    public void closeLog() {
+        if (writer != null) {
+            writer.close();
+        }
     }
 }

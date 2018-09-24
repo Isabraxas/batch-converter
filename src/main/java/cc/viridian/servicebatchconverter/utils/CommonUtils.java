@@ -94,8 +94,10 @@ public class CommonUtils {
         String version = "1.0";
 
         operativSystem = getOperativSystem();
-        System.out.println(operativSystem);
-        System.out.print(clear() + blue() + moveTo(0, 0));
+        //System.out.println(operativSystem);
+        System.out.print(clear());
+        System.out.println("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
+        System.out.print(blue() + moveTo(0, 0));
         System.out.println(" ____    _  _____ ____ _   _ ");
         System.out.println("| __ )  / \\|_   _/ ___| | | |");
         System.out.println("|  _ \\ / _ \\ | || |   | |_| |");
@@ -103,6 +105,7 @@ public class CommonUtils {
         System.out.println("|____/_/   \\_\\_| \\____|_| |_|");
         System.out.println("  " + title + " " + version);
         System.out.println(black());
+        System.out.println("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
 
         System.out.print(moveTo(1, 9));
         //System.out.print( red() + moveTo(10, 10)+ percent);
