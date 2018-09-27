@@ -1,0 +1,5 @@
+2018-09-27T16:56:05.027 - Reading file : [32m/home/isvar/Documents/Fix-dummy-bank/vdbanco_viridian/src/main/resources/Files/Statement_100.prn[30m
+2018-09-27T16:56:05.295 - The hash file not matching with any another record
+2018-09-27T16:57:32.950 - There are 3 duplicate headers, 0 errors headers,  100 inserts headers 
+ with 139 duplicate details, 0 errors details,  14387 inserts details 
+

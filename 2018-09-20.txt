@@ -1,0 +1,18 @@
+
+  ------------------------------
+| Date: 2018-09-20T11:34:31.687  |
+  ------------------------------
+*** File name: Statement_100.prn ***
+
+REPORT:
+The hash file not matching with any another processed file
+Statement           Headers             Details             
+News                100                 14387               
+Duplicates          0                   0                   
+---------------------------------------------------------
+TOTAL               100                 14387               
+
+Errros              0                   0                   
+
+Excecution time: 84795 ms
+*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
