@@ -1,6 +1,0 @@
-2018-09-28T17:13:20.616 - Reading file : [32m/home/isvar/Documents/statement/service-batch-converter/src/main/resources/files/10_acc-2016-11_fixed.prn[30m
-2018-09-28T17:13:20.754 - The hash file not matching with any another record
-2018-09-28T17:13:21.018 - There are 0 duplicate headers, 0 errors headers,  10 inserts headers 
- with 0 duplicate details, 0 errors details,  39 inserts details 
-
-2018-09-28T17:13:21.018 - Excecution time: 401 ms
