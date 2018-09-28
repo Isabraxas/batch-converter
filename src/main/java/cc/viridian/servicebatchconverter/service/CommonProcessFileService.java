@@ -13,8 +13,8 @@ public class CommonProcessFileService {
 
     static Integer dateSize = null;
     static Integer descSize = null;
-    static Integer refSize = null;
     static Integer amountSize = null;
+    static Integer tempBalanceSize = null;
     static Integer operationSize = null;
 
     public static HeaderPayload fillStatementAccountHeader(final String line, final HeaderPayload headerPayload) {
@@ -80,8 +80,8 @@ public class CommonProcessFileService {
         if (line.contains("Date:")) {
             dateSize = 20;
             descSize = 90;
-            refSize = 20;
             amountSize = 20;
+            tempBalanceSize = 20;
             operationSize = 15;
 
             rStartReadDetails = true;
@@ -129,20 +129,20 @@ public class CommonProcessFileService {
                 String colDesc = line.substring(colSum, res);
                 detail.setSecondaryInfo(colDesc);
 
-                //Ref
-                colSum += descSize;
-                res = colSum + refSize;
-                String colRef = line.substring(colSum, res);
-                detail.setReferenceNumber(colRef);
-
                 //Amount
-                colSum += refSize;
+                colSum += descSize;
                 res = colSum + amountSize;
                 String colAmount = line.substring(colSum, res);
                 detail.setAmount(BigDecimal.valueOf(Double.valueOf(colAmount)));
 
-                //Operation
+                //Balance of detail
                 colSum += amountSize;
+                res = colSum + tempBalanceSize;
+                String colBalance = line.substring(colSum, res);
+                detail.setBalance(BigDecimal.valueOf(Double.valueOf(colBalance)));
+
+                //Operation
+                colSum += tempBalanceSize;
                 res = colSum + operationSize;
                 if (line.contains("DEBITO")) {
                     res = colSum + "DEBITO".length();
@@ -170,8 +170,8 @@ public class CommonProcessFileService {
 
             //TOTAL
             colSum = 0;
-            colSum += dateSize + descSize + refSize;
-            String colTotal = line.substring(colSum, colSum + amountSize);
+            colSum += dateSize + descSize + amountSize;
+            String colTotal = line.substring(colSum, colSum + tempBalanceSize);
 
             log.debug("TOTAL= " + Double.valueOf(colTotal));
             statementHeader.setBalanceEnd(BigDecimal.valueOf(Double.valueOf(colTotal)));
