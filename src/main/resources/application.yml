@@ -7,5 +7,4 @@ server:
   port: 8087
 
 ##### Custom properties ####
-file.path: /home/isvar/Documents/statement/service-batch-converter/target/classes/Files/Statement_1998-01-01_2017-12-29.prn
-
+config.separator.statement: ${SEPARATOR_STATEMENT:----------}

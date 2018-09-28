@@ -8,6 +8,7 @@ import cc.viridian.servicebatchconverter.payload.StatementPayload;
 import cc.viridian.servicebatchconverter.utils.CommonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -22,6 +23,9 @@ import java.util.List;
 public class ParseStatementsFileService {
 
     FileInfoResponse fileInfoResponse = new FileInfoResponse();
+
+    @Value("${config.separator.statement}")
+    private String separatorStatemet;
 
     @Autowired
     private StatementHeaderService statementHeaderService;
@@ -46,7 +50,7 @@ public class ParseStatementsFileService {
         List<DetailPayload> detailList = new ArrayList<DetailPayload>();
         Boolean startReadDetails = false;
         Boolean addHeader = true;
-        final String SEPARATOR_STATEMENT = "----------";
+        final String SEPARATOR_STATEMENT = separatorStatemet;
 
         HeaderPayload statementHeader = new HeaderPayload();
         totalLines = commonUtils.getFileLines(filePath);

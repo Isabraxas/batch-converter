@@ -6,6 +6,7 @@ import cc.viridian.servicebatchconverter.payload.FileInfoResponse;
 import cc.viridian.servicebatchconverter.payload.StatementPayload;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -18,6 +19,8 @@ import java.util.List;
 @Slf4j
 @Service
 public class ReadStatementsFileService {
+    @Value("${config.separator.statement}")
+    private String separatorStatemet;
 
     @Autowired
     private ParseStatementsFileService parseStatementsFileService;
@@ -40,7 +43,7 @@ public class ReadStatementsFileService {
 
         HeaderPayload statementHeader = new HeaderPayload();
         HeaderPayload errorHeader = new HeaderPayload();
-        final String SEPARATOR_STATEMENT = "----------"; //TODO get value form costant form config parsefile or .yml
+        final String SEPARATOR_STATEMENT = separatorStatemet; //TODO get value form costant form config parsefile or .yml
 
         int countErrorHeader = 0;
 
