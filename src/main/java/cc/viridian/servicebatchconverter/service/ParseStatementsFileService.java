@@ -46,6 +46,7 @@ public class ParseStatementsFileService {
         List<DetailPayload> detailList = new ArrayList<DetailPayload>();
         Boolean startReadDetails = false;
         Boolean addHeader = true;
+        final String SEPARATOR_STATEMENT = "----------";
 
         HeaderPayload statementHeader = new HeaderPayload();
         totalLines = commonUtils.getFileLines(filePath);
@@ -65,7 +66,7 @@ public class ParseStatementsFileService {
             //System.out.print(", " + currentLine);
             try {
 
-                if (!line.contains("-----------------") && !line.equals("")) {
+                if (!line.contains(SEPARATOR_STATEMENT) && !line.equals("")) {
 
                     //System.out.println(line);
 
@@ -102,7 +103,7 @@ public class ParseStatementsFileService {
                 addHeader = false;
             }
 
-            if (line.contains("-----------------")) {
+            if (line.contains(SEPARATOR_STATEMENT)) {
 
                 saveStatement(filePath, statement, statementHeader, detailList);
 

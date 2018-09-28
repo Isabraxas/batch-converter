@@ -40,6 +40,8 @@ public class ReadStatementsFileService {
 
         HeaderPayload statementHeader = new HeaderPayload();
         HeaderPayload errorHeader = new HeaderPayload();
+        final String SEPARATOR_STATEMENT = "----------"; //TODO get value form costant form config parsefile or .yml
+
         int countErrorHeader = 0;
 
         while ((line = b.readLine()) != null) {
@@ -48,7 +50,7 @@ public class ReadStatementsFileService {
             currentLine++;
             //System.out.print(", " + currentLine);
             try {
-                if (!line.contains("-----------------") && !line.equals("")) {
+                if (!line.contains(SEPARATOR_STATEMENT) && !line.equals("")) {
 
                     //System.out.println(line);
 
@@ -100,7 +102,7 @@ public class ReadStatementsFileService {
                 fileIsFine = false;
             }
 
-            if (line.contains("-----------------")) {
+            if (line.contains(SEPARATOR_STATEMENT)) {
 
                 statement = new StatementPayload();
                 statementHeader = new HeaderPayload();
