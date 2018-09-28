@@ -1,0 +1,1117 @@
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00062959
+Account: A00087443
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+                    ***Total balance***                                                                                           18263.17            
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C000113382
+Account: A000161412
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-01 02:31:00 Transferencia entre terceros cajas de cuenta: A000161412 a: A000185328                    259.18              1381269880.82       DEBITO         
+2016-11-19 13:39:00 Transferencia en cajas de cuenta: A000161412 a: A000109465                                2116.80             1381267764.02       DEBITO         
+2016-11-29 20:20:00 Transferencia a otro banco cuenta: A000161412 a: 49973655                                 780.02              1381266984.00       DEBITO         
+                    ***Total balance***                                                                                           1381266984.00       
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00064385
+Account: A00044944
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-08 16:28:00 Deposito en cajas a cuenta: A00044944 por: Jovana Murillo Vega                            44442440.00         1380000820.00       CREDITO        
+2016-11-10 12:04:00 Transferencia a otro banco cuenta: A00044944 a: 15815599                                  1202.31             1379999617.69       DEBITO         
+2016-11-29 07:37:00 Deposito cheque local a cuenta: A00044944 por: Hillary Nina Castro                        61906900.00         1318092717.69       CREDITO        
+                    ***Total balance***                                                                                           1318092717.69       
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00025564
+Account: A00032676
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-07 02:04:00 Transferencia en cajas de cuenta: A00048215 a: A00032676                                  2131.62             408415340.38        CREDITO        
+2016-11-19 13:17:00 Credito por servicio de cobranza a cuenta: A00032676                                      3030796.20          405384544.18        CREDITO        
+2016-11-30 10:04:00 Transferencia entre terceros cajas de cuenta: A000203934 a: A00032676                     2026.20             405382517.98        CREDITO        
+                    ***Total balance***                                                                                           405382517.98        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00033286
+Account: A00043973
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-02 18:42:00 Retiro en cajas de cuenta: A00043973 por: Hailin Rocha Saavedra                           19544.12            888267555.88        DEBITO         
+2016-11-14 23:45:00 Retiro en cajas de cuenta: A00043973 por: Ericka Arce Delgadillo                          44650.32            888222905.56        DEBITO         
+2016-11-17 05:28:00 Transferencia en cajas de cuenta: A00063826 a: A00043973                                  81.72               888222823.84        CREDITO        
+2016-11-25 22:34:00 Retiro en cajas de cuenta: A00043973 por: Kaitlyn Carrasco Chavez                         49802.48            888173021.36        DEBITO         
+                    ***Total balance***                                                                                           888173021.36        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C000125627
+Account: A000179423
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-14 10:14:00 Deposito cheque local a cuenta: A000179423 por: Cheril Bejarano Poma                      28713084.00         660640256.00        CREDITO        
+2016-11-15 16:50:00 Deposito cheque extranjero a cuenta: A000179423 por: Jaela Sanchez Fernandez              13317024.00         647323232.00        CREDITO        
+                    ***Total balance***                                                                                           647323232.00        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00028558
+Account: A00037119
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+                    ***Total balance***                                                                                           2324.60             
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00057638
+Account: A00079580
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-14 15:59:00 Pago de tarjeta de credito: 3255 6249 5406 1765                                           5.03                432542874.97        DEBITO         
+2016-11-14 15:59:00 Pago de tarjeta de credito: 3255 6249 5406 1765                                           5.03                432542869.94        CREDITO        
+2016-11-20 17:53:00 Transferencia entre terceros cajas de cuenta: A00079101 a: A00079580                      91.20               432542778.74        CREDITO        
+2016-11-23 06:04:00 Transferencia en cajas de cuenta: A00071570 a: A00079580                                  52.12               432542726.62        CREDITO        
+                    ***Total balance***                                                                                           432542726.62        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00013856
+Account: A00015584
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+                    ***Total balance***                                                                                           511442.30           
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00081269
+Account: A000114258
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-13 03:03:00 Retiro en cajas de cuenta: A000114258 por: Derian Arteaga Rios                            264440.22           639583299.78        DEBITO         
+2016-11-19 01:15:00 Transferencia entre terceros cajas de cuenta: A00071962 a: A000114258                     796.48              639582503.30        CREDITO        
+2016-11-19 08:27:00 Transferencia entre terceros cajas de cuenta: A000189631 a: A000114258                    46678.15            639535825.15        CREDITO        
+                    ***Total balance***                                                                                           639535825.15        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00082489
+Account: A000116043
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+                    ***Total balance***                                                                                           77553.44            
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00016365
+Account: A00019193
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-06 06:31:00 Credito por servicio de cobranza a cuenta: A00019193                                      95341216.00         686230044.00        CREDITO        
+2016-11-07 07:54:00 Transferencia en cajas de cuenta: A00019193 a: A000132252                                 3227.60             686226816.40        DEBITO         
+2016-11-09 20:15:00 Transferencia entre terceros cajas de cuenta: A00019193 a: A00096500                      1240.99             686225575.41        DEBITO         
+2016-11-26 10:49:00 Transferencia en cajas de cuenta: A000117950 a: A00019193                                 1021.02             686224554.39        CREDITO        
+                    ***Total balance***                                                                                           686224554.39        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00010105
+Account: A00010147
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-15 08:05:00 Credito por servicio de cobranza a cuenta: A00010147                                      40392480.00         328844256.00        CREDITO        
+                    ***Total balance***                                                                                           328844256.00        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00069883
+Account: A00097710
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-03 01:24:00 Transferencia entre terceros cajas de cuenta: A000140727 a: A00097710                     3331.46             439289980.54        CREDITO        
+2016-11-04 13:13:00 Deposito en cajas a cuenta: A00097710 por: Anmeth Llanos Siles                            85775280.00         353514700.54        CREDITO        
+2016-11-30 21:54:00 Retiro en cajas de cuenta: A00097710 por: Farida Alvarez Mercado                          924.99              353513775.55        DEBITO         
+                    ***Total balance***                                                                                           353513775.55        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00013832
+Account: A00015544
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-17 12:29:00 Transferencia entre terceros cajas de cuenta: A00015544 a: A000177470                     127597.95           527639090.05        DEBITO         
+                    ***Total balance***                                                                                           527639090.05        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C000102279
+Account: A000144957
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-21 09:41:00 Retiro en cajas de cuenta: A000144957 por: Edme Balderrama Rodriguez                      1975.35             448832424.65        DEBITO         
+2016-11-29 04:10:00 Retiro en cajas de cuenta: A000144957 por: Destry Terceros Paredes                        1594.41             448830830.24        DEBITO         
+                    ***Total balance***                                                                                           448830830.24        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00037451
+Account: A00050073
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-01 00:35:00 Credito por servicio de cobranza a cuenta: A00050073                                      95830144.00         1360679426.00       CREDITO        
+2016-11-05 21:28:00 Deposito en cajas a cuenta: A00050073 por: Leyton Caceres Calderon                        8842807.00          1351836619.00       CREDITO        
+2016-11-06 07:34:00 Transferencia en cajas de cuenta: A00050073 a: A000174510                                 22.47               1351836596.53       DEBITO         
+2016-11-09 19:10:00 Deposito cheque local a cuenta: A00050073 por: Ylonka Mamani Tapia                        58043480.00         1293793116.53       CREDITO        
+2016-11-18 05:58:00 Pago de servicios desde cuenta: A00050073 pago de: AGUA EPSAS                             47.42               1293793069.11       DEBITO         
+                    ***Total balance***                                                                                           1293793069.11       
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00018705
+Account: A00022569
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-08 17:18:00 Pago de servicios desde cuenta: A00022569 pago de: TELEVISION ENTEL                       2008.68             212387927.32        DEBITO         
+                    ***Total balance***                                                                                           212387927.32        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00068351
+Account: A00095452
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-09 20:41:00 Transferencia en cajas de cuenta: A00095452 a: A000107647                                 838.34              325669881.66        DEBITO         
+                    ***Total balance***                                                                                           325669881.66        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00082297
+Account: A000115780
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-08 16:18:00 Pago de prestamo desde cuenta: A000115780                                                 19109.93            235483258.07        DEBITO         
+2016-11-09 11:13:00 Transferencia entre terceros cajas de cuenta: A000110699 a: A000115780                    3383.31             235479874.76        CREDITO        
+                    ***Total balance***                                                                                           235479874.76        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00081903
+Account: A000115220
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-10 06:13:00 Pago de servicios desde cuenta: A000115220 pago de: TELEVISION TIGO                       62792.32            1064815667.68       DEBITO         
+2016-11-19 06:34:00 Transferencia entre terceros cajas de cuenta: A000115220 a: A00077746                     10570.46            1064805097.22       DEBITO         
+2016-11-23 04:36:00 Pago de tarjeta de credito: 6226 6390 2119 7126                                           13555.84            1064791541.38       DEBITO         
+2016-11-23 04:36:00 Pago de tarjeta de credito: 6226 6390 2119 7126                                           13555.84            1064777985.54       CREDITO        
+                    ***Total balance***                                                                                           1064777985.54       
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C000122894
+Account: A000175432
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-12 20:27:00 Transferencia en cajas de cuenta: A000175432 a: A00048307                                 1374.13             534146785.87        DEBITO         
+2016-11-23 06:05:00 Pago de servicios desde cuenta: A000175432 pago de: TELEVISION ENTEL                      428.25              534146357.62        DEBITO         
+                    ***Total balance***                                                                                           534146357.62        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00028370
+Account: A00036846
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-14 06:36:00 Transferencia en cajas de cuenta: A000193292 a: A00036846                                 255.37              30305.23            CREDITO        
+                    ***Total balance***                                                                                           30305.23            
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C000122039
+Account: A000174179
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-13 00:28:00 Pago de cheque en efectivo a cuenta: A000174179                                           38311.93            400542200.07        DEBITO         
+                    ***Total balance***                                                                                           400542200.07        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C000128546
+Account: A000183639
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-10 06:32:00 Transferencia a otro banco cuenta: A000183639 a: 28006055                                 152945.12           244911374.88        DEBITO         
+                    ***Total balance***                                                                                           244911374.88        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00072440
+Account: A000101437
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-01 01:15:00 Transferencia en cajas de cuenta: A000101437 a: A000183024                                2944.83             118184471.17        DEBITO         
+                    ***Total balance***                                                                                           118184471.17        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00097558
+Account: A000138164
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-07 04:20:00 Pago de cheque en camara a cuenta: A000138164                                             1746.11             979783793.89        DEBITO         
+2016-11-13 03:55:00 Transferencia entre terceros cajas de cuenta: A000138164 a: A000164313                    3065.12             979780728.77        DEBITO         
+2016-11-19 12:06:00 Transferencia a otro banco cuenta: A000138164 a: 79370361                                 2668.03             979778060.74        DEBITO         
+                    ***Total balance***                                                                                           979778060.74        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00016334
+Account: A00019148
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-01 15:27:00 Pago de cheque en camara a cuenta: A00019148                                              579.67              2482562490.33       DEBITO         
+2016-11-02 19:45:00 Deposito en cajas a cuenta: A00019148 por: Einar Chambi Orellana                          11350405.00         2471212085.33       CREDITO        
+2016-11-03 03:29:00 Credito por servicio de cobranza a cuenta: A00019148                                      80474544.00         2390737541.33       CREDITO        
+2016-11-10 11:15:00 Pago de prestamo desde cuenta: A00019148                                                  315.13              2390737226.20       DEBITO         
+2016-11-17 05:30:00 Deposito cheque extranjero a cuenta: A00019148 por: Cristal Veizaga Melgar                7953578.00          2382783648.20       CREDITO        
+2016-11-18 04:12:00 Pago de servicios desde cuenta: A00019148 pago de: INTERNET AXs                           808.80              2382782839.40       DEBITO         
+2016-11-19 16:42:00 Pago de cheque en efectivo a cuenta: A00019148                                            585.32              2382782254.08       DEBITO         
+2016-11-21 05:15:00 Pago de cheque en efectivo a cuenta: A00019148                                            612.73              2382781641.35       DEBITO         
+2016-11-30 13:55:00 Deposito en cajas a cuenta: A00019148 por: Madelin Prado Vasquez                          57681484.00         2325100157.35       CREDITO        
+                    ***Total balance***                                                                                           2325100157.35       
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00099008
+Account: A000140281
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-12 22:51:00 Pago de tarjeta de credito: 1550 1256 6482 3450                                           135486.08           401285249.92        DEBITO         
+2016-11-12 22:51:00 Pago de tarjeta de credito: 1550 1256 6482 3450                                           135486.08           401149763.84        CREDITO        
+                    ***Total balance***                                                                                           401149763.84        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C000122516
+Account: A000174859
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-29 21:28:00 Retiro en cajas de cuenta: A000174859 por: Darcy Velasco Zurita                           345.71              332517062.29        DEBITO         
+                    ***Total balance***                                                                                           332517062.29        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00087055
+Account: A000122700
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+                    ***Total balance***                                                                                           2923.01             
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C000130729
+Account: A000186746
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-05 11:28:00 Transferencia entre terceros cajas de cuenta: A000186746 a: A000195676                    483.25              554125856.75        DEBITO         
+2016-11-18 02:43:00 Pago de servicios desde cuenta: A000186746 pago de: AGUA EPSAS                            676.42              554125180.33        DEBITO         
+                    ***Total balance***                                                                                           554125180.33        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00067361
+Account: A00093958
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-30 10:19:00 Pago de cheque en efectivo a cuenta: A00093958                                            27603.24            271321772.76        DEBITO         
+                    ***Total balance***                                                                                           271321772.76        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C000123038
+Account: A000175660
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-01 01:39:00 Deposito cheque local a cuenta: A000175660 por: Ivan Valdivia Chambi                      31239092.00         1424796488.00       CREDITO        
+2016-11-03 11:15:00 Deposito cheque extranjero a cuenta: A000175660 por: Jemima Condori Sanchez               84997712.00         1339798776.00       CREDITO        
+2016-11-21 03:47:00 Pago de servicios desde cuenta: A000175660 pago de: INTERNET ENTEL                        1299.97             1339797476.03       DEBITO         
+                    ***Total balance***                                                                                           1339797476.03       
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C000108547
+Account: A000154242
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+                    ***Total balance***                                                                                           245322.72           
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00098086
+Account: A000138921
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-02 07:55:00 Pago de cheque en efectivo a cuenta: A000138921                                           112371.43           2149512968.57       DEBITO         
+2016-11-06 16:52:00 Retiro en cajas de cuenta: A000138921 por: Diandra Huanca Prado                           46935.54            2149466033.03       DEBITO         
+2016-11-09 13:24:00 Transferencia a otro banco cuenta: A000138921 a: 86055497                                 78157.85            2149387875.18       DEBITO         
+2016-11-11 12:24:00 Pago de prestamo desde cuenta: A000138921                                                 47394.17            2149340481.01       DEBITO         
+2016-11-11 10:25:00 Transferencia entre terceros cajas de cuenta: A000138921 a: A000215313                    131406.69           2149209074.32       DEBITO         
+2016-11-12 20:13:00 Pago de prestamo desde cuenta: A000138921                                                 91569.55            2149117504.77       DEBITO         
+2016-11-22 13:12:00 Deposito en cajas a cuenta: A000138921 por: Ariana Encinas Velarde                        62643196.00         2086474308.77       CREDITO        
+                    ***Total balance***                                                                                           2086474308.77       
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00059744
+Account: A00082674
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-12 06:34:00 Transferencia en cajas de cuenta: A00082674 a: A00044930                                  12582.85            208179337.15        DEBITO         
+                    ***Total balance***                                                                                           208179337.15        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00098360
+Account: A000139303
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-27 17:48:00 Pago de prestamo desde cuenta: A000139303                                                 2459.28             607246880.72        DEBITO         
+2016-11-29 07:13:00 Retiro en cajas de cuenta: A000139303 por: Alinda Landivar Prado                          3263.84             607243616.88        DEBITO         
+                    ***Total balance***                                                                                           607243616.88        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00074838
+Account: A000104870
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+                    ***Total balance***                                                                                           31098.08            
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00015077
+Account: A00017319
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-02 07:37:00 Deposito en cajas a cuenta: A00017319 por: Lorgio Paredes Orellana                        55976588.00         1001005172.00       CREDITO        
+2016-11-26 16:01:00 Transferencia a otro banco cuenta: A00017319 a: 59521955                                  3481.28             1001001690.72       DEBITO         
+                    ***Total balance***                                                                                           1001001690.72       
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00078784
+Account: A000110620
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+                    ***Total balance***                                                                                           93106.63            
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00058879
+Account: A00081414
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-05 15:42:00 Transferencia a otro banco cuenta: A00081414 a: 36923834                                  32211.86            494663948.14        DEBITO         
+                    ***Total balance***                                                                                           494663948.14        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00091643
+Account: A000129437
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-19 21:50:00 Deposito cheque local a cuenta: A000129437 por: Kaitlyn Jordan Aguilar                    44337612.00         410801300.00        CREDITO        
+2016-11-24 03:22:00 Pago de servicios desde cuenta: A000129437 pago de: AGUA EPSAS                            138083.05           410663216.95        DEBITO         
+                    ***Total balance***                                                                                           410663216.95        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00071965
+Account: A000100744
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-10 18:42:00 Pago de servicios desde cuenta: A000100744 pago de: TELEVISION ENTEL                      952.35              351563655.65        DEBITO         
+                    ***Total balance***                                                                                           351563655.65        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00014301
+Account: A00016209
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-28 11:58:00 Credito por servicio de cobranza a cuenta: A00016209                                      9228039.00          507040633.00        CREDITO        
+                    ***Total balance***                                                                                           507040633.00        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00074440
+Account: A000104300
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-07 05:44:00 Retiro en cajas de cuenta: A000104300 por: Alinda Ramos Guzman                            2744.32             1624701635.68       DEBITO         
+2016-11-09 23:31:00 Transferencia entre terceros cajas de cuenta: A000171910 a: A000104300                    1405.96             1624700229.72       CREDITO        
+2016-11-13 01:22:00 Pago de cheque en efectivo a cuenta: A000104300                                           1846.62             1624698383.10       DEBITO         
+2016-11-24 14:45:00 Pago de cheque en efectivo a cuenta: A000104300                                           2183.68             1624696199.42       DEBITO         
+2016-11-27 09:41:00 Pago de servicios desde cuenta: A000104300 pago de: AGUA EPSAS                            112.62              1624696086.80       DEBITO         
+                    ***Total balance***                                                                                           1624696086.80       
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00065939
+Account: A00091845
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-12 02:48:00 Pago de tarjeta de credito: 6232 3217 8511 1225                                           439.57              442494536.43        DEBITO         
+2016-11-12 02:48:00 Pago de tarjeta de credito: 6232 3217 8511 1225                                           439.57              442494096.86        CREDITO        
+                    ***Total balance***                                                                                           442494096.86        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00058197
+Account: A00080411
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-21 14:22:00 Transferencia entre terceros cajas de cuenta: A000207744 a: A00080411                     3961.87             787874628.13        CREDITO        
+2016-11-24 07:29:00 Pago de cheque en camara a cuenta: A00080411                                              365.83              787874262.30        DEBITO         
+2016-11-26 22:45:00 Transferencia entre terceros cajas de cuenta: A00080411 a: A000178460                     19.56               787874242.74        DEBITO         
+                    ***Total balance***                                                                                           787874242.74        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00042228
+Account: A00057031
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-02 22:47:00 Transferencia entre terceros cajas de cuenta: A000133000 a: A00057031                     273.42              666065136.58        CREDITO        
+2016-11-05 00:33:00 Deposito cheque extranjero a cuenta: A00057031 por: Diandra Ponce Delgadillo              82883776.00         583181360.58        CREDITO        
+2016-11-13 19:36:00 Transferencia en cajas de cuenta: A000153430 a: A00057031                                 75311.99            583106048.59        CREDITO        
+                    ***Total balance***                                                                                           583106048.59        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C000112747
+Account: A000160444
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-18 23:31:00 Transferencia a otro banco cuenta: A000160444 a: 67217522                                 994.78              1237989535.22       DEBITO         
+                    ***Total balance***                                                                                           1237989535.22       
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C000118575
+Account: A000169018
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-03 19:31:00 Pago de cheque en efectivo a cuenta: A000169018                                           16572.35            985157377.65        DEBITO         
+2016-11-16 17:26:00 Deposito cheque extranjero a cuenta: A000169018 por: Verushka Menacho Ribera              45726976.00         939430401.65        CREDITO        
+2016-11-21 05:55:00 Transferencia a otro banco cuenta: A000169018 a: 59356179                                 97497.48            939332904.17        DEBITO         
+                    ***Total balance***                                                                                           939332904.17        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C000128422
+Account: A000183459
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-03 22:32:00 Transferencia entre terceros cajas de cuenta: A00058489 a: A000183459                     3277.41             442965362.59        CREDITO        
+2016-11-19 17:22:00 Transferencia entre terceros cajas de cuenta: A000183459 a: A000214716                    30.53               442965332.06        DEBITO         
+2016-11-21 00:06:00 Pago de servicios desde cuenta: A000183459 pago de: TELEVISION TIGO                       154751.83           442810580.23        DEBITO         
+                    ***Total balance***                                                                                           442810580.23        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00085094
+Account: A000119867
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+                    ***Total balance***                                                                                           152773.60           
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C000126211
+Account: A000180259
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-17 12:59:00 Transferencia a otro banco cuenta: A000180259 a: 79375545                                 279.15              672101990.85        DEBITO         
+2016-11-24 10:08:00 Pago de cheque en camara a cuenta: A000180259                                             459.66              672101531.19        DEBITO         
+2016-11-29 10:24:00 Transferencia entre terceros cajas de cuenta: A000180259 a: A00014329                     497.60              672101033.59        DEBITO         
+                    ***Total balance***                                                                                           672101033.59        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00086588
+Account: A000122006
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+                    ***Total balance***                                                                                           54687.79            
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00038986
+Account: A00052286
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-05 08:04:00 Transferencia en cajas de cuenta: A00052286 a: A000126813                                 483.57              2426984216.43       DEBITO         
+2016-11-05 17:40:00 Pago de tarjeta de credito: 5471 7092 8428 4557                                           717.24              2426983499.19       DEBITO         
+2016-11-05 17:40:00 Pago de tarjeta de credito: 5471 7092 8428 4557                                           717.24              2426982781.95       CREDITO        
+2016-11-16 20:11:00 Transferencia a otro banco cuenta: A00052286 a: 32049613                                  504.64              2426982277.31       DEBITO         
+2016-11-22 21:49:00 Credito por servicio de cobranza a cuenta: A00052286                                      55995276.00         2370987001.31       CREDITO        
+2016-11-23 02:46:00 Credito por servicio de cobranza a cuenta: A00052286                                      9774228.00          2361212773.31       CREDITO        
+2016-11-30 07:22:00 Pago de servicios desde cuenta: A00052286 pago de: AGUA EPSAS                             667.06              2361212106.25       DEBITO         
+                    ***Total balance***                                                                                           2361212106.25       
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C000139821
+Account: A00029900
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-10 11:56:00 Pago de tarjeta de credito: 7321 1530 3094 6785                                           1421.53             246056914.47        DEBITO         
+2016-11-10 11:56:00 Pago de tarjeta de credito: 7321 1530 3094 6785                                           1421.53             246055492.94        CREDITO        
+2016-11-17 04:47:00 Transferencia en cajas de cuenta: A000192963 a: A00029900                                 3040.46             246052452.48        CREDITO        
+                    ***Total balance***                                                                                           246052452.48        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00046873
+Account: A00063901
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-10 01:36:00 Transferencia entre terceros cajas de cuenta: A00070849 a: A00063901                      1042.11             694969647.89        CREDITO        
+2016-11-20 08:11:00 Credito por servicio de cobranza a cuenta: A00063901                                      37942096.00         657027551.89        CREDITO        
+2016-11-30 19:08:00 Transferencia a otro banco cuenta: A00063901 a: 12899971                                  192.52              657027359.37        DEBITO         
+                    ***Total balance***                                                                                           657027359.37        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00071793
+Account: A000100508
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-01 10:46:00 Pago de tarjeta de credito: 5141 7689 5353 5683                                           170.49              623841619.51        DEBITO         
+2016-11-01 10:46:00 Pago de tarjeta de credito: 5141 7689 5353 5683                                           170.49              623841449.02        CREDITO        
+2016-11-07 18:30:00 Pago de cheque en efectivo a cuenta: A000100508                                           1368.14             623840080.88        DEBITO         
+                    ***Total balance***                                                                                           623840080.88        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C000144426
+Account: A000193611
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-02 21:35:00 Transferencia entre terceros cajas de cuenta: A000193611 a: A000188351                    53.14               2070668486.86       DEBITO         
+2016-11-14 11:55:00 Pago de prestamo desde cuenta: A000193611                                                 707.58              2070667779.28       DEBITO         
+2016-11-19 14:20:00 Credito por servicio de cobranza a cuenta: A000193611                                     18647176.00         2052020603.28       CREDITO        
+2016-11-19 08:59:00 Deposito en cajas a cuenta: A000193611 por: Johnny Ortiz Salinas                          10018493.00         2042002110.28       CREDITO        
+2016-11-22 06:50:00 Deposito cheque extranjero a cuenta: A000193611 por: Jhaneth Franco Poma                  18636184.00         2023365926.28       CREDITO        
+2016-11-27 02:38:00 Pago de servicios desde cuenta: A000193611 pago de: TELEFONO COTEL                        2623.83             2023363302.45       DEBITO         
+2016-11-30 21:36:00 Transferencia entre terceros cajas de cuenta: A000193611 a: A000194968                    1884.23             2023361418.22       DEBITO         
+                    ***Total balance***                                                                                           2023361418.22       
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00073729
+Account: A000103302
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-04 02:45:00 Pago de tarjeta de credito: 8646 7852 3487 5464                                           85.41               1218871334.59       DEBITO         
+2016-11-04 02:45:00 Pago de tarjeta de credito: 8646 7852 3487 5464                                           85.41               1218871249.18       CREDITO        
+2016-11-16 07:01:00 Deposito en cajas a cuenta: A000103302 por: Jessica Cabrera Molina                        41942284.00         1176928965.18       CREDITO        
+2016-11-24 12:17:00 Pago de tarjeta de credito: 8622 3260 3293 7932                                           82.66               1176928882.52       DEBITO         
+2016-11-24 12:17:00 Pago de tarjeta de credito: 8622 3260 3293 7932                                           82.66               1176928799.86       CREDITO        
+                    ***Total balance***                                                                                           1176928799.86       
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00046700
+Account: A00063616
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-03 04:51:00 Transferencia entre terceros cajas de cuenta: A000125503 a: A00063616                     706.12              1036741503.88       CREDITO        
+2016-11-10 13:51:00 Transferencia a otro banco cuenta: A00063616 a: 30946332                                  1687.98             1036739815.90       DEBITO         
+2016-11-13 07:08:00 Pago de tarjeta de credito: 4802 3707 7104 7454                                           889.11              1036738926.79       DEBITO         
+2016-11-13 07:08:00 Pago de tarjeta de credito: 4802 3707 7104 7454                                           889.11              1036738037.68       CREDITO        
+2016-11-26 10:45:00 Deposito en cajas a cuenta: A00063616 por: Emely Soliz Sejas                              97777376.00         938960661.68        CREDITO        
+                    ***Total balance***                                                                                           938960661.68        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C000143957
+Account: A000102960
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-05 05:56:00 Pago de cheque en camara a cuenta: A000102960                                             40395.03            190454036.97        DEBITO         
+                    ***Total balance***                                                                                           190454036.97        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00030441
+Account: A00039871
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-06 04:34:00 Retiro en cajas de cuenta: A00039871 por: Melany Rios Jimenez                             1021.90             487217218.10        DEBITO         
+2016-11-22 18:50:00 Deposito en cajas a cuenta: A00039871 por: Grover Calle Andrade                           68669952.00         418547266.10        CREDITO        
+                    ***Total balance***                                                                                           418547266.10        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00010768
+Account: A00011136
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-01 05:58:00 Deposito cheque extranjero a cuenta: A00011136 por: Shirley Rodriguez Gonzalez            48445628.00         700484932.00        CREDITO        
+2016-11-26 06:15:00 Transferencia entre terceros cajas de cuenta: A00011136 a: A00063590                      505.26              700484426.74        DEBITO         
+                    ***Total balance***                                                                                           700484426.74        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C000121431
+Account: A000173279
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-09 06:04:00 Pago de tarjeta de credito: 1048 3750 4394 6753                                           1249.32             838705370.68        DEBITO         
+2016-11-09 06:04:00 Pago de tarjeta de credito: 1048 3750 4394 6753                                           1249.32             838704121.36        CREDITO        
+2016-11-18 13:48:00 Transferencia entre terceros cajas de cuenta: A000173279 a: A000133460                    2084.12             838702037.24        DEBITO         
+2016-11-18 12:20:00 Pago de cheque en camara a cuenta: A000173279                                             1969.76             838700067.48        DEBITO         
+                    ***Total balance***                                                                                           838700067.48        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C000117213
+Account: A000167036
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-07 16:02:00 Retiro en cajas de cuenta: A000167036 por: Vania Ibañez Sanchez                           74365.77            596155584.23        DEBITO         
+2016-11-14 21:57:00 Credito por servicio de cobranza a cuenta: A000167036                                     85674320.00         510481264.23        CREDITO        
+                    ***Total balance***                                                                                           510481264.23        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00010385
+Account: A00010587
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-02 06:06:00 Deposito en cajas a cuenta: A00010587 por: Dael Aliaga Soto                               19715822.00         379390514.00        CREDITO        
+2016-11-08 06:37:00 Retiro en cajas de cuenta: A00010587 por: Gary Murillo Justiniano                         61.15               379390452.85        DEBITO         
+                    ***Total balance***                                                                                           379390452.85        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00036512
+Account: A00048691
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+                    ***Total balance***                                                                                           137336.92           
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00025556
+Account: A00032665
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-02 12:33:00 Retiro en cajas de cuenta: A00032665 por: Madelen Moreno Leon                             45760.37            1135612349.63       DEBITO         
+2016-11-10 20:10:00 Retiro en cajas de cuenta: A00032665 por: Arline Diaz Ibañez                              32333.46            1135580016.17       DEBITO         
+2016-11-30 10:26:00 Pago de cheque en camara a cuenta: A00032665                                              61237.00            1135518779.17       DEBITO         
+                    ***Total balance***                                                                                           1135518779.17       
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C000128948
+Account: A000184206
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-05 15:05:00 Transferencia en cajas de cuenta: A000184206 a: A00084077                                 754.97              127680845.03        DEBITO         
+                    ***Total balance***                                                                                           127680845.03        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C000115020
+Account: A000163855
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-09 16:07:00 Pago de cheque en camara a cuenta: A000163855                                             1363.80             1034843886.20       DEBITO         
+2016-11-19 07:26:00 Transferencia en cajas de cuenta: A00061266 a: A000163855                                 2579.02             1034841307.18       CREDITO        
+2016-11-28 14:54:00 Deposito cheque local a cuenta: A000163855 por: Angeli Soria Maldonado                    43085208.00         991756099.18        CREDITO        
+                    ***Total balance***                                                                                           991756099.18        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00054247
+Account: A00074668
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+                    ***Total balance***                                                                                           128554.13           
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00084771
+Account: A000119391
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-05 07:32:00 Pago de cheque en camara a cuenta: A000119391                                             281.32              1436535778.68       DEBITO         
+2016-11-25 17:59:00 Deposito en cajas a cuenta: A000119391 por: Madison Castro Medrano                        57981072.00         1378554706.68       CREDITO        
+2016-11-28 18:28:00 Pago de cheque en camara a cuenta: A000119391                                             2797.46             1378551909.22       DEBITO         
+                    ***Total balance***                                                                                           1378551909.22       
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00054654
+Account: A00075226
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-04 20:10:00 Transferencia a otro banco cuenta: A00075226 a: 76828774                                  1743.35             1381877806.65       DEBITO         
+2016-11-04 17:19:00 Transferencia a otro banco cuenta: A00075226 a: 88488329                                  3255.90             1381874550.75       DEBITO         
+2016-11-06 22:43:00 Deposito cheque local a cuenta: A00075226 por: Kelin Loza Soto                            80357904.00         1301516646.75       CREDITO        
+2016-11-13 02:40:00 Transferencia entre terceros cajas de cuenta: A00075226 a: A000200295                     725.80              1301515920.95       DEBITO         
+2016-11-14 06:20:00 Deposito cheque local a cuenta: A00075226 por: Kamila Navarro Montaño                     76222576.00         1225293344.95       CREDITO        
+2016-11-19 23:57:00 Deposito cheque local a cuenta: A00075226 por: Leyna Teran Martinez                       92732608.00         1132560736.95       CREDITO        
+                    ***Total balance***                                                                                           1132560736.95       
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00084472
+Account: A000118961
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-04 14:00:00 Pago de prestamo desde cuenta: A000118961                                                 4614.65             765127165.35        DEBITO         
+2016-11-10 01:00:00 Transferencia en cajas de cuenta: A000118961 a: A000142244                                2490.75             765124674.60        DEBITO         
+2016-11-17 16:40:00 Transferencia en cajas de cuenta: A000118961 a: A000191887                                935.70              765123738.90        DEBITO         
+                    ***Total balance***                                                                                           765123738.90        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00038737
+Account: A00051932
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+                    ***Total balance***                                                                                           5913.32             
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00036535
+Account: A00048727
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+                    ***Total balance***                                                                                           119540.10           
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C000137891
+Account: A000197343
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+                    ***Total balance***                                                                                           795.29              
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00034550
+Account: A00045851
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-19 14:19:00 Deposito en cajas a cuenta: A00045851 por: Dorian Beltran Quispe                          24496410.00         463407622.00        CREDITO        
+                    ***Total balance***                                                                                           463407622.00        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00041577
+Account: A00056050
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-06 23:36:00 Credito por servicio de cobranza a cuenta: A00056050                                      70649808.00         436329808.00        CREDITO        
+2016-11-20 19:24:00 Transferencia en cajas de cuenta: A00045695 a: A00056050                                  421.37              436329386.63        CREDITO        
+                    ***Total balance***                                                                                           436329386.63        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00010039
+Account: A00010048
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+                    ***Total balance***                                                                                           12077.06            
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00068121
+Account: A00095130
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-03 04:25:00 Transferencia en cajas de cuenta: A00098242 a: A00095130                                  3638.46             2092394701.54       CREDITO        
+2016-11-07 14:29:00 Pago de servicios desde cuenta: A00095130 pago de: AGUA EPSAS                             453.20              2092394248.34       DEBITO         
+2016-11-15 12:19:00 Deposito cheque local a cuenta: A00095130 por: Leny Quispe Vasquez                        35157312.00         2057236936.34       CREDITO        
+2016-11-15 22:20:00 Transferencia entre terceros cajas de cuenta: A00095130 a: A000205316                     485.99              2057236450.35       DEBITO         
+2016-11-22 20:24:00 Deposito en cajas a cuenta: A00095130 por: Demian Barrientos Loayza                       76206432.00         1981030018.35       CREDITO        
+2016-11-24 22:27:00 Pago de cheque en camara a cuenta: A00095130                                              463.76              1981029554.59       DEBITO         
+2016-11-27 01:01:00 Pago de tarjeta de credito: 6771 8692 8193 3791                                           113.50              1981029441.09       DEBITO         
+2016-11-27 01:01:00 Pago de tarjeta de credito: 6771 8692 8193 3791                                           113.50              1981029327.59       CREDITO        
+2016-11-29 19:26:00 Pago de servicios desde cuenta: A00095130 pago de: AGUA EPSAS                             216.68              1981029110.91       DEBITO         
+                    ***Total balance***                                                                                           1981029110.91       
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C000109713
+Account: A000155940
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+                    ***Total balance***                                                                                           77665.92            
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00070935
+Account: A00099263
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-22 00:04:00 Pago de tarjeta de credito: 4079 4484 2426 3012                                           523.61              236941620.39        DEBITO         
+2016-11-22 00:04:00 Pago de tarjeta de credito: 4079 4484 2426 3012                                           523.61              236941096.78        CREDITO        
+                    ***Total balance***                                                                                           236941096.78        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00051218
+Account: A00070247
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-01 08:20:00 Deposito cheque local a cuenta: A00070247 por: Esteysi Nina Velarde                       91151152.00         883159698.00        CREDITO        
+2016-11-03 01:07:00 Pago de tarjeta de credito: 1897 1675 4440 3807                                           1259.61             883158438.39        DEBITO         
+2016-11-03 01:07:00 Pago de tarjeta de credito: 1897 1675 4440 3807                                           1259.61             883157178.78        CREDITO        
+2016-11-15 15:48:00 Transferencia a otro banco cuenta: A00070247 a: 59991458                                  1728.52             883155450.26        DEBITO         
+                    ***Total balance***                                                                                           883155450.26        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00088472
+Account: A000124716
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-03 16:39:00 Pago de tarjeta de credito: 5880 6058 1961 6377                                           41084.95            956879365.05        DEBITO         
+2016-11-03 16:39:00 Pago de tarjeta de credito: 5880 6058 1961 6377                                           41084.95            956838280.10        CREDITO        
+2016-11-07 12:47:00 Credito por servicio de cobranza a cuenta: A000124716                                     59544160.00         897294120.10        CREDITO        
+2016-11-18 10:00:00 Deposito en cajas a cuenta: A000124716 por: Dorian Ramirez Vera                           50298492.00         846995628.10        CREDITO        
+                    ***Total balance***                                                                                           846995628.10        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00056326
+Account: A00077655
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+                    ***Total balance***                                                                                           26056.83            
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00048135
+Account: A00065769
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+                    ***Total balance***                                                                                           36850.52            
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C000103658
+Account: A000147006
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-05 01:50:00 Pago de servicios desde cuenta: A000147006 pago de: TELEFONO COTEL                        1757.99             760051872.01        DEBITO         
+2016-11-11 22:34:00 Transferencia en cajas de cuenta: A00078108 a: A000147006                                 668.40              760051203.61        CREDITO        
+2016-11-22 06:00:00 Transferencia a otro banco cuenta: A000147006 a: 44890218                                 1862.38             760049341.23        DEBITO         
+                    ***Total balance***                                                                                           760049341.23        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00051592
+Account: A00070779
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-04 07:18:00 Transferencia a otro banco cuenta: A00070779 a: 74369956                                  2486.12             1365542733.88       DEBITO         
+2016-11-05 01:22:00 Deposito cheque local a cuenta: A00070779 por: Yovana Calderon Luna                       35462408.00         1330080325.88       CREDITO        
+2016-11-16 19:03:00 Deposito en cajas a cuenta: A00070779 por: Malory Orellana Añez                           22655610.00         1307424715.88       CREDITO        
+2016-11-16 22:13:00 Credito por servicio de cobranza a cuenta: A00070779                                      44601244.00         1262823471.88       CREDITO        
+                    ***Total balance***                                                                                           1262823471.88       
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00070577
+Account: A00098746
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-27 14:04:00 Pago de prestamo desde cuenta: A00098746                                                  2386.26             330970861.74        DEBITO         
+                    ***Total balance***                                                                                           330970861.74        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C000121194
+Account: A000172916
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+                    ***Total balance***                                                                                           242414.86           
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00015920
+Account: A00018513
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-08 15:03:00 Deposito cheque local a cuenta: A00018513 por: Milko Roca Nina                            70717120.00         401042432.00        CREDITO        
+2016-11-30 05:49:00 Transferencia en cajas de cuenta: A00018513 a: A00098904                                  981.82              401041450.18        DEBITO         
+                    ***Total balance***                                                                                           401041450.18        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00023258
+Account: A000154697
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-24 22:39:00 Transferencia en cajas de cuenta: A00029300 a: A000154697                                 53438.02            25615.88            CREDITO        
+                    ***Total balance***                                                                                           25615.88            
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00079990
+Account: A000112346
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-09 20:10:00 Deposito cheque extranjero a cuenta: A000112346 por: Zdenka Herbas Justiniano             80173232.00         699382418.00        CREDITO        
+2016-11-19 12:47:00 Transferencia entre terceros cajas de cuenta: A000112346 a: A00081287                     611.58              699381806.42        DEBITO         
+2016-11-27 21:39:00 Deposito cheque local a cuenta: A000112346 por: Ludy Parada Nina                          63489436.00         635892370.42        CREDITO        
+                    ***Total balance***                                                                                           635892370.42        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00049721
+Account: A000181477
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-28 02:04:00 Retiro en cajas de cuenta: A000181477 por: Eva Garcia Ticona                              40.94               317091703.06        DEBITO         
+                    ***Total balance***                                                                                           317091703.06        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C000115155
+Account: A000164075
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+2016-11-20 16:51:00 Transferencia en cajas de cuenta: A000202101 a: A000164075                                1448.84             219943559.16        CREDITO        
+2016-11-30 19:51:00 Credito por servicio de cobranza a cuenta: A000164075                                     7096178.00          212847381.16        CREDITO        
+                    ***Total balance***                                                                                           212847381.16        
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00042600
+Account: A00057574
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+                    ***Total balance***                                                                                           90814.59            
+--------------
+Bank: DUMMY BANK
+Address: 123 FAKE ST, PO BOX 4000
+Statement Period: 2016-11-01 - 2016-11-30
+Customer: C00077953
+Account: A000109392
+
+Date:               Description:                                                                              Amount:             TempBalance:        Operation:     
+                    ***Total balance***                                                                                           91438.36            
+--------------
