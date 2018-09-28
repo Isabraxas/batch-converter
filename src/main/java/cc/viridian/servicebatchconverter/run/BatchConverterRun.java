@@ -55,6 +55,7 @@ public class BatchConverterRun implements CommandLineRunner {
         }
 
         //commonUtils.expectedTime(firtsParamPathFile);
+        commonUtils.getInitTime();
 
         //verify hash
         String hashCodeFile = HashCode.getCodigoHash(prnFilename);
@@ -78,7 +79,10 @@ public class BatchConverterRun implements CommandLineRunner {
             + " " + fileInfoResponse.getInsertedDetails() + " inserts details \n";
         userlog.info(message);
 
+        long time = commonUtils.getCurrentRunTime();
+        userlog.info("Excecution time: " + time + " ms");
         userlog.closeLog();
+
     }
 
     private void displayCommandUsage() {
