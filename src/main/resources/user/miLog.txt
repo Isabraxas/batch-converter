@@ -1,0 +1,3 @@
+Statement_2.prn
+2018-09-18 - The hash file matching with another file alredy processed
+2018-09-18 - Excecution time: 213 ms

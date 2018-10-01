@@ -33,12 +33,12 @@ public class StatementDetailRepository {
         DataRow dataRow = SQLSelect.dataRowQuery("SELECT * FROM STATEMENT_DETAIL WHERE "
                                                      + "ACCOUNT_CODE=#bind($AccCode)"
                                                      + " AND DEBIT_CREDIT=#bind($DebitCredit)"
-                                                     //            + " AND LOCAL_DATE_TIME =#bind($DateTime)"
-                                                     + " AND REFERENCE_NUMBER =#bind($RefNum)")
+                                                     + " AND LOCAL_DATE_TIME =#bind($DateTime)")
+                                                     //+ " AND REFERENCE_NUMBER =#bind($RefNum)")
                                    .paramsArray(body.getAccountCode(),
                                    FormatUtil.getInitialChar(body.getDebitCredit()),
-                                    //, body.getLocalDateTime()
-                                   body.getReferenceNumber())
+                                    body.getLocalDateTime())
+                                   //body.getReferenceNumber())
                                    .selectFirst(context);
 
         return this.checkDataRowToStatemenDetail(dataRow);

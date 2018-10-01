@@ -6,6 +6,7 @@ import cc.viridian.servicebatchconverter.payload.FileInfoResponse;
 import cc.viridian.servicebatchconverter.payload.StatementPayload;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -18,6 +19,8 @@ import java.util.List;
 @Slf4j
 @Service
 public class ReadStatementsFileService {
+    @Value("${config.separator.statement}")
+    private String separatorStatemet;
 
     @Autowired
     private ParseStatementsFileService parseStatementsFileService;
@@ -40,6 +43,8 @@ public class ReadStatementsFileService {
 
         HeaderPayload statementHeader = new HeaderPayload();
         HeaderPayload errorHeader = new HeaderPayload();
+        final String SEPARATOR_STATEMENT = separatorStatemet; //TODO get value form costant form config parsefile or .yml
+
         int countErrorHeader = 0;
 
         while ((line = b.readLine()) != null) {
@@ -48,7 +53,7 @@ public class ReadStatementsFileService {
             currentLine++;
             //System.out.print(", " + currentLine);
             try {
-                if (!line.contains("-----------------") && !line.equals("")) {
+                if (!line.contains(SEPARATOR_STATEMENT) && !line.equals("")) {
 
                     //System.out.println(line);
 
@@ -100,7 +105,7 @@ public class ReadStatementsFileService {
                 fileIsFine = false;
             }
 
-            if (line.contains("-----------------")) {
+            if (line.contains(SEPARATOR_STATEMENT)) {
 
                 statement = new StatementPayload();
                 statementHeader = new HeaderPayload();

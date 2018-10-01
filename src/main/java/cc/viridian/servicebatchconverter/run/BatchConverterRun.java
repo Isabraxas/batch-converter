@@ -46,6 +46,14 @@ public class BatchConverterRun implements CommandLineRunner {
             return;
         }
 
+        //clean tables
+        if (args[0].contains("--clear-tables") ) {
+            statementHeaderService.deleteAll();
+            userlog.info("Database clean headers and details");
+            userlog.closeLog();
+            return;
+        }
+
         //verify if the prn file already exists and can read it
         prnFile = verifyPrnFile(prnFilename);
         if (prnFile == null) {
@@ -55,6 +63,7 @@ public class BatchConverterRun implements CommandLineRunner {
         }
 
         //commonUtils.expectedTime(firtsParamPathFile);
+        commonUtils.getInitTime();
 
         //verify hash
         String hashCodeFile = HashCode.getCodigoHash(prnFilename);
@@ -78,7 +87,10 @@ public class BatchConverterRun implements CommandLineRunner {
             + " " + fileInfoResponse.getInsertedDetails() + " inserts details \n";
         userlog.info(message);
 
+        long time = commonUtils.getCurrentRunTime();
+        userlog.info("Excecution time: " + time + " ms");
         userlog.closeLog();
+
     }
 
     private void displayCommandUsage() {

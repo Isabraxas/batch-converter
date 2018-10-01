@@ -3,6 +3,7 @@ package cc.viridian.servicebatchconverter.writer;
 import cc.viridian.servicebatchconverter.utils.CommonUtils;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
@@ -39,7 +40,7 @@ public class Userlog {
         }
 
         try {
-            writer = new PrintStream(logFile.getAbsolutePath(), encoding);
+            writer = new PrintStream( new FileOutputStream(logFile.getAbsolutePath(),true), true, encoding);
             //info("start writing log");
         } catch (FileNotFoundException | UnsupportedEncodingException e) {
             System.out.println(e.getMessage());
@@ -66,6 +67,8 @@ public class Userlog {
 
     public void closeLog() {
         if (writer != null) {
+            writer.println("***************************************");
+            writer.println();
             writer.close();
         }
     }

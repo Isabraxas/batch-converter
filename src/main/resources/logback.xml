@@ -8,6 +8,7 @@
         </encoder>
     </appender>
 
+
     <appender name="SAVE-TO-FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
 
         <file>${LOG_PATH}/log.log</file>
@@ -28,8 +29,9 @@
 
     </appender>
 
-        <root level="WARN">
-            <appender-ref ref="SAVE-TO-FILE"/>
+    <root level="WARN">
+        <appender-ref ref="SAVE-TO-FILE"/>
 
-        </root>
+    </root>
+
 </configuration>

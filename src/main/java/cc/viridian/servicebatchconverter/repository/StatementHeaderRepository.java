@@ -255,4 +255,15 @@ public class StatementHeaderRepository {
             return null;
         }
     }
+
+//TODO delete after demo
+    public void deleteAllStatements() {
+        log.info("Deleteing Statements");
+        ObjectContext context = mainServerRuntime.newContext();
+
+        SQLExec
+            .query("DELETE FROM STATEMENT_DETAIL; DELETE FROM STATEMENT_HEADER;")
+            .update(context);
+
+    }
 }
