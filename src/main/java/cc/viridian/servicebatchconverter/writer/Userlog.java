@@ -40,7 +40,7 @@ public class Userlog {
         }
 
         try {
-            writer = new PrintStream( new FileOutputStream(logFile.getAbsolutePath(),true), true, encoding);
+            writer = new PrintStream(new FileOutputStream(logFile.getAbsolutePath(), true), true, encoding);
             //info("start writing log");
         } catch (FileNotFoundException | UnsupportedEncodingException e) {
             System.out.println(e.getMessage());

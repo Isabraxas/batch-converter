@@ -35,22 +35,14 @@ public class BatchConverterRun implements CommandLineRunner {
 
         userlogPath = System.getProperty("user.dir");
 
-        //check params are present and exit program if there is an error
-        if (!processArgs(args)) {
-            return;
-        }
-
         userlog = new Userlog(userlogPath, commonUtils);
 
         if (userlog.getWriter() == null) {
             return;
         }
 
-        //clean tables
-        if (args[0].contains("--clear-tables") ) {
-            statementHeaderService.deleteAll();
-            userlog.info("Database clean headers and details");
-            userlog.closeLog();
+        //check params are present and exit program if there is an error
+        if (!processArgs(args)) {
             return;
         }
 
@@ -61,9 +53,6 @@ public class BatchConverterRun implements CommandLineRunner {
             userlog.closeLog();
             return;
         }
-
-        //commonUtils.expectedTime(firtsParamPathFile);
-        commonUtils.getInitTime();
 
         //verify hash
         String hashCodeFile = HashCode.getCodigoHash(prnFilename);
@@ -77,6 +66,7 @@ public class BatchConverterRun implements CommandLineRunner {
         userlog.info("The hash file not matching with any another record");
 
         //process file and report results
+        commonUtils.getInitTime();
         fileInfoResponse = this.readStatementsFileService.readContent(prnFilename);
 
         String message = "There are " + fileInfoResponse.getDuplicatedHeaders() + " duplicate headers,"
@@ -90,7 +80,6 @@ public class BatchConverterRun implements CommandLineRunner {
         long time = commonUtils.getCurrentRunTime();
         userlog.info("Excecution time: " + time + " ms");
         userlog.closeLog();
-
     }
 
     private void displayCommandUsage() {
@@ -100,8 +89,8 @@ public class BatchConverterRun implements CommandLineRunner {
 
         System.out.println("");
         System.out.println("example:  java -jar target/service-batch-converter-0.1.9999.jar "
-                               + "--log=miLog.txt "
-                               + "src/main/resources/files/Statement_2.prn ");
+                               + "--log=miLog/"
+                               + "src/main/resources/files/Statement_file.prn ");
     }
 
     private Boolean processArgs(final String[] args) {
@@ -115,6 +104,8 @@ public class BatchConverterRun implements CommandLineRunner {
                 String[] params = args[i].split("=");
                 if (params.length > 0 && params[0].equalsIgnoreCase("--log")) {
                     userlogPath = params[1];
+                } else if (params.length > 0 && params[0].equalsIgnoreCase("--clear-tables")) {
+                    statementHeaderService.deleteAll(userlog);
                 } else {
                     prnFilename = args[i];
                 }

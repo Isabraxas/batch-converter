@@ -25,7 +25,7 @@ public class ParseStatementsFileService {
     FileInfoResponse fileInfoResponse = new FileInfoResponse();
 
     @Value("${config.separator.statement}")
-    private String separatorStatemet;
+    private String separatorStatement;
 
     @Autowired
     private StatementHeaderService statementHeaderService;
@@ -50,7 +50,6 @@ public class ParseStatementsFileService {
         List<DetailPayload> detailList = new ArrayList<DetailPayload>();
         Boolean startReadDetails = false;
         Boolean addHeader = true;
-        final String SEPARATOR_STATEMENT = separatorStatemet;
 
         HeaderPayload statementHeader = new HeaderPayload();
         totalLines = commonUtils.getFileLines(filePath);
@@ -58,11 +57,10 @@ public class ParseStatementsFileService {
         while ((line = b.readLine()) != null) {
             bytesRead += line.length();
 
-                if (i[0] > 100) {
-                    CommonUtils.showPercentageByBytes(filePath, bytesRead);
-                    i[0] = 0;
-                }
-
+            if (i[0] > 100) {
+                CommonUtils.showPercentageByBytes(filePath, bytesRead);
+                i[0] = 0;
+            }
 
             DetailPayload detail = new DetailPayload();
             currentLine++;
@@ -70,7 +68,7 @@ public class ParseStatementsFileService {
             //System.out.print(", " + currentLine);
             try {
 
-                if (!line.contains(SEPARATOR_STATEMENT) && !line.equals("")) {
+                if (!line.contains(separatorStatement) && !line.equals("")) {
 
                     //System.out.println(line);
 
@@ -107,7 +105,7 @@ public class ParseStatementsFileService {
                 addHeader = false;
             }
 
-            if (line.contains(SEPARATOR_STATEMENT)) {
+            if (line.contains(separatorStatement)) {
 
                 saveStatement(filePath, statement, statementHeader, detailList);
 
@@ -138,13 +136,13 @@ public class ParseStatementsFileService {
     }
 
     private void saveStatement(final String filePath, final StatementPayload statement,
-        final HeaderPayload statementHeader, final List<DetailPayload> detailList) throws
+                               final HeaderPayload statementHeader, final List<DetailPayload> detailList) throws
         IOException, NoSuchAlgorithmException {
         log.debug("Starting save statement function");
         HeaderPayload headerPayload = this.statementHeaderService.getStatementHeaderPayload(
             statementHeader);
 
-        //Make hash and set to statemetHeader
+        //Make hash and set to StatementHeader
         String hash = HashCode.getCodigoHash(filePath);
         statementHeader.setFileHash(hash);
 
