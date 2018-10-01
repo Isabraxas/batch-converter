@@ -34,6 +34,7 @@
 
     </root>
 
+    <!--
     <root level="WARN">
         <appender-ref ref="STDOUT" />
     </root>
@@ -41,5 +42,11 @@
     <logger name="org.apache.cayenne.log.JdbcEventLogger" additivity="true" level="INFO">
         <appender-ref ref="STDOUT"/>
     </logger>
+
+    <logger name="org.postgresql" additivity="true" level="TRACE">
+        <appender-ref ref="SAVE-TO-FILE"/>
+        <appender-ref ref="STDOUT"/>
+    </logger>
+    -->
 
 </configuration>

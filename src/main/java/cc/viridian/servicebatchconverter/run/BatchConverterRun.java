@@ -83,14 +83,23 @@ public class BatchConverterRun implements CommandLineRunner {
     }
 
     private void displayCommandUsage() {
-        System.out.println("usage:  java -jar service-batch-converter-0.1.29.jar "
+        System.out.println("usage:  java -jar service-batch-converter-version.jar "
                                + "[--log=logfile] "
                                + "<file.prn ");
+
+        System.out.println("usage:  java -jar service-batch-converter-version.jar "
+                               + "--clear-tables     "
+        );
 
         System.out.println("");
         System.out.println("example:  java -jar target/service-batch-converter-0.1.9999.jar "
                                + "--log=miLog/"
                                + "src/main/resources/files/Statement_file.prn ");
+
+        System.out.println("");
+        System.out.println("example:  java -jar target/service-batch-converter-0.1.9999.jar "
+                               + "--clear-tables"
+        );
     }
 
     private Boolean processArgs(final String[] args) {
