@@ -262,7 +262,10 @@ public class StatementHeaderRepository {
         ObjectContext context = mainServerRuntime.newContext();
 
         SQLExec
-            .query("DELETE FROM STATEMENT_DETAIL; DELETE FROM STATEMENT_HEADER;")
+            .query("DELETE FROM STATEMENT_DETAIL")
+            .update(context);
+        SQLExec
+            .query("DELETE FROM STATEMENT_HEADER;")
             .update(context);
 
     }
