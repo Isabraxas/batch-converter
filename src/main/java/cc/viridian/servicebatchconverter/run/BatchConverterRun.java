@@ -46,6 +46,14 @@ public class BatchConverterRun implements CommandLineRunner {
             return;
         }
 
+        //clean tables
+        if (args[0].contains("--clear-tables") ) {
+            statementHeaderService.deleteAll();
+            userlog.info("Database clean headers and details");
+            userlog.closeLog();
+            return;
+        }
+
         //verify if the prn file already exists and can read it
         prnFile = verifyPrnFile(prnFilename);
         if (prnFile == null) {

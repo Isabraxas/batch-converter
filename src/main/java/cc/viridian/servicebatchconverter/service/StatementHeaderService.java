@@ -53,4 +53,10 @@ public class StatementHeaderService {
     public HeaderPayload getStatementHeaderPayload(final HeaderPayload headerPayload) {
         return this.headerRepository.getOneStatementHeaderPayload(headerPayload);
     }
+
+    public void deleteAll() {
+        this.headerRepository.deleteAllStatements();
+    }
+
+
 }
