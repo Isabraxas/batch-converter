@@ -20,7 +20,7 @@ import java.util.List;
 @Service
 public class ReadStatementsFileService {
     @Value("${config.separator.statement}")
-    private String separatorStatemet;
+    private String separatorStatement;
 
     @Autowired
     private ParseStatementsFileService parseStatementsFileService;
@@ -43,7 +43,6 @@ public class ReadStatementsFileService {
 
         HeaderPayload statementHeader = new HeaderPayload();
         HeaderPayload errorHeader = new HeaderPayload();
-        final String SEPARATOR_STATEMENT = separatorStatemet; //TODO get value form costant form config parsefile or .yml
 
         int countErrorHeader = 0;
 
@@ -53,7 +52,7 @@ public class ReadStatementsFileService {
             currentLine++;
             //System.out.print(", " + currentLine);
             try {
-                if (!line.contains(SEPARATOR_STATEMENT) && !line.equals("")) {
+                if (!line.contains(separatorStatement) && !line.equals("")) {
 
                     //System.out.println(line);
 
@@ -105,7 +104,7 @@ public class ReadStatementsFileService {
                 fileIsFine = false;
             }
 
-            if (line.contains(SEPARATOR_STATEMENT)) {
+            if (line.contains(separatorStatement)) {
 
                 statement = new StatementPayload();
                 statementHeader = new HeaderPayload();
