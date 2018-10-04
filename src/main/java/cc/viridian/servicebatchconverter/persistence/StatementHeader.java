@@ -1,6 +1,5 @@
 package cc.viridian.servicebatchconverter.persistence;
 
-import cc.viridian.servicebatchconverter.payload.HeaderPayload;
 import cc.viridian.servicebatchconverter.persistence.auto._StatementHeader;
 import cc.viridian.servicebatchconverter.utils.FormatUtil;
 import org.apache.cayenne.DataRow;
