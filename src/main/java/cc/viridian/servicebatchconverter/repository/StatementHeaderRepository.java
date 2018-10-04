@@ -13,9 +13,11 @@ import org.apache.cayenne.exp.Expression;
 import org.apache.cayenne.exp.ExpressionFactory;
 import org.apache.cayenne.query.SQLExec;
 import org.apache.cayenne.query.SQLSelect;
+import org.apache.cayenne.query.SQLTemplate;
 import org.apache.cayenne.query.SelectQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import java.util.ArrayList;
 import java.util.List;
 import static org.apache.cayenne.Cayenne.objectForQuery;
 
@@ -85,7 +87,24 @@ public class StatementHeaderRepository {
                                    )
                                    .selectFirst(context);
 
-        return this.checkDataRowToHeaderPayload(dataRow);
+        HeaderPayload header = this.checkDataRowToHeaderPayload(dataRow);
+
+        String sql = String.format("SELECT * FROM STATEMENT_DETAIL WHERE "
+                                       + "FK_HEADER=%s", header.getId().toString());
+        SQLTemplate query = new SQLTemplate(StatementDetail.class, sql);
+        // ensure we are fetching DataRows
+        query.setFetchingDataRows(true);
+        // List of DataRow
+        List<DataRow> rows = context.performQuery(query);
+        List<DetailPayload> detailPayloads = new ArrayList<>();
+        //Get detailPayloads
+        rows.forEach(dataR -> {
+            detailPayloads.add(this.statementDetailRepository.checkDataRowToDetailPayload(dataRow));
+        });
+
+        header.setDetailPayloads(detailPayloads);
+
+        return header;
     }
 
     public int deleteStatementHeaderById(final Integer id) {

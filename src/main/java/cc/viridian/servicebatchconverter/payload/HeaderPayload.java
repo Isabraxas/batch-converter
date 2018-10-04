@@ -10,6 +10,7 @@ import org.apache.cayenne.DataRow;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @AllArgsConstructor
@@ -33,6 +34,7 @@ public class HeaderPayload {
     private String statementTitle;
     private String fileHash;
     private Integer id;
+    private List<DetailPayload> detailPayloads;
 
     public static HeaderPayload getHeaderPayload(final DataRow dataRow) {
         if (dataRow == null) {
