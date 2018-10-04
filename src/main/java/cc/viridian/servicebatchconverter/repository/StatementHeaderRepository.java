@@ -232,11 +232,7 @@ public class StatementHeaderRepository {
 
         if (dataRow != null) {
             StatementHeader statementHeader = StatementHeader.getStatementHeader(dataRow);
-            if (statementHeader != null) {
-                return statementHeader;
-            } else {
-                return null;
-            }
+            return statementHeader;
         } else {
             return null;
         }
@@ -245,12 +241,8 @@ public class StatementHeaderRepository {
     public HeaderPayload checkDataRowToHeaderPayload(final DataRow dataRow) {
 
         if (dataRow != null) {
-            HeaderPayload headerPayload = new HeaderPayload(dataRow);
-            if (headerPayload != null) {
-                return headerPayload;
-            } else {
-                return null;
-            }
+            HeaderPayload headerPayload = HeaderPayload.getHeaderPayload(dataRow);
+            return headerPayload;
         } else {
             return null;
         }

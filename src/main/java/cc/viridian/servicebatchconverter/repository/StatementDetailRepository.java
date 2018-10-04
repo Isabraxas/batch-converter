@@ -96,11 +96,7 @@ public class StatementDetailRepository {
 
         if (dataRow != null) {
             StatementDetail statementDetail = StatementDetail.getStatementDetail(dataRow);
-            if (statementDetail != null) {
-                return statementDetail;
-            } else {
-                return null;
-            }
+            return statementDetail;
         } else {
             return null;
         }
@@ -109,12 +105,8 @@ public class StatementDetailRepository {
     public DetailPayload checkDataRowToDetailPayload(final DataRow dataRow) {
 
         if (dataRow != null) {
-            DetailPayload detailPayload = new DetailPayload(dataRow);
-            if (detailPayload != null) {
-                return detailPayload;
-            } else {
-                return null;
-            }
+            DetailPayload detailPayload = DetailPayload.getDetailPayload(dataRow);
+            return detailPayload;
         } else {
             return null;
         }

@@ -1,5 +1,6 @@
 package cc.viridian.servicebatchconverter.payload;
 
+import cc.viridian.servicebatchconverter.persistence.StatementDetail;
 import cc.viridian.servicebatchconverter.utils.FormatUtil;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -35,60 +36,66 @@ public class DetailPayload {
     public String trnId;
     public Integer id;
 
-    public DetailPayload(DataRow dataRow) {
+    public static DetailPayload getDetailPayload(DataRow dataRow){
+        if(dataRow == null){
+            return null;
+        }
+        DetailPayload detail = new DetailPayload();
         dataRow.forEach((key, value) -> {
 
             if (value != null && key.equals("account_code")) {
-                this.accountCode = (value.toString());
+                detail.setAccountCode(value.toString());
             }
             if (value != null && key.equals("date")) {
-                this.setDate(value.toString());
+                detail.setDate(value.toString());
             }
             if (value != null && key.equals("debit_credit")) {
-                this.debitCredit = (value.toString());
+                detail.setDebitCredit(value.toString());
             }
             if (value != null && key.equals("local_date_time")) {
                 Date date = (Date) value;
                 if (date != null) {
-                    this.localDateTime = (FormatUtil.parseDateToLocalDateTime(date));
+                    detail.setLocalDateTime(FormatUtil.parseDateToLocalDateTime(date));
                 }
             }
             if (value != null && key.equals("reference_number")) {
-                this.referenceNumber = (value.toString());
+                detail.setReferenceNumber(value.toString());
             }
             if (value != null && key.equals("secondary_info")) {
-                this.setSecondaryInfo(value.toString());
+                detail.setSecondaryInfo(value.toString());
             }
             if (value != null && key.equals("transaction_code")) {
-                this.transactionCode = (value.toString());
+                detail.setTransactionCode(value.toString());
             }
             if (value != null && key.equals("annotation")) {
-                this.annotation = (value.toString());
+                detail.setAnnotation(value.toString());
             }
             if (value != null && key.equals("account_currency")) {
-                this.accountCurrency = (value.toString());
+                detail.setAccountCurrency(value.toString());
             }
             if (value != null && key.equals("account_type")) {
-                this.accountType = (value.toString());
+                detail.setAccountType(value.toString());
             }
             if (value != null && key.equals("amount")) {
-                this.amount = ((BigDecimal) value);
+                detail.setAmount((BigDecimal) value);
             }
             if (value != null && key.equals("branch_channel")) {
-                this.branchChannel = (value.toString());
+                detail.setBranchChannel(value.toString());
             }
             if (value != null && key.equals("trn_id")) {
-                this.trnId = (value.toString());
+                detail.setTrnId(value.toString());
             }
             if (value != null && key.equals("balance")) {
-                this.balance = ((BigDecimal) value);
+                detail.setBalance((BigDecimal) value);
             }
             if (value != null && key.equals("transaction_desc")) {
-                this.transactionDesc = (value.toString());
+                detail.setTransactionDesc(value.toString());
             }
             if (value != null && key.equals("id")) {
-                this.id = ((Integer) value);
+                detail.setId((Integer) value);
             }
         });
+        return detail;
     }
+
 }
