@@ -9,11 +9,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.cayenne.DataRow;
 import org.apache.cayenne.ObjectContext;
 import org.apache.cayenne.configuration.server.ServerRuntime;
+import org.apache.cayenne.exp.Expression;
+import org.apache.cayenne.exp.ExpressionFactory;
 import org.apache.cayenne.query.SQLExec;
 import org.apache.cayenne.query.SQLSelect;
+import org.apache.cayenne.query.SelectQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import java.util.List;
+import static org.apache.cayenne.Cayenne.objectForQuery;
 
 @Slf4j
 @Repository
@@ -146,14 +150,18 @@ public class StatementHeaderRepository {
 
         ObjectContext context = mainServerRuntime.newContext();
 
-        //Get header
-        HeaderPayload header = this.getOneStatementHeaderPayload(body);
+        //Get Statement
+        Expression qualifier = ExpressionFactory
+            .matchExp(StatementHeader.ACCOUNT_CODE.getName(), body.getAccountCode())
+            .andExp(ExpressionFactory.matchExp(StatementHeader.CUSTOMER_CODE.getName(), body.getCustomerCode()))
+            .andExp(ExpressionFactory.matchExp(StatementHeader.DATE_FROM.getName(), body.getDateFrom()))
+            .andExp(ExpressionFactory.matchExp(StatementHeader.DATE_TO.getName(), body.getDateTo()));
+        SelectQuery select = new SelectQuery(StatementHeader.class, qualifier);
 
-        //Delete details
-        this.statementDetailRepository.deleteStatementDetailByHeader(header);
-
-        //Delete header
-        this.deleteStatementHeaderById(header.getId());
+        //Delete Statement (header and details)
+        StatementHeader header = (StatementHeader) objectForQuery(context, select);
+        context.deleteObjects(header);
+        context.commitChanges();
     }
 
     public StatementHeader checkDataRowToStatemenHeader(final DataRow dataRow) {
