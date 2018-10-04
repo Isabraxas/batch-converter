@@ -2,9 +2,9 @@ spring:
   application:
     name: batchconverter
   profiles:
-    active: default
+    active: ${PROFILE_ACTIVE:default}
   cloud:
     config:
-      #uri: http://localhost:7000
-      uri: http://desarrollo.viridian.cc:7000
+      #uri: http://localhost:7015
+      uri: ${CLOUD_URI:http://desarrollo.viridian.cc:7000}
       profile: default

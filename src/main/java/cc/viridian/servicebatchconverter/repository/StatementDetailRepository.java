@@ -13,7 +13,6 @@ import org.apache.cayenne.query.SQLSelect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-
 @Slf4j
 @Repository
 public class StatementDetailRepository {
@@ -34,81 +33,23 @@ public class StatementDetailRepository {
                                                      + "ACCOUNT_CODE=#bind($AccCode)"
                                                      + " AND DEBIT_CREDIT=#bind($DebitCredit)"
                                                      + " AND LOCAL_DATE_TIME =#bind($DateTime)")
-                                                     //+ " AND REFERENCE_NUMBER =#bind($RefNum)")
                                    .paramsArray(body.getAccountCode(),
-                                   FormatUtil.getInitialChar(body.getDebitCredit()),
-                                    body.getLocalDateTime())
-                                   //body.getReferenceNumber())
+                                                FormatUtil.getInitialChar(body.getDebitCredit()),
+                                                body.getLocalDateTime()
+                                   )
                                    .selectFirst(context);
 
-        return this.checkDataRowToStatemenDetail(dataRow);
+        StatementDetail statementDetail = this.dataRowToStatemenDetail(dataRow);
+        return statementDetail;
     }
 
-    public DetailPayload getLastStatementDetailPayload() {
-
-        ObjectContext context = mainServerRuntime.newContext();
-
-        log.info("Select Detail in DB ");
-        DataRow dataRow = SQLSelect.dataRowQuery("SELECT * FROM statement_detail ORDER BY id DESC LIMIT 1")
-                                   .selectFirst(context);
-
-        return this.checkDataRowToDetailPayload(dataRow);
+    public StatementDetail dataRowToStatemenDetail(final DataRow dataRow) {
+        StatementDetail statementDetail = StatementDetail.getStatementDetail(dataRow);
+        return statementDetail;
     }
 
-    public int deleteStatementDetailById(final Integer id) {
-        log.info("Deleteing StatementDetail");
-        ObjectContext context = mainServerRuntime.newContext();
-
-        int delete = SQLExec
-            .query("DELETE FROM STATEMENT_DETAIL WHERE ID = #bind($id)")
-            .paramsArray(id)
-            .update(context);
-
-        return delete;
-    }
-
-    public int deleteStatementDetailByHeader(final HeaderPayload header) {
-        log.info("Deleteing StatementDetail");
-        ObjectContext context = mainServerRuntime.newContext();
-
-        int delete = SQLExec
-            .query("DELETE FROM STATEMENT_DETAIL WHERE ACCOUNT_CODE = #bind($accCode) AND FK_HEADER = #bind($header)")
-            .paramsArray(header.getAccountCode(), header.getId())
-            .update(context);
-
-        return delete;
-    }
-
-    private DetailPayload reformatDetail(final DetailPayload body) {
-        DetailPayload detailPayload = body;
-
-        //Date 8 chars
-        String newDate = FormatUtil.parseDateDBformat(detailPayload.getDate(), "-");
-        detailPayload.setDate(newDate);
-        //Debit-Credit
-        String newOp = FormatUtil.getInitialChar(detailPayload.getDebitCredit());
-        detailPayload.setDebitCredit(newOp);
-
+    public DetailPayload dataRowToDetailPayload(final DataRow dataRow) {
+        DetailPayload detailPayload = DetailPayload.getDetailPayload(dataRow);
         return detailPayload;
     }
-
-    public StatementDetail checkDataRowToStatemenDetail(final DataRow dataRow) {
-
-        if (dataRow != null) {
-            StatementDetail statementDetail = StatementDetail.getStatementDetail(dataRow);
-            return statementDetail;
-        } else {
-            return null;
-        }
-    }
-
-    public DetailPayload checkDataRowToDetailPayload(final DataRow dataRow) {
-
-        if (dataRow != null) {
-            DetailPayload detailPayload = DetailPayload.getDetailPayload(dataRow);
-            return detailPayload;
-        } else {
-            return null;
-        }
-   }
 }

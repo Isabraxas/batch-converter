@@ -44,7 +44,7 @@ public class StatementHeaderRepository {
                                    .paramsArray(hashCode)
                                    .selectFirst(context);
 
-        StatementHeader statementHeader = checkDataRowToStatemenHeader(dataRow);
+        StatementHeader statementHeader = dataRowToStatemenHeader(dataRow);
         return statementHeader;
     }
 
@@ -66,7 +66,8 @@ public class StatementHeaderRepository {
                                    )
                                    .selectFirst(context);
 
-        return this.checkDataRowToStatemenHeader(dataRow);
+        StatementHeader statementHeader = dataRowToStatemenHeader(dataRow);
+        return statementHeader;
     }
 
     public HeaderPayload getOneStatementHeaderPayload(final HeaderPayload body) {
@@ -87,22 +88,24 @@ public class StatementHeaderRepository {
                                    )
                                    .selectFirst(context);
 
-        HeaderPayload header = this.checkDataRowToHeaderPayload(dataRow);
+        HeaderPayload header = this.dataRowToHeaderPayload(dataRow);
 
-        String sql = String.format("SELECT * FROM STATEMENT_DETAIL WHERE "
-                                       + "FK_HEADER=%s", header.getId().toString());
-        SQLTemplate query = new SQLTemplate(StatementDetail.class, sql);
-        // ensure we are fetching DataRows
-        query.setFetchingDataRows(true);
-        // List of DataRow
-        List<DataRow> rows = context.performQuery(query);
-        List<DetailPayload> detailPayloads = new ArrayList<>();
-        //Get detailPayloads
-        rows.forEach(dataR -> {
-            detailPayloads.add(this.statementDetailRepository.checkDataRowToDetailPayload(dataRow));
-        });
+        if (header != null) {
+            String sql = String.format("SELECT * FROM STATEMENT_DETAIL WHERE "
+                                           + "FK_HEADER=%s", header.getId().toString());
+            SQLTemplate query = new SQLTemplate(StatementDetail.class, sql);
+            // ensure we are fetching DataRows
+            query.setFetchingDataRows(true);
+            // List of DataRow
+            List<DataRow> rows = context.performQuery(query);
+            List<DetailPayload> detailPayloads = new ArrayList<>();
+            //Get detailPayloads
+            rows.forEach(dataR -> {
+                detailPayloads.add(this.statementDetailRepository.dataRowToDetailPayload(dataRow));
+            });
 
-        header.setDetailPayloads(detailPayloads);
+            header.setDetailPayloads(detailPayloads);
+        }
 
         return header;
     }
@@ -183,24 +186,14 @@ public class StatementHeaderRepository {
         context.commitChanges();
     }
 
-    public StatementHeader checkDataRowToStatemenHeader(final DataRow dataRow) {
-
-        if (dataRow != null) {
-            StatementHeader statementHeader = StatementHeader.getStatementHeader(dataRow);
-            return statementHeader;
-        } else {
-            return null;
-        }
+    public StatementHeader dataRowToStatemenHeader(final DataRow dataRow) {
+        StatementHeader statementHeader = StatementHeader.getStatementHeader(dataRow);
+        return statementHeader;
     }
 
-    public HeaderPayload checkDataRowToHeaderPayload(final DataRow dataRow) {
-
-        if (dataRow != null) {
-            HeaderPayload headerPayload = HeaderPayload.getHeaderPayload(dataRow);
-            return headerPayload;
-        } else {
-            return null;
-        }
+    public HeaderPayload dataRowToHeaderPayload(final DataRow dataRow) {
+        HeaderPayload headerPayload = HeaderPayload.getHeaderPayload(dataRow);
+        return headerPayload;
     }
 
     //TODO delete after demo
