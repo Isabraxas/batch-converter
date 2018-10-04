@@ -1,6 +1,5 @@
 package cc.viridian.servicebatchconverter.payload;
 
-import cc.viridian.servicebatchconverter.persistence.StatementDetail;
 import cc.viridian.servicebatchconverter.utils.FormatUtil;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -36,8 +35,8 @@ public class DetailPayload {
     public String trnId;
     public Integer id;
 
-    public static DetailPayload getDetailPayload(DataRow dataRow){
-        if(dataRow == null){
+    public static DetailPayload getDetailPayload(final DataRow dataRow) {
+        if (dataRow == null) {
             return null;
         }
         DetailPayload detail = new DetailPayload();
@@ -97,5 +96,4 @@ public class DetailPayload {
         });
         return detail;
     }
-
 }

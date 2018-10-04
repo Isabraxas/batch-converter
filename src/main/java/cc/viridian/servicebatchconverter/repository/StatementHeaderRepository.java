@@ -11,7 +11,6 @@ import org.apache.cayenne.ObjectContext;
 import org.apache.cayenne.configuration.server.ServerRuntime;
 import org.apache.cayenne.query.SQLExec;
 import org.apache.cayenne.query.SQLSelect;
-import org.apache.cayenne.query.SQLTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
@@ -195,31 +194,13 @@ public class StatementHeaderRepository {
         context.commitChanges();
     }
 
-    //TODO tal vez deberia devolver un objeto con la cantidad y tipo de los registros elininados
+    //TODO: tal vez deberia devolver un objeto con la cantidad y tipo de los registros eliminados
     public void deleteStementHeader(final HeaderPayload body) {
 
         ObjectContext context = mainServerRuntime.newContext();
 
         //Get header
         HeaderPayload header = this.getOneStatementHeaderPayload(body);
-
-        //Get details by fk_header
-        String sql = "SELECT D.* FROM STATEMENT_HEADER H LEFT JOIN STATEMENT_DETAIL D ON H.ID = D.FK_HEADER"
-            + " WHERE H.ACCOUNT_CODE=#bind($AccCode)"
-            + " AND H.CUSTOMER_CODE=#bind($CustCode)"
-            + " AND H.DATE_FROM =#bind($DateFrom)"
-            + " AND H.DATE_TO =#bind($DateTo)";
-        SQLTemplate selectQuery = new SQLTemplate(StatementHeader.class, sql);
-        selectQuery.setParamsArray(
-            body.getAccountCode(),
-            body.getCustomerCode(),
-            body.getDateFrom(),
-            body.getDateTo());
-
-        // ensure we are fetching DataRows
-        selectQuery.setFetchingDataRows(true);
-
-        List<DataRow> rows = context.performQuery(selectQuery);
 
         //Delete details
         this.statementDetailRepository.deleteStatementDetailByHeader(header);

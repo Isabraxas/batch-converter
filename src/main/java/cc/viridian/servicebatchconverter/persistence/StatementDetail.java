@@ -24,7 +24,7 @@ public class StatementDetail extends _StatementDetail {
     }
 
     public static StatementDetail getStatementDetail(final DataRow dataRow) {
-        if(dataRow == null){
+        if (dataRow == null) {
             return null;
         }
 

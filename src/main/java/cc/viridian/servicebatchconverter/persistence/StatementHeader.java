@@ -15,7 +15,7 @@ public class StatementHeader extends _StatementHeader {
     }
 
     public static StatementHeader getStatementHeader(final DataRow dataRow) {
-        if(dataRow == null){
+        if (dataRow == null) {
             return null;
         }
 

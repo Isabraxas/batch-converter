@@ -34,8 +34,8 @@ public class HeaderPayload {
     private String fileHash;
     private Integer id;
 
-    public static HeaderPayload getHeaderPayload(DataRow dataRow){
-        if(dataRow == null){
+    public static HeaderPayload getHeaderPayload(final DataRow dataRow) {
+        if (dataRow == null) {
             return null;
         }
 
@@ -88,7 +88,7 @@ public class HeaderPayload {
                 header.setFileHash(value.toString());
             }
             if (value != null && key.equals("id")) {
-                header.setId ((Integer) value);
+                header.setId((Integer) value);
             }
         });
 
