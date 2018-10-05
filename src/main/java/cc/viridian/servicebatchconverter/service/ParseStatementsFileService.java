@@ -14,6 +14,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
@@ -81,8 +82,8 @@ public class ParseStatementsFileService {
                     }
 
                     //Set Total amount
-                    if (!startReadDetails) {
-                        CommonProcessFileService.setTotalAmount(line, statementHeader);
+                    if (startReadDetails) {
+                        CommonProcessFileService.setBalanceEnd(line, statementHeader);
                     }
                 }
 
@@ -98,7 +99,10 @@ public class ParseStatementsFileService {
             }
 
             if (line.contains(separatorStatement)) {
-
+                if(addHeader) {
+                    BigDecimal balanceInitial = CommonProcessFileService.getBalanceInitial(statement);
+                    statement.getHeader().setBalanceInitial(balanceInitial);
+                }
                 saveStatement(filePath, statement, statementHeader, detailList);
 
                 statement = new StatementPayload();

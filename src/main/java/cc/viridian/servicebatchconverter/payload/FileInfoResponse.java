@@ -14,19 +14,19 @@ import lombok.ToString;
 public class FileInfoResponse {
     private Integer errorsHeaders = 0;
     private Integer errorsDetails = 0;
-    private Integer duplicatedHeaders = 0;
-    private Integer duplicatedDetails = 0;
+    private Integer replacedHeaders = 0;
+    private Integer replacedDetails = 0;
     private Integer insertedHeaders = 0;
     private Integer insertedDetails = 0;
     private Boolean hashExist;
     private Boolean isItWriteable;
 
     public void incrementDuplicatedHeaders() {
-        duplicatedHeaders++;
+        replacedHeaders++;
     }
 
     public void incrementDuplicatedDetails() {
-        duplicatedDetails++;
+        replacedDetails++;
     }
 
     public void incrementErrorHeaders() {
@@ -45,6 +45,6 @@ public class FileInfoResponse {
         insertedDetails = insertedDetails + quantity;
     }
     public void incremenDuplicatedDetails(final Integer quantity) {
-        duplicatedDetails = duplicatedDetails + quantity;
+        replacedDetails = replacedDetails + quantity;
     }
 }

@@ -83,9 +83,7 @@ public class ReadStatementsFileService {
                     }
 
                     //Set Total amount
-                    if (!startReadDetails) {
-                        CommonProcessFileService.setTotalAmount(line, statementHeader);
-                    }
+                    //CommonProcessFileService.setBalanceEnd(line, statementHeader);
                 }
 
                 if (addHeader) {
@@ -119,8 +117,8 @@ public class ReadStatementsFileService {
         if (true) {
             //TODO hacer solo los sets correspondientes
             FileInfoResponse infoResponse = parseStatementsFileService.parseContent(filePath);
-            fileInfoResponse.setDuplicatedDetails(infoResponse.getDuplicatedDetails());
-            fileInfoResponse.setDuplicatedHeaders(infoResponse.getDuplicatedHeaders());
+            fileInfoResponse.setReplacedDetails(infoResponse.getReplacedDetails());
+            fileInfoResponse.setReplacedHeaders(infoResponse.getReplacedHeaders());
             fileInfoResponse.setInsertedDetails(infoResponse.getInsertedDetails());
             fileInfoResponse.setInsertedHeaders(infoResponse.getInsertedHeaders());
             log.info("Saving Statements");
