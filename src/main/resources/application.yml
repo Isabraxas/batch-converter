@@ -1,10 +1,11 @@
 database:
   jdbc-driver: org.postgresql.Driver
-  url: jdbc:postgresql://postgres.lab.viridian.cc:5432/updatekafka
+  #url: jdbc:postgresql://postgres.lab.viridian.cc:5432/updatekafka
+  #url: jdbc:postgresql://localhost:5432/localPruebas
   user: viridian
   password: sesamo
 server:
   port: 8087
 
 ##### Custom properties ####
-config.separator.statement: ${SEPARATOR_STATEMENT:----------}
+#config.separator.statement: ${SEPARATOR_STATEMENT:----------}

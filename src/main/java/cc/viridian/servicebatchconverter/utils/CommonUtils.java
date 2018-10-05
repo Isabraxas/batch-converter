@@ -1,10 +1,6 @@
 package cc.viridian.servicebatchconverter.utils;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -16,15 +12,8 @@ import java.util.HashMap;
 
 public class CommonUtils {
     public String operativSystem;
-    static final float BYTES_FILE = (float) 370460.00;
-    static final long EXECUTION_TIME_FILE = 5006;
-    static final int STATEMENTS = 10;
     static long initTime = 0;
     static long currentRunTime = 0;
-    Boolean currentProgress;
-    String progressBar = "[";
-
-    static Thread t = new Thread();
 
     ArrayList<HashMap<String, Object>> logicalReaders;
 
@@ -108,52 +97,8 @@ public class CommonUtils {
         System.out.println("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
 
         System.out.print(moveTo(1, 9));
-        //System.out.print( red() + moveTo(10, 10)+ percent);
     }
 
-    public void expectedTime(final String filepath) {
-        //TODO calcular el tamaño del archivo
-        //Promedio de cuanto dura el proceso para 10 y para 100
-        DecimalFormat df = new DecimalFormat("#");
-        String myFile = filepath;
-
-        float currentFileBytes = new File(myFile).length();
-
-        System.out.println(myFile.substring(myFile.lastIndexOf("/") + 1)
-                               + "  : " + df.format(currentFileBytes) + " bytes");
-
-        float numRegs = currentFileBytes * (STATEMENTS / BYTES_FILE);
-        long expectedTime = (long) ((Math.round(currentFileBytes) * EXECUTION_TIME_FILE) / BYTES_FILE);
-
-        System.out.println("Expected Time " + expectedTime + "ms\n");
-    }
-
-    public Long getFileLines(final String filePath) throws IOException {
-        FileReader fr = new FileReader(filePath);
-        BufferedReader bf = new BufferedReader(fr);
-        long lNumeroLineas = 0;
-
-        while (bf.readLine() != null) {
-            lNumeroLineas++;
-        }
-        return lNumeroLineas;
-    }
-
-    public void incrementProgressBar(final Long currentLine, final Long totalLines) {
-        if (currentLine == totalLines) {
-            currentProgress = true;
-        }
-        Long percentage = (currentLine * 100) / totalLines;
-        progressBar = String.valueOf(percentage);
-    }
-
-    public String getProgressBar() {
-        return progressBar;
-    }
-
-    public Boolean getEnd() {
-        return currentProgress;
-    }
 
     public static void showPercentageByBytes(final String filePath, final long myBytesRead) {
         File file = new File(filePath);
@@ -175,16 +120,8 @@ public class CommonUtils {
         return initTime;
     }
 
-    public void setInitTime(long initTime) {
-        this.initTime = initTime;
-    }
-
     public static long getCurrentRunTime() {
         currentRunTime = System.currentTimeMillis() - initTime;
         return currentRunTime;
-    }
-
-    public void setEndTime(long endTime) {
-        this.currentRunTime = endTime;
     }
 }

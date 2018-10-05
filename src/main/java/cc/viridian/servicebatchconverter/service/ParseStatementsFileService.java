@@ -33,11 +33,6 @@ public class ParseStatementsFileService {
     private StatementDetailService statementDetailService;
 
     Long currentLine = 0L;
-    Long rateLines = 10L;
-    Long totalLines = 0L;
-    Integer countStatements = 0;
-    CommonUtils commonUtils = new CommonUtils();
-    Thread t;
     long bytesRead = 0;
 
     public FileInfoResponse parseContent(final String filePath)
@@ -52,7 +47,7 @@ public class ParseStatementsFileService {
         Boolean addHeader = true;
 
         HeaderPayload statementHeader = new HeaderPayload();
-        totalLines = commonUtils.getFileLines(filePath);
+
         final int[] i = {0};
         while ((line = b.readLine()) != null) {
             bytesRead += line.length();
@@ -64,13 +59,10 @@ public class ParseStatementsFileService {
 
             DetailPayload detail = new DetailPayload();
             currentLine++;
-            //updateProgress();
-            //System.out.print(", " + currentLine);
+
             try {
 
                 if (!line.contains(separatorStatement) && !line.equals("")) {
-
-                    //System.out.println(line);
 
                     //Try fill the Header
                     statementHeader = CommonProcessFileService.fillStatementAccountHeader(line, statementHeader);
@@ -124,16 +116,6 @@ public class ParseStatementsFileService {
         return fileInfoResponse;
     }
 
-    private void updateProgress() {
-        if (currentLine.toString().equals(rateLines.toString()) || currentLine.toString().equals(
-            totalLines.toString())) {
-            //TODO llamar a la funcion util para incrementar la barra de progreso y reiniciar el contador
-            commonUtils.incrementProgressBar(currentLine, totalLines);
-            System.out.print(" ");
-            System.out.print(commonUtils.getProgressBar() + "%");
-            rateLines = currentLine + 11;
-        }
-    }
 
     private void saveStatement(final String filePath, final StatementPayload statement,
                                final HeaderPayload statementHeader, final List<DetailPayload> detailList) throws
@@ -145,16 +127,6 @@ public class ParseStatementsFileService {
         //Make hash and set to StatementHeader
         String hash = HashCode.getCodigoHash(filePath);
         statementHeader.setFileHash(hash);
-
-        //Check if exist this details
-        if (statement.getHeader() != null) {
-            detailList.stream().forEach(detailP -> {
-                if (statementDetailService.exist(detailP)) {
-                    fileInfoResponse.incrementDuplicatedDetails();
-                    log.warn("This detail already exist: " + detailP.toString());
-                }
-            });
-        }
 
         //Check if this header is null
         if (statement.getHeader() != null) {
@@ -168,6 +140,7 @@ public class ParseStatementsFileService {
                     if (!HashCode.areEqualsFileAndHash(filePath, headerPayload.getFileHash())) {
                         log.warn("Deleting this header: " + headerPayload.toString());
                         this.statementHeaderService.delete(statementHeader);
+                        fileInfoResponse.incremenDuplicatedDetails(headerPayload.getDetailPayloads().size());
                     }
                 }
             }

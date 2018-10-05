@@ -24,6 +24,10 @@ public class StatementDetail extends _StatementDetail {
     }
 
     public static StatementDetail getStatementDetail(final DataRow dataRow) {
+        if (dataRow == null) {
+            return null;
+        }
+
         StatementDetail detail = new StatementDetail();
         dataRow.forEach((key, value) -> {
 

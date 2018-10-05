@@ -44,4 +44,7 @@ public class FileInfoResponse {
     public void incrementInsertedDetails(final Integer quantity) {
         insertedDetails = insertedDetails + quantity;
     }
+    public void incremenDuplicatedDetails(final Integer quantity) {
+        duplicatedDetails = duplicatedDetails + quantity;
+    }
 }

@@ -15,6 +15,10 @@ public class StatementHeader extends _StatementHeader {
     }
 
     public static StatementHeader getStatementHeader(final DataRow dataRow) {
+        if (dataRow == null) {
+            return null;
+        }
+
         StatementHeader header = new StatementHeader();
         dataRow.forEach((key, value) -> {
 
@@ -66,4 +70,5 @@ public class StatementHeader extends _StatementHeader {
         });
         return header;
     }
+
 }

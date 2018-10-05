@@ -10,6 +10,7 @@ import org.apache.cayenne.DataRow;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @AllArgsConstructor
@@ -33,59 +34,67 @@ public class HeaderPayload {
     private String statementTitle;
     private String fileHash;
     private Integer id;
+    private List<DetailPayload> detailPayloads;
 
-    public HeaderPayload(DataRow dataRow) {
+    public static HeaderPayload getHeaderPayload(final DataRow dataRow) {
+        if (dataRow == null) {
+            return null;
+        }
+
+        HeaderPayload header = new HeaderPayload();
         dataRow.forEach((key, value) -> {
 
             if (value != null && key.equals("account_code")) {
-                this.accountCode = (value.toString());
+                header.setAccountCode(value.toString());
             }
             if (value != null && key.equals("date_from")) {
                 Date date = (Date) value;
                 if (date != null) {
-                    this.dateFrom = (FormatUtil.parseDateToLocalDate(date));
+                    header.setDateFrom(FormatUtil.parseDateToLocalDate(date));
                 }
             }
             if (value != null && key.equals("date_to")) {
                 Date date = (Date) value;
                 if (date != null) {
-                    this.dateTo = (FormatUtil.parseDateToLocalDate(date));
+                    header.setDateTo(FormatUtil.parseDateToLocalDate(date));
                 }
             }
             if (value != null && key.equals("account_adders")) {
-                this.accountAddress = (value.toString());
+                header.setAccountAddress(value.toString());
             }
             if (value != null && key.equals("account_branch")) {
-                this.accountBranch = (value.toString());
+                header.setAccountBranch(value.toString());
             }
             if (value != null && key.equals("account_currency")) {
-                this.accountCurrency = (value.toString());
+                header.setAccountCurrency(value.toString());
             }
             if (value != null && key.equals("account_type")) {
-                this.accountType = (value.toString());
+                header.setAccountType(value.toString());
             }
             if (value != null && key.equals("balance_end")) {
-                this.balanceEnd = ((BigDecimal) value);
+                header.setBalanceEnd((BigDecimal) value);
             }
             if (value != null && key.equals("balance_initial")) {
-                this.balanceInitial = ((BigDecimal) value);
+                header.setBalanceInitial((BigDecimal) value);
             }
             if (value != null && key.equals("customer_code")) {
-                this.customerCode = (value.toString());
+                header.setCustomerCode(value.toString());
             }
             if (value != null && key.equals("message")) {
-                this.message = (value.toString());
+                header.setMessage(value.toString());
             }
             if (value != null && key.equals("statement_title")) {
-                this.statementTitle = (value.toString());
+                header.setStatementTitle(value.toString());
             }
             if (value != null && key.equals("file_hash")) {
-                this.fileHash = (value.toString());
+                header.setFileHash(value.toString());
             }
             if (value != null && key.equals("id")) {
-                this.id = ((Integer) value);
+                header.setId((Integer) value);
             }
         });
+
+        return header;
     }
 
     @Override
