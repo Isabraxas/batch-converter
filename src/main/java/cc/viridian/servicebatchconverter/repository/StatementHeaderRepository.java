@@ -44,7 +44,7 @@ public class StatementHeaderRepository {
                                    .paramsArray(hashCode)
                                    .selectFirst(context);
 
-        StatementHeader statementHeader = dataRowToStatemenHeader(dataRow);
+        StatementHeader statementHeader = StatementHeader.getStatementHeader(dataRow);
         return statementHeader;
     }
 
@@ -66,7 +66,7 @@ public class StatementHeaderRepository {
                                    )
                                    .selectFirst(context);
 
-        StatementHeader statementHeader = dataRowToStatemenHeader(dataRow);
+        StatementHeader statementHeader = StatementHeader.getStatementHeader(dataRow);
         return statementHeader;
     }
 
@@ -88,7 +88,7 @@ public class StatementHeaderRepository {
                                    )
                                    .selectFirst(context);
 
-        HeaderPayload header = this.dataRowToHeaderPayload(dataRow);
+        HeaderPayload header = HeaderPayload.getHeaderPayload(dataRow);
 
         if (header != null) {
             String sql = String.format("SELECT * FROM STATEMENT_DETAIL WHERE "
@@ -101,26 +101,13 @@ public class StatementHeaderRepository {
             List<DetailPayload> detailPayloads = new ArrayList<>();
             //Get detailPayloads
             rows.forEach(dataR -> {
-                detailPayloads.add(this.statementDetailRepository.dataRowToDetailPayload(dataRow));
+                detailPayloads.add(DetailPayload.getDetailPayload(dataRow));
             });
 
             header.setDetailPayloads(detailPayloads);
         }
 
         return header;
-    }
-
-    public int deleteStatementHeaderById(final Integer id) {
-        log.info("Deleteing StatementHeader");
-        ObjectContext context = mainServerRuntime.newContext();
-
-        int delete = SQLExec
-            .query("DELETE FROM STATEMENT_HEADER\n"
-                       + "WHERE ID = #bind($id)")
-            .paramsArray(id)
-            .update(context);
-
-        return delete;
     }
 
     public void saveStatementHeader(final HeaderPayload body, final List<DetailPayload> detailPayloadList) {
@@ -184,16 +171,6 @@ public class StatementHeaderRepository {
         StatementHeader header = (StatementHeader) objectForQuery(context, select);
         context.deleteObjects(header);
         context.commitChanges();
-    }
-
-    public StatementHeader dataRowToStatemenHeader(final DataRow dataRow) {
-        StatementHeader statementHeader = StatementHeader.getStatementHeader(dataRow);
-        return statementHeader;
-    }
-
-    public HeaderPayload dataRowToHeaderPayload(final DataRow dataRow) {
-        HeaderPayload headerPayload = HeaderPayload.getHeaderPayload(dataRow);
-        return headerPayload;
     }
 
     //TODO delete after demo

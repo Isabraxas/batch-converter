@@ -39,17 +39,8 @@ public class StatementDetailRepository {
                                    )
                                    .selectFirst(context);
 
-        StatementDetail statementDetail = this.dataRowToStatemenDetail(dataRow);
-        return statementDetail;
-    }
-
-    public StatementDetail dataRowToStatemenDetail(final DataRow dataRow) {
         StatementDetail statementDetail = StatementDetail.getStatementDetail(dataRow);
         return statementDetail;
     }
 
-    public DetailPayload dataRowToDetailPayload(final DataRow dataRow) {
-        DetailPayload detailPayload = DetailPayload.getDetailPayload(dataRow);
-        return detailPayload;
-    }
 }
