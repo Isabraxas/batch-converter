@@ -69,10 +69,10 @@ public class BatchConverterRun implements CommandLineRunner {
         commonUtils.getInitTime();
         fileInfoResponse = this.readStatementsFileService.readContent(prnFilename);
 
-        String message = "There are " + fileInfoResponse.getDuplicatedHeaders() + " duplicate headers,"
+        String message = "There are " + fileInfoResponse.getReplacedHeaders() + " replaced headers,"
             + " " + fileInfoResponse.getErrorsHeaders() + " errors headers, "
             + " " + fileInfoResponse.getInsertedHeaders() + " inserts headers \n"
-            + " with " + fileInfoResponse.getDuplicatedDetails() + " duplicate details,"
+            + " with " + fileInfoResponse.getReplacedDetails() + " replaced details,"
             + " " + fileInfoResponse.getErrorsDetails() + " errors details, "
             + " " + fileInfoResponse.getInsertedDetails() + " inserts details \n";
         userlog.info(message);

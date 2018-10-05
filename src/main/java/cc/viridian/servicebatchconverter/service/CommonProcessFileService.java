@@ -2,6 +2,7 @@ package cc.viridian.servicebatchconverter.service;
 
 import cc.viridian.servicebatchconverter.payload.DetailPayload;
 import cc.viridian.servicebatchconverter.payload.HeaderPayload;
+import cc.viridian.servicebatchconverter.payload.StatementPayload;
 import cc.viridian.servicebatchconverter.utils.FormatUtil;
 import lombok.extern.slf4j.Slf4j;
 import java.math.BigDecimal;
@@ -74,7 +75,7 @@ public class CommonProcessFileService {
     }
 
     public static Boolean setSizeColumnsOfStatementAccountDetailHeader(final String line,
-        final Boolean startReadDetails) {
+                                                                       final Boolean startReadDetails) {
         Boolean rStartReadDetails;
         log.debug("Starting to set size columns vars");
         if (line.contains("Date:")) {
@@ -162,20 +163,51 @@ public class CommonProcessFileService {
         return detail;
     }
 
-    public static void setTotalAmount(final String line, final HeaderPayload statementHeader) {
-        log.debug("Starting to fill total amount");
-        Integer colSum = 0;
+    public static void setBalanceEnd(final String line, final HeaderPayload statementHeader) {
+        try {
+            if (line.contains("Total") && !line.equals("")) {
+                log.debug("Starting to fill balance end");
+                Integer colSum = 0;
 
-        if (line.contains("Total") && !line.equals("")) {
+                //TOTAL
+                colSum = 0;
+                colSum += dateSize + descSize + amountSize;
+                String colTotal = line.substring(colSum, line.length());
 
-            //TOTAL
-            colSum = 0;
-            colSum += dateSize + descSize + amountSize;
-            String colTotal = line.substring(colSum, colSum + tempBalanceSize);
+                log.debug("TOTAL= " + Double.valueOf(colTotal));
+                statementHeader.setBalanceEnd(BigDecimal.valueOf(Double.valueOf(colTotal)));
 
-            log.debug("TOTAL= " + Double.valueOf(colTotal));
-            statementHeader.setBalanceEnd(BigDecimal.valueOf(Double.valueOf(colTotal)));
+                log.debug("Ending to fill balance end");
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage() + " ---> line content : " + line);
         }
-        log.debug("Ending to fill total amount");
+    }
+
+    public static BigDecimal getBalanceInitial(final StatementPayload statement) {
+        if (statement.getHeader() == null) {
+            return BigDecimal.ZERO;
+        }
+        log.debug("Starting to fill balance initial");
+        final BigDecimal[] debitAmount = {BigDecimal.ZERO};
+        final BigDecimal[] creditAmount = {BigDecimal.ZERO};
+        BigDecimal balanceEnd = statement.getHeader().getBalanceEnd();
+        BigDecimal balanceInitial;
+        statement.getDetails()
+                 .stream()
+                 .forEach(detail -> {
+                     if (detail.getDebitCredit().contains("D")) {
+                         debitAmount[0] = debitAmount[0].add(detail.getAmount());
+                     } else {
+                         creditAmount[0] = creditAmount[0].add(detail.getAmount());
+                     }
+                 });
+
+        balanceEnd = balanceEnd.add(creditAmount[0]);
+        balanceInitial = balanceEnd.subtract(debitAmount[0]);
+
+        log.debug("Ending to fill balance initial");
+
+        return balanceInitial;
     }
 }
