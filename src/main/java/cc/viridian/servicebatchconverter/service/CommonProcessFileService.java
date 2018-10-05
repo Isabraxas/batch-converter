@@ -179,13 +179,13 @@ public class CommonProcessFileService {
 
                 log.debug("Ending to fill balance end");
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             log.error(e.getMessage() + " ---> line content : " + line);
         }
     }
 
-    public static BigDecimal getBalanceInitial(StatementPayload statement) {
-        if (statement.getHeader() == null ) {
+    public static BigDecimal getBalanceInitial(final StatementPayload statement) {
+        if (statement.getHeader() == null) {
             return BigDecimal.ZERO;
         }
         log.debug("Starting to fill balance initial");

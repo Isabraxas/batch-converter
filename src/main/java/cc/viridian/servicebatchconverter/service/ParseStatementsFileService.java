@@ -99,7 +99,7 @@ public class ParseStatementsFileService {
             }
 
             if (line.contains(separatorStatement)) {
-                if(addHeader) {
+                if (addHeader) {
                     BigDecimal balanceInitial = CommonProcessFileService.getBalanceInitial(statement);
                     statement.getHeader().setBalanceInitial(balanceInitial);
                 }
@@ -119,7 +119,6 @@ public class ParseStatementsFileService {
         System.out.print("\n");
         return fileInfoResponse;
     }
-
 
     private void saveStatement(final String filePath, final StatementPayload statement,
                                final HeaderPayload statementHeader, final List<DetailPayload> detailList) throws
