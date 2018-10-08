@@ -11,7 +11,7 @@ import java.util.HashMap;
  */
 
 public class CommonUtils {
-    public String operativSystem;
+    public static String operativSystem;
     static long initTime = 0;
     static long currentRunTime = 0;
     static long totalBytes = 0;
@@ -53,7 +53,7 @@ public class CommonUtils {
         return code;
     }
 
-    public String red() {
+    public static String red() {
         String code = "\u001B[31m";
 
         if (operativSystem.equals("WINDOWS")) {
@@ -62,7 +62,7 @@ public class CommonUtils {
         return code;
     }
 
-    public String green() {
+    public static String green() {
         String code = "\u001B[32m";
 
         if (operativSystem.equals("WINDOWS")) {
@@ -100,7 +100,6 @@ public class CommonUtils {
         System.out.print(moveTo(1, 9));
     }
 
-
     public static void showPercentageByBytes(final long myBytesRead) {
         long bytesRead = myBytesRead;
 
@@ -108,7 +107,7 @@ public class CommonUtils {
 
         long expectedTime = ((getCurrentRunTime() * totalBytes) / myBytesRead);
 
-        System.out.println(String.valueOf(percent) + "% " + (expectedTime /1000) + " secs. ");
+        System.out.println(String.valueOf(percent) + "% " + (expectedTime / 1000) + " secs. ");
     }
 
     public static void setTotalBytes(final String filePath) {
