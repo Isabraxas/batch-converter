@@ -66,7 +66,7 @@ public class BatchConverterRun implements CommandLineRunner {
         }
 
         //process file and report results
-        commonUtils.getInitTime();
+        //commonUtils.getInitTime();
         fileInfoResponse = this.readStatementsFileService.readContent(prnFilename);
 
         String message = "There are " + fileInfoResponse.getReplacedHeaders() + " replaced headers,"

@@ -29,6 +29,46 @@ public class CommonUtils {
         return s;
     }
 
+    static public String moveUp(int n) {
+        //if (operativSystem.equals("WINDOWS")) {
+        //    return "";
+        //}
+        String s = "\u001B[" + n + "A";
+        return s;
+    }
+
+    static public String moveDown(int n) {
+        //if (operativSystem.equals("WINDOWS")) {
+        //    return "";
+        //}
+        String s = "\u001B[" + n + "B";
+        return s;
+    }
+
+    static public String moveForward(int n) {
+        //if (operativSystem.equals("WINDOWS")) {
+        //    return "";
+        //}
+        String s = "\u001B[" + n + "C";
+        return s;
+    }
+
+    static public String moveBackward(int n) {
+        //if (operativSystem.equals("WINDOWS")) {
+        //    return "";
+        //}
+        String s = "\u001B[" + n + "D";
+        return s;
+    }
+
+    static public String clearEndOfLine() {
+        //if (operativSystem.equals("WINDOWS")) {
+        //    return "";
+        //}
+        String s = "\u001B[" + "K";
+        return s;
+    }
+
     private String getOperativSystem() {
         String str = System.getProperty("os.name").toUpperCase();
         String[] splited = str.split("\\s+");
@@ -108,7 +148,8 @@ public class CommonUtils {
 
         long expectedTime = ((getCurrentRunTime() * totalBytes) / myBytesRead);
 
-        System.out.println(String.valueOf(percent) + "% " + (expectedTime /1000) + " secs. ");
+        System.out.print (moveUp(1) + clearEndOfLine());
+        System.out.println("  " + String.valueOf(percent) + "% " + (expectedTime /1000) + " secs. ");
     }
 
     public static void setTotalBytes(final String filePath) {

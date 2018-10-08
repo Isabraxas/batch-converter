@@ -48,11 +48,18 @@ public class ParseStatementsFileService {
         Boolean addHeader = true;
 
         CommonUtils.setTotalBytes(filePath);
+        System.out.println("parse content");
+        System.out.println( CommonUtils.getCurrentRunTime());
+        CommonUtils.getInitTime();
 
         HeaderPayload statementHeader = new HeaderPayload();
 
         //Get current file hash code
         hash = HashCode.getCodigoHash(filePath);
+
+        System.out.println("hash:");
+        System.out.println( CommonUtils.getCurrentRunTime());
+        CommonUtils.getInitTime();
 
         int currentLine = 0;
         while ((line = b.readLine()) != null) {

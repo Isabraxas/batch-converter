@@ -4,6 +4,7 @@ import cc.viridian.servicebatchconverter.payload.DetailPayload;
 import cc.viridian.servicebatchconverter.payload.HeaderPayload;
 import cc.viridian.servicebatchconverter.payload.FileInfoResponse;
 import cc.viridian.servicebatchconverter.payload.StatementPayload;
+import cc.viridian.servicebatchconverter.utils.CommonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,6 +35,7 @@ public class ReadStatementsFileService {
         String line;
 
         Integer currentLine = 0;
+        CommonUtils.getInitTime();  //todo: move below?
 
         StatementPayload statement = new StatementPayload();
         List<DetailPayload> detailList = new ArrayList<DetailPayload>();
