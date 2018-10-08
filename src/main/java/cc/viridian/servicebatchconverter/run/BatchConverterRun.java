@@ -36,7 +36,7 @@ public class BatchConverterRun implements CommandLineRunner {
 
         userlogPath = System.getProperty("user.dir");
 
-        userlog = new Userlog(userlogPath, commonUtils);
+        userlog = Userlog.factoryUserlog(userlogPath, commonUtils);
 
         if (userlog.getWriter() == null) {
             return;

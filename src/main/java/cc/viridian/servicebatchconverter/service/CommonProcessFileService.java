@@ -4,6 +4,7 @@ import cc.viridian.servicebatchconverter.payload.DetailPayload;
 import cc.viridian.servicebatchconverter.payload.HeaderPayload;
 import cc.viridian.servicebatchconverter.payload.StatementPayload;
 import cc.viridian.servicebatchconverter.utils.FormatUtil;
+import cc.viridian.servicebatchconverter.writer.Userlog;
 import lombok.extern.slf4j.Slf4j;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -17,6 +18,8 @@ public class CommonProcessFileService {
     static Integer amountSize = null;
     static Integer tempBalanceSize = null;
     static Integer operationSize = null;
+
+    static Userlog userlog = Userlog.getUserlog();
 
     public static HeaderPayload fillStatementAccountHeader(final String line, final HeaderPayload headerPayload) {
         log.debug("Starting to fill statement header");
@@ -186,7 +189,7 @@ public class CommonProcessFileService {
                 log.debug("Ending to fill balance end");
             }
         } catch (Exception e) {
-            log.error(e.getMessage() + " ---> line content : " + line);
+            userlog.error(e.getMessage() + " ---> line content : " + line);
         }
     }
 
@@ -215,9 +218,9 @@ public class CommonProcessFileService {
         log.debug("Ending to fill balance end");
         int comparison = calcBalanceEnd.compareTo(fileBalanceEnd);
         if (comparison != 0) {
-            log.warn("The end balance of the file {} does not correspond to the calculated balance {}"
+            userlog.warn(String.format("The end balance of the file %s does not correspond to the calculated balance %s"
                 , fileBalanceEnd
-                , calcBalanceEnd);
+                , calcBalanceEnd));
         }
 
         return calcBalanceEnd;

@@ -15,6 +15,10 @@ public class Userlog {
 
     private PrintStream writer;
 
+    private static Userlog userlog;
+    
+    private LocalDateTime printDateTime;
+
     public Userlog(final String path, final CommonUtils commonUtils) {
         this.commonUtils = commonUtils;
         this.writer = null;
@@ -51,20 +55,39 @@ public class Userlog {
         return writer;
     }
 
+    public static Userlog factoryUserlog(final String path, final CommonUtils commonUtils){
+        if(userlog == null) {
+            userlog = new Userlog(path, commonUtils);
+            return userlog;
+        }else {
+            return userlog;
+        }
+    }
+    public static Userlog getUserlog(){
+            return userlog;
+    }
+
     //print the same message in the userlog and the console
     public void info(final String message) {
-        LocalDateTime localDateTime = LocalDateTime.now();
-        writer.println(localDateTime + " - " + message);
+        printDateTime = LocalDateTime.now();
+        writer.println(printDateTime + " - " + message);
         System.out.println(message);
     }
 
     //print the same message in the userlog and the console as error
     public void error(final String message) {
-        LocalDateTime localDateTime = LocalDateTime.now();
-        writer.println(localDateTime + " - " + commonUtils.red() + message + commonUtils.black());
+        printDateTime = LocalDateTime.now();
+        writer.println(printDateTime + " - " + commonUtils.red() + message + commonUtils.black());
         System.out.println(message);
     }
 
+    //print the same message in the userlog and the console as error
+    public void warn(final String message) {
+        printDateTime = LocalDateTime.now();
+        writer.println(printDateTime + " - " + commonUtils.green() + message + commonUtils.black());
+        System.out.println(message);
+    }
+    
     public void closeLog() {
         if (writer != null) {
             writer.println("***************************************");
