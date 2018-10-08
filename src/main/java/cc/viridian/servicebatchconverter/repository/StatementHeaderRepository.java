@@ -11,7 +11,6 @@ import org.apache.cayenne.ObjectContext;
 import org.apache.cayenne.configuration.server.ServerRuntime;
 import org.apache.cayenne.exp.Expression;
 import org.apache.cayenne.exp.ExpressionFactory;
-import org.apache.cayenne.query.SQLExec;
 import org.apache.cayenne.query.SQLSelect;
 import org.apache.cayenne.query.SQLTemplate;
 import org.apache.cayenne.query.SelectQuery;
@@ -25,13 +24,10 @@ import static org.apache.cayenne.Cayenne.objectForQuery;
 @Repository
 public class StatementHeaderRepository {
     private ServerRuntime mainServerRuntime;
-    private StatementDetailRepository statementDetailRepository;
 
     @Autowired
-    public StatementHeaderRepository(ServerRuntime mainServerRuntime,
-                                     StatementDetailRepository statementDetailRepository) {
+    public StatementHeaderRepository(ServerRuntime mainServerRuntime) {
         this.mainServerRuntime = mainServerRuntime;
-        this.statementDetailRepository = statementDetailRepository;
     }
 
     public StatementHeader getOneStatementHeaderByFileHash(final String hashCode) {
@@ -173,16 +169,4 @@ public class StatementHeaderRepository {
         context.commitChanges();
     }
 
-    //TODO delete after demo
-    public void deleteAllStatements() {
-        log.info("Deleteing Statements");
-        ObjectContext context = mainServerRuntime.newContext();
-
-        SQLExec
-            .query("DELETE FROM STATEMENT_DETAIL")
-            .update(context);
-        SQLExec
-            .query("DELETE FROM STATEMENT_HEADER;")
-            .update(context);
-    }
 }
