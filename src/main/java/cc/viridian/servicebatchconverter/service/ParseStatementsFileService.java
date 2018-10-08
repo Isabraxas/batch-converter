@@ -47,18 +47,19 @@ public class ParseStatementsFileService {
         Boolean startReadDetails = false;
         Boolean addHeader = true;
 
+        CommonUtils.setTotalBytes(filePath);
+
         HeaderPayload statementHeader = new HeaderPayload();
 
         //Get current file hash code
         hash = HashCode.getCodigoHash(filePath);
 
-        final int[] i = {0};
+        int currentLine = 0;
         while ((line = b.readLine()) != null) {
             bytesRead += line.length();
 
-            if (i[0] > 100) {
-                CommonUtils.showPercentageByBytes(filePath, bytesRead);
-                i[0] = 0;
+            if (currentLine % 500 == 0) {
+                CommonUtils.showPercentageByBytes(bytesRead);
             }
 
             DetailPayload detail = new DetailPayload();
@@ -115,7 +116,7 @@ public class ParseStatementsFileService {
                 addHeader = true;
             }
 
-            i[0]++;
+            currentLine++;
         }
 
         b.close();

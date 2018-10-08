@@ -20,6 +20,7 @@ public class BatchConverterRun implements CommandLineRunner {
     HashMap<String, Object> appParams = new HashMap<>();
     @Autowired
     private ReadStatementsFileService readStatementsFileService;
+
     @Autowired
     private StatementHeaderService statementHeaderService;
     private CommonUtils commonUtils = new CommonUtils();
@@ -59,11 +60,10 @@ public class BatchConverterRun implements CommandLineRunner {
         Boolean isSaved = this.statementHeaderService.existFileHash(hashCodeFile);
 
         if (isSaved) {
-            userlog.info("hash already exists in database.  Exiting");
+            userlog.info("File already processed.  Hash already exists in database.  Exiting");
             userlog.closeLog();
             return;
         }
-        userlog.info("The hash file not matching with any another record");
 
         //process file and report results
         commonUtils.getInitTime();
