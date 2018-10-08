@@ -14,6 +14,7 @@ public class CommonUtils {
     public String operativSystem;
     static long initTime = 0;
     static long currentRunTime = 0;
+    static long totalBytes = 0;
 
     ArrayList<HashMap<String, Object>> logicalReaders;
 
@@ -100,19 +101,20 @@ public class CommonUtils {
     }
 
 
-    public static void showPercentageByBytes(final String filePath, final long myBytesRead) {
-        File file = new File(filePath);
-        long totalBytes = file.length();
+    public static void showPercentageByBytes(final long myBytesRead) {
         long bytesRead = myBytesRead;
 
         long percent = (bytesRead * 100L / totalBytes);
 
-        //System.out.print("PERCENT: ");
-        System.out.println(String.valueOf(percent) + "%");
+        long expectedTime = ((getCurrentRunTime() * totalBytes) / myBytesRead);
 
-        long expectedTime = ((getCurrentRunTime() * totalBytes) / myBytesRead) - getCurrentRunTime();
+        System.out.println(String.valueOf(percent) + "% " + (expectedTime /1000) + " secs. ");
+    }
 
-        System.out.println(expectedTime + " ms ");
+    public static void setTotalBytes(final String filePath) {
+        File file = new File(filePath);
+        totalBytes = file.length();
+        System.out.println(" processing " + totalBytes + " bytes from " + filePath + "file");
     }
 
     public static long getInitTime() {
