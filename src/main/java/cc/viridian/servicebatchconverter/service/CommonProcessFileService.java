@@ -190,16 +190,16 @@ public class CommonProcessFileService {
         }
     }
 
-    public static BigDecimal verifyBalanceInitial(final StatementPayload statement) {
+    public static BigDecimal verifyBalanceEnd(final StatementPayload statement) {
         if (statement.getHeader() == null) {
             return BigDecimal.ZERO;
         }
-        log.debug("Starting to fill balance initial");
+        log.debug("Starting to fill balance end");
         final BigDecimal[] debitAmount = {BigDecimal.ZERO};
         final BigDecimal[] creditAmount = {BigDecimal.ZERO};
-        BigDecimal balanceEnd = statement.getHeader().getBalanceEnd();
-        BigDecimal calcBalanceInitial;
-        BigDecimal fileBalanceInitial = statement.getHeader().getBalanceInitial();
+        BigDecimal fileBalanceEnd = statement.getHeader().getBalanceEnd();
+        BigDecimal calcBalanceEnd;
+        BigDecimal balanceInitial = statement.getHeader().getBalanceInitial();
         statement.getDetails()
                  .stream()
                  .forEach(detail -> {
@@ -210,16 +210,16 @@ public class CommonProcessFileService {
                      }
                  });
 
-        calcBalanceInitial = balanceEnd.subtract(creditAmount[0].subtract(debitAmount[0]));
+        calcBalanceEnd = balanceInitial.add(creditAmount[0].subtract(debitAmount[0]));
 
-        log.debug("Ending to fill balance initial");
-        int comparison = calcBalanceInitial.compareTo(fileBalanceInitial);
+        log.debug("Ending to fill balance end");
+        int comparison = calcBalanceEnd.compareTo(fileBalanceEnd);
         if (comparison != 0) {
-            log.error("The initial balance of the file {} does not correspond to the calculated balance {}"
-                , statement.getHeader().getBalanceInitial()
-                , calcBalanceInitial);
+            log.warn("The end balance of the file {} does not correspond to the calculated balance {}"
+                , fileBalanceEnd
+                , calcBalanceEnd);
         }
 
-        return calcBalanceInitial;
+        return calcBalanceEnd;
     }
 }
