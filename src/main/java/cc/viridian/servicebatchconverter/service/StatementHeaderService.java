@@ -4,7 +4,6 @@ import cc.viridian.servicebatchconverter.payload.DetailPayload;
 import cc.viridian.servicebatchconverter.payload.HeaderPayload;
 import cc.viridian.servicebatchconverter.persistence.StatementHeader;
 import cc.viridian.servicebatchconverter.repository.StatementHeaderRepository;
-import cc.viridian.servicebatchconverter.writer.Userlog;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -6,7 +6,6 @@ import cc.viridian.servicebatchconverter.payload.StatementPayload;
 import cc.viridian.servicebatchconverter.utils.FormatUtil;
 import lombok.extern.slf4j.Slf4j;
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -76,7 +75,6 @@ public class CommonProcessFileService {
             splitLine = line.split(": ");
             statementHeader.setBalanceInitial(BigDecimal.valueOf(Double.valueOf(splitLine[1])));
         }
-        
 
         log.debug("Ending to fill statement header");
         return statementHeader;
@@ -216,10 +214,10 @@ public class CommonProcessFileService {
 
         log.debug("Ending to fill balance initial");
         int comparison = calcBalanceInitial.compareTo(fileBalanceInitial);
-        if(comparison != 0){
+        if (comparison != 0) {
             log.error("The initial balance of the file {} does not correspond to the calculated balance {}"
-                ,statement.getHeader().getBalanceInitial()
-                ,calcBalanceInitial);
+                , statement.getHeader().getBalanceInitial()
+                , calcBalanceInitial);
         }
 
         return calcBalanceInitial;
