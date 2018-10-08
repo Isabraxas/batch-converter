@@ -48,11 +48,6 @@ public class StatementHeaderService {
         return this.headerRepository.getOneStatementHeaderPayload(headerPayload);
     }
 
-    public void deleteAll(final Userlog userlog) {
-        this.headerRepository.deleteAllStatements();
-        userlog.info("Database is it clean, without headers and details");
-        userlog.closeLog();
-    }
 
 
 }

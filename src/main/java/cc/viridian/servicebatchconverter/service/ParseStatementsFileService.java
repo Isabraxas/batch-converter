@@ -103,7 +103,7 @@ public class ParseStatementsFileService {
 
             if (line.contains(separatorStatement)) {
                 if (addHeader) {
-                    BigDecimal balanceInitial = CommonProcessFileService.getBalanceInitial(statement);
+                    BigDecimal balanceInitial = CommonProcessFileService.verifyBalanceInitial(statement);
                     statement.getHeader().setBalanceInitial(balanceInitial);
                 }
                 saveStatement(filePath, statement, statementHeader, detailList);

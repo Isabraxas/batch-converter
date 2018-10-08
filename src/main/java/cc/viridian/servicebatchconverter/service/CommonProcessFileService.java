@@ -6,6 +6,7 @@ import cc.viridian.servicebatchconverter.payload.StatementPayload;
 import cc.viridian.servicebatchconverter.utils.FormatUtil;
 import lombok.extern.slf4j.Slf4j;
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -69,6 +70,13 @@ public class CommonProcessFileService {
             splitLine = line.split(": ");
             statementHeader.setAccountCode(FormatUtil.parseToNull(splitLine[1]));
         }
+
+        if (line.contains("Initial")) {
+
+            splitLine = line.split(": ");
+            statementHeader.setBalanceInitial(BigDecimal.valueOf(Double.valueOf(splitLine[1])));
+        }
+        
 
         log.debug("Ending to fill statement header");
         return statementHeader;
@@ -184,7 +192,7 @@ public class CommonProcessFileService {
         }
     }
 
-    public static BigDecimal getBalanceInitial(final StatementPayload statement) {
+    public static BigDecimal verifyBalanceInitial(final StatementPayload statement) {
         if (statement.getHeader() == null) {
             return BigDecimal.ZERO;
         }
@@ -192,22 +200,28 @@ public class CommonProcessFileService {
         final BigDecimal[] debitAmount = {BigDecimal.ZERO};
         final BigDecimal[] creditAmount = {BigDecimal.ZERO};
         BigDecimal balanceEnd = statement.getHeader().getBalanceEnd();
-        BigDecimal balanceInitial;
+        BigDecimal calcBalanceInitial;
+        BigDecimal fileBalanceInitial = statement.getHeader().getBalanceInitial();
         statement.getDetails()
                  .stream()
                  .forEach(detail -> {
-                     if (detail.getDebitCredit().contains("D")) {
+                     if (detail.getDebitCredit().contains("DEBIT")) {
                          debitAmount[0] = debitAmount[0].add(detail.getAmount());
                      } else {
                          creditAmount[0] = creditAmount[0].add(detail.getAmount());
                      }
                  });
 
-        balanceEnd = balanceEnd.add(creditAmount[0]);
-        balanceInitial = balanceEnd.subtract(debitAmount[0]);
+        calcBalanceInitial = balanceEnd.subtract(creditAmount[0].subtract(debitAmount[0]));
 
         log.debug("Ending to fill balance initial");
+        int comparison = calcBalanceInitial.compareTo(fileBalanceInitial);
+        if(comparison != 0){
+            log.error("The initial balance of the file {} does not correspond to the calculated balance {}"
+                ,statement.getHeader().getBalanceInitial()
+                ,calcBalanceInitial);
+        }
 
-        return balanceInitial;
+        return calcBalanceInitial;
     }
 }
