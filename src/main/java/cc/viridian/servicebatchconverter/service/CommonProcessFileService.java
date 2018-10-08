@@ -4,6 +4,7 @@ import cc.viridian.servicebatchconverter.payload.DetailPayload;
 import cc.viridian.servicebatchconverter.payload.HeaderPayload;
 import cc.viridian.servicebatchconverter.payload.StatementPayload;
 import cc.viridian.servicebatchconverter.utils.FormatUtil;
+import cc.viridian.servicebatchconverter.writer.Userlog;
 import lombok.extern.slf4j.Slf4j;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -17,6 +18,8 @@ public class CommonProcessFileService {
     static Integer amountSize = null;
     static Integer tempBalanceSize = null;
     static Integer operationSize = null;
+
+    static Userlog userlog = Userlog.getUserlog();
 
     public static HeaderPayload fillStatementAccountHeader(final String line, final HeaderPayload headerPayload) {
         log.debug("Starting to fill statement header");
@@ -186,20 +189,20 @@ public class CommonProcessFileService {
                 log.debug("Ending to fill balance end");
             }
         } catch (Exception e) {
-            log.error(e.getMessage() + " ---> line content : " + line);
+            userlog.error(e.getMessage() + " ---> line content : " + line, log);
         }
     }
 
-    public static BigDecimal verifyBalanceInitial(final StatementPayload statement) {
+    public static BigDecimal verifyBalanceEnd(final StatementPayload statement) {
         if (statement.getHeader() == null) {
             return BigDecimal.ZERO;
         }
-        log.debug("Starting to fill balance initial");
+        log.debug("Starting to fill balance end");
         final BigDecimal[] debitAmount = {BigDecimal.ZERO};
         final BigDecimal[] creditAmount = {BigDecimal.ZERO};
-        BigDecimal balanceEnd = statement.getHeader().getBalanceEnd();
-        BigDecimal calcBalanceInitial;
-        BigDecimal fileBalanceInitial = statement.getHeader().getBalanceInitial();
+        BigDecimal fileBalanceEnd = statement.getHeader().getBalanceEnd();
+        BigDecimal calcBalanceEnd;
+        BigDecimal balanceInitial = statement.getHeader().getBalanceInitial();
         statement.getDetails()
                  .stream()
                  .forEach(detail -> {
@@ -210,16 +213,17 @@ public class CommonProcessFileService {
                      }
                  });
 
-        calcBalanceInitial = balanceEnd.subtract(creditAmount[0].subtract(debitAmount[0]));
+        calcBalanceEnd = balanceInitial.add(creditAmount[0].subtract(debitAmount[0]));
 
-        log.debug("Ending to fill balance initial");
-        int comparison = calcBalanceInitial.compareTo(fileBalanceInitial);
+        log.debug("Ending to fill balance end");
+        int comparison = calcBalanceEnd.compareTo(fileBalanceEnd);
         if (comparison != 0) {
-            log.error("The initial balance of the file {} does not correspond to the calculated balance {}"
-                , statement.getHeader().getBalanceInitial()
-                , calcBalanceInitial);
+            //todo: probably change to parametrized log
+            userlog.warn(String.format("The end balance of the file %s does not correspond to calculated balance %s",
+                fileBalanceEnd,
+                calcBalanceEnd), log);
         }
 
-        return calcBalanceInitial;
+        return calcBalanceEnd;
     }
 }

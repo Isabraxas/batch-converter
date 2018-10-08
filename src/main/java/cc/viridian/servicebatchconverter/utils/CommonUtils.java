@@ -7,11 +7,10 @@ import java.util.HashMap;
 /**
  * A common methods and utils for the data generator for the baku stadium example.
  *
- * @author feronti
  */
 
 public class CommonUtils {
-    public String operativSystem;
+    public static String operativSystem;
     static long initTime = 0;
     static long currentRunTime = 0;
     static long totalBytes = 0;
@@ -30,41 +29,41 @@ public class CommonUtils {
     }
 
     static public String moveUp(int n) {
-        //if (operativSystem.equals("WINDOWS")) {
-        //    return "";
-        //}
+        if (operativSystem.equals("WINDOWS")) {
+            return "";
+        }
         String s = "\u001B[" + n + "A";
         return s;
     }
 
     static public String moveDown(int n) {
-        //if (operativSystem.equals("WINDOWS")) {
-        //    return "";
-        //}
+        if (operativSystem.equals("WINDOWS")) {
+            return "";
+        }
         String s = "\u001B[" + n + "B";
         return s;
     }
 
     static public String moveForward(int n) {
-        //if (operativSystem.equals("WINDOWS")) {
-        //    return "";
-        //}
+        if (operativSystem.equals("WINDOWS")) {
+            return "";
+        }
         String s = "\u001B[" + n + "C";
         return s;
     }
 
     static public String moveBackward(int n) {
-        //if (operativSystem.equals("WINDOWS")) {
-        //    return "";
-        //}
+        if (operativSystem.equals("WINDOWS")) {
+            return "";
+        }
         String s = "\u001B[" + n + "D";
         return s;
     }
 
     static public String clearEndOfLine() {
-        //if (operativSystem.equals("WINDOWS")) {
-        //    return "";
-        //}
+        if (operativSystem.equals("WINDOWS")) {
+            return "";
+        }
         String s = "\u001B[" + "K";
         return s;
     }
@@ -93,7 +92,7 @@ public class CommonUtils {
         return code;
     }
 
-    public String red() {
+    public static String red() {
         String code = "\u001B[31m";
 
         if (operativSystem.equals("WINDOWS")) {
@@ -102,7 +101,7 @@ public class CommonUtils {
         return code;
     }
 
-    public String green() {
+    public static String green() {
         String code = "\u001B[32m";
 
         if (operativSystem.equals("WINDOWS")) {
@@ -122,9 +121,7 @@ public class CommonUtils {
 
     public void setTitle(final String title) {
         String version = "1.0";
-
         operativSystem = getOperativSystem();
-        //System.out.println(operativSystem);
         System.out.print(clear());
         System.out.println("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
         System.out.print(blue() + moveTo(0, 0));
@@ -140,7 +137,6 @@ public class CommonUtils {
         System.out.print(moveTo(1, 9));
     }
 
-
     public static void showPercentageByBytes(final long myBytesRead) {
         long bytesRead = myBytesRead;
 
@@ -148,8 +144,7 @@ public class CommonUtils {
 
         long expectedTime = ((getCurrentRunTime() * totalBytes) / myBytesRead);
 
-        System.out.print (moveUp(1) + clearEndOfLine());
-        System.out.println("  " + String.valueOf(percent) + "% " + (expectedTime /1000) + " secs. ");
+        System.out.println("  " + String.valueOf(percent) + "% " + (expectedTime / 1000) + " secs. ");
     }
 
     public static void setTotalBytes(final String filePath) {

@@ -6,6 +6,7 @@ import cc.viridian.servicebatchconverter.payload.FileInfoResponse;
 import cc.viridian.servicebatchconverter.payload.HeaderPayload;
 import cc.viridian.servicebatchconverter.payload.StatementPayload;
 import cc.viridian.servicebatchconverter.utils.CommonUtils;
+import cc.viridian.servicebatchconverter.writer.Userlog;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,11 +37,15 @@ public class ParseStatementsFileService {
     Long currentLine = 0L;
     long bytesRead = 0;
 
-    public FileInfoResponse parseContent(final String filePath)
+    Userlog userlog;
+
+    public FileInfoResponse parseContent(final String filePath, final Userlog userlog)
         throws FileNotFoundException, IOException, NoSuchAlgorithmException {
         FileReader f = new FileReader(filePath);
         BufferedReader b = new BufferedReader(f);
         String line;
+
+        this.userlog = userlog;
 
         StatementPayload statement = new StatementPayload();
         List<DetailPayload> detailList = new ArrayList<DetailPayload>();
@@ -49,7 +54,7 @@ public class ParseStatementsFileService {
 
         CommonUtils.setTotalBytes(filePath);
         System.out.println("parse content");
-        System.out.println( CommonUtils.getCurrentRunTime());
+        System.out.println(CommonUtils.getCurrentRunTime());
         CommonUtils.getInitTime();
 
         HeaderPayload statementHeader = new HeaderPayload();
@@ -58,7 +63,7 @@ public class ParseStatementsFileService {
         hash = HashCode.getCodigoHash(filePath);
 
         System.out.println("hash:");
-        System.out.println( CommonUtils.getCurrentRunTime());
+        System.out.println(CommonUtils.getCurrentRunTime());
         CommonUtils.getInitTime();
 
         int currentLine = 0;
@@ -111,8 +116,8 @@ public class ParseStatementsFileService {
 
             if (line.contains(separatorStatement)) {
                 if (addHeader) {
-                    BigDecimal balanceInitial = CommonProcessFileService.verifyBalanceInitial(statement);
-                    statement.getHeader().setBalanceInitial(balanceInitial);
+                    BigDecimal balanceEnd = CommonProcessFileService.verifyBalanceEnd(statement);
+                    statement.getHeader().setBalanceEnd(balanceEnd);
                 }
                 saveStatement(filePath, statement, statementHeader, detailList);
 
