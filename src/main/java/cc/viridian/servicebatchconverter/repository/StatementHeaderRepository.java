@@ -26,10 +26,8 @@ public class StatementHeaderRepository {
     private ServerRuntime mainServerRuntime;
 
     @Autowired
-    public StatementHeaderRepository(ServerRuntime mainServerRuntime,
-                                     StatementDetailRepository statementDetailRepository) {
+    public StatementHeaderRepository(ServerRuntime mainServerRuntime) {
         this.mainServerRuntime = mainServerRuntime;
-        this.statementDetailRepository = statementDetailRepository;
     }
 
     public StatementHeader getOneStatementHeaderByFileHash(final String hashCode) {
