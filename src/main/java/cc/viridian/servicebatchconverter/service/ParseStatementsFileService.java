@@ -30,8 +30,8 @@ public class ParseStatementsFileService {
 
     @Autowired
     private StatementHeaderService statementHeaderService;
-    @Autowired
-    private StatementDetailService statementDetailService;
+
+    private String hash;
 
     Long currentLine = 0L;
     long bytesRead = 0;
@@ -48,6 +48,9 @@ public class ParseStatementsFileService {
         Boolean addHeader = true;
 
         HeaderPayload statementHeader = new HeaderPayload();
+
+        //Get current file hash code
+        hash = HashCode.getCodigoHash(filePath);
 
         final int[] i = {0};
         while ((line = b.readLine()) != null) {
@@ -121,36 +124,35 @@ public class ParseStatementsFileService {
     }
 
     private void saveStatement(final String filePath, final StatementPayload statement,
-                               final HeaderPayload statementHeader, final List<DetailPayload> detailList) throws
+                               final HeaderPayload header, final List<DetailPayload> detailList) throws
         IOException, NoSuchAlgorithmException {
         log.debug("Starting save statement function");
-        HeaderPayload headerPayload = this.statementHeaderService.getStatementHeaderPayload(
-            statementHeader);
+        HeaderPayload headerDB = this.statementHeaderService.getStatementHeaderPayload(
+            header);
 
-        //Make hash and set to StatementHeader
-        String hash = HashCode.getCodigoHash(filePath);
-        statementHeader.setFileHash(hash);
+        //Set file hash code in header
+        header.setFileHash(hash);
 
         //Check if this header is null
         if (statement.getHeader() != null) {
             //Check if exist this header
             if (statementHeaderService.exist(statement.getHeader())) {
                 fileInfoResponse.incrementDuplicatedHeaders();
-                log.warn("This header already exist: " + statementHeader.toString());
+                log.warn("This header already exist: " + header.toString());
 
                 //Delete headers and details related
-                if (headerPayload != null) {
-                    if (!HashCode.areEqualsFileAndHash(filePath, headerPayload.getFileHash())) {
-                        log.warn("Deleting this header: " + headerPayload.toString());
-                        this.statementHeaderService.delete(statementHeader);
-                        fileInfoResponse.incremenDuplicatedDetails(headerPayload.getDetailPayloads().size());
+                if (headerDB != null) {
+                    if (!header.getFileHash().equals(headerDB.getFileHash())) {
+                        log.warn("Deleting this header: " + headerDB.toString());
+                        this.statementHeaderService.delete(headerDB);
+                        fileInfoResponse.incremenDuplicatedDetails(headerDB.getDetailPayloads().size());
                     }
                 }
             }
 
-            if (!statementHeaderService.exist(statementHeader)) {
+            if (!statementHeaderService.exist(header)) {
                 log.info("Saving Statements data");
-                statementHeaderService.insertOneInToDatabase(statementHeader, detailList);
+                statementHeaderService.insertOneInToDatabase(header, detailList);
                 fileInfoResponse.incrementInsertedHeaders();
                 fileInfoResponse.incrementInsertedDetails(detailList.size());
             }
