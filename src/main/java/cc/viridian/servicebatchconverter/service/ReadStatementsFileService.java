@@ -4,6 +4,7 @@ import cc.viridian.servicebatchconverter.payload.DetailPayload;
 import cc.viridian.servicebatchconverter.payload.HeaderPayload;
 import cc.viridian.servicebatchconverter.payload.FileInfoResponse;
 import cc.viridian.servicebatchconverter.payload.StatementPayload;
+import cc.viridian.servicebatchconverter.writer.Userlog;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,7 +26,8 @@ public class ReadStatementsFileService {
     @Autowired
     private ParseStatementsFileService parseStatementsFileService;
 
-    public FileInfoResponse readContent(final String filePath)
+
+    public FileInfoResponse readContent(final String filePath, final Userlog userlog)
         throws FileNotFoundException, IOException, NoSuchAlgorithmException {
         FileReader f = new FileReader(filePath);
         BufferedReader b = new BufferedReader(f);
@@ -116,12 +118,13 @@ public class ReadStatementsFileService {
         //if(fileIsFine) {//<--- Cuando el archivo esta corrupto y no se debe guardar nada
         if (true) {
             //TODO hacer solo los sets correspondientes
-            FileInfoResponse infoResponse = parseStatementsFileService.parseContent(filePath);
+            FileInfoResponse infoResponse = parseStatementsFileService.parseContent(filePath, userlog);
             fileInfoResponse.setReplacedDetails(infoResponse.getReplacedDetails());
             fileInfoResponse.setReplacedHeaders(infoResponse.getReplacedHeaders());
             fileInfoResponse.setInsertedDetails(infoResponse.getInsertedDetails());
             fileInfoResponse.setInsertedHeaders(infoResponse.getInsertedHeaders());
             log.info("Saving Statements");
+            userlog.info("Saving Statements");
         }
 
         System.out.print("\n");

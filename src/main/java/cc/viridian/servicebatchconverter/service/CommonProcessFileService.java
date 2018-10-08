@@ -189,7 +189,7 @@ public class CommonProcessFileService {
                 log.debug("Ending to fill balance end");
             }
         } catch (Exception e) {
-            userlog.error(e.getMessage() + " ---> line content : " + line);
+            userlog.error(e.getMessage() + " ---> line content : " + line, log);
         }
     }
 
@@ -220,7 +220,7 @@ public class CommonProcessFileService {
         if (comparison != 0) {
             userlog.warn(String.format("The end balance of the file %s does not correspond to the calculated balance %s"
                 , fileBalanceEnd
-                , calcBalanceEnd));
+                , calcBalanceEnd), log);
         }
 
         return calcBalanceEnd;

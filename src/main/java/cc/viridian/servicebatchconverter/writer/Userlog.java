@@ -1,6 +1,7 @@
 package cc.viridian.servicebatchconverter.writer;
 
 import cc.viridian.servicebatchconverter.utils.CommonUtils;
+import org.slf4j.Logger;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -16,7 +17,7 @@ public class Userlog {
     private PrintStream writer;
 
     private static Userlog userlog;
-    
+
     private LocalDateTime printDateTime;
 
     public Userlog(final String path, final CommonUtils commonUtils) {
@@ -55,16 +56,17 @@ public class Userlog {
         return writer;
     }
 
-    public static Userlog factoryUserlog(final String path, final CommonUtils commonUtils){
-        if(userlog == null) {
+    public static Userlog factoryUserlog(final String path, final CommonUtils commonUtils) {
+        if (userlog == null) {
             userlog = new Userlog(path, commonUtils);
             return userlog;
-        }else {
+        } else {
             return userlog;
         }
     }
-    public static Userlog getUserlog(){
-            return userlog;
+
+    public static Userlog getUserlog() {
+        return userlog;
     }
 
     //print the same message in the userlog and the console
@@ -81,13 +83,38 @@ public class Userlog {
         System.out.println(message);
     }
 
-    //print the same message in the userlog and the console as error
+    //print the same message in the userlog and the console as warning
     public void warn(final String message) {
         printDateTime = LocalDateTime.now();
         writer.println(printDateTime + " - " + commonUtils.green() + message + commonUtils.black());
         System.out.println(message);
     }
-    
+
+
+    //print the same message in the userlog and the console
+    public void info(final String message, final Logger log) {
+        printDateTime = LocalDateTime.now();
+        writer.println(printDateTime + " - " + message);
+        log.info(message);
+        System.out.println(message);
+    }
+
+    //print the same message in the userlog and the console as error
+    public void error(final String message, final Logger log) {
+        printDateTime = LocalDateTime.now();
+        writer.println(printDateTime + " - " + commonUtils.red() + message + commonUtils.black());
+        log.error(message);
+        System.out.println(message);
+    }
+
+    //print the same message in the userlog and the console as warning
+    public void warn(final String message, final Logger log) {
+        printDateTime = LocalDateTime.now();
+        writer.println(printDateTime + " - " + commonUtils.green() + message + commonUtils.black());
+        log.warn(message);
+        System.out.println(message);
+    }
+
     public void closeLog() {
         if (writer != null) {
             writer.println("***************************************");
