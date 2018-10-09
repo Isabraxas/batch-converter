@@ -80,7 +80,6 @@ public class ProcessStatementsFileService {
             try {
 
                 if (!line.contains(separatorStatement) && !line.equals("")) {
-                    currentStatement++;
                     //Try fill the Header
                     statementHeader = CommonProcessFileService.fillStatementAccountHeader(line, statementHeader);
 
@@ -116,6 +115,7 @@ public class ProcessStatementsFileService {
 
             if (line.contains(separatorStatement)) {
                 if (addHeader) {
+                    currentStatement++;
                     BigDecimal balanceEnd = CommonProcessFileService.verifyBalanceEnd(statement);
                     statement.getHeader().setBalanceEnd(balanceEnd);
                 }
