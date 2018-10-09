@@ -22,7 +22,7 @@ import java.util.List;
 
 @Slf4j
 @Service
-public class ParseStatementsFileService {
+public class ProcessStatementsFileService {
 
     FileInfoResponse fileInfoResponse = new FileInfoResponse();
 
@@ -34,7 +34,6 @@ public class ParseStatementsFileService {
 
     private String hash;
 
-    Long currentLine = 0L;
     long bytesRead = 0;
 
     Userlog userlog;
@@ -157,6 +156,7 @@ public class ParseStatementsFileService {
                 if (headerDB != null) {
                     if (!header.getFileHash().equals(headerDB.getFileHash())) {
                         log.warn("Deleting this header: " + headerDB.toString());
+                        userlog.warn("Deleting this header: " + headerDB.toString());
                         this.statementHeaderService.delete(headerDB);
                         fileInfoResponse.incremenDuplicatedDetails(headerDB.getDetailPayloads().size());
                     }

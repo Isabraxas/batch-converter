@@ -20,13 +20,9 @@ import java.util.List;
 
 @Slf4j
 @Service
-public class ReadStatementsFileService {
+public class CheckStatementsFileService {
     @Value("${config.separator.statement}")
     private String separatorStatement;
-
-    @Autowired
-    private ParseStatementsFileService parseStatementsFileService;
-
 
     public FileInfoResponse readContent(final String filePath, final Userlog userlog)
         throws FileNotFoundException, IOException, NoSuchAlgorithmException {
@@ -79,6 +75,8 @@ public class ReadStatementsFileService {
                     } catch (Exception e) {
                         log.error("Error while reading the file on the line :" + currentLine
                                       + " account-code ---> " + statementHeader.getAccountCode());
+                        userlog.error("Error while reading the file on the line :" + currentLine
+                                          + " account-code ---> " + statementHeader.getAccountCode());
                         fileInfoResponse.incrementErrorDetails();
                         if (!errorHeader.equals(statementHeader)) {
                             fileInfoResponse.incrementErrorHeaders();
@@ -100,6 +98,8 @@ public class ReadStatementsFileService {
                 System.out.println();
                 log.error("Error while reading the file on the line :" + currentLine
                               + " account-code ---> " + statementHeader.getAccountCode());
+                userlog.error("Error while reading the file on the line :" + currentLine
+                                  + " account-code ---> " + statementHeader.getAccountCode());
                 log.error(e.getMessage());
                 statement.setHeader(null);
                 addHeader = false;
@@ -116,18 +116,6 @@ public class ReadStatementsFileService {
             }
         }
         b.close();
-
-        //if(fileIsFine) {//<--- Cuando el archivo esta corrupto y no se debe guardar nada
-        if (true) {
-            //TODO hacer solo los sets correspondientes
-            FileInfoResponse infoResponse = parseStatementsFileService.parseContent(filePath, userlog);
-            fileInfoResponse.setReplacedDetails(infoResponse.getReplacedDetails());
-            fileInfoResponse.setReplacedHeaders(infoResponse.getReplacedHeaders());
-            fileInfoResponse.setInsertedDetails(infoResponse.getInsertedDetails());
-            fileInfoResponse.setInsertedHeaders(infoResponse.getInsertedHeaders());
-            log.info("Saving Statements");
-            userlog.info("Saving Statements");
-        }
 
         System.out.print("\n");
         return fileInfoResponse;

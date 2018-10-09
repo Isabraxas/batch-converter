@@ -90,31 +90,6 @@ public class Userlog {
         System.out.println(message);
     }
 
-
-    //print the same message in the userlog and the console
-    public void info(final String message, final Logger log) {
-        printDateTime = LocalDateTime.now();
-        writer.println(printDateTime + " - " + message);
-        log.info(message);
-        System.out.println(message);
-    }
-
-    //print the same message in the userlog and the console as error
-    public void error(final String message, final Logger log) {
-        printDateTime = LocalDateTime.now();
-        writer.println(printDateTime + " - " + commonUtils.red() + message + commonUtils.black());
-        log.error(message);
-        System.out.println(message);
-    }
-
-    //print the same message in the userlog and the console as warning
-    public void warn(final String message, final Logger log) {
-        printDateTime = LocalDateTime.now();
-        writer.println(printDateTime + " - " + commonUtils.green() + message + commonUtils.black());
-        log.warn(message);
-        System.out.println(message);
-    }
-
     public void closeLog() {
         if (writer != null) {
             writer.println("***************************************");

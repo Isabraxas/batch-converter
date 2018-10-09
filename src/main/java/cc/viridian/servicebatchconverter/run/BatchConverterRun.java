@@ -2,7 +2,8 @@ package cc.viridian.servicebatchconverter.run;
 
 import cc.viridian.servicebatchconverter.hash.HashCode;
 import cc.viridian.servicebatchconverter.payload.FileInfoResponse;
-import cc.viridian.servicebatchconverter.service.ReadStatementsFileService;
+import cc.viridian.servicebatchconverter.service.ProcessStatementsFileService;
+import cc.viridian.servicebatchconverter.service.CheckStatementsFileService;
 import cc.viridian.servicebatchconverter.service.StatementHeaderService;
 import cc.viridian.servicebatchconverter.utils.CommonUtils;
 import cc.viridian.servicebatchconverter.writer.Userlog;
@@ -19,10 +20,13 @@ public class BatchConverterRun implements CommandLineRunner {
 
     HashMap<String, Object> appParams = new HashMap<>();
     @Autowired
-    private ReadStatementsFileService readStatementsFileService;
+    private CheckStatementsFileService checkStatementsFileService;
+    @Autowired
+    private ProcessStatementsFileService processStatementsFileService;
 
     @Autowired
     private StatementHeaderService statementHeaderService;
+
     private CommonUtils commonUtils = new CommonUtils();
     private File prnFile = null;
     private String prnFilename = null;
@@ -65,9 +69,17 @@ public class BatchConverterRun implements CommandLineRunner {
             return;
         }
 
-        //process file and report results
+        //Read file and found errors in Statements
         commonUtils.getInitTime();
-        fileInfoResponse = this.readStatementsFileService.readContent(prnFilename, userlog);
+        fileInfoResponse = this.checkStatementsFileService.readContent(prnFilename, userlog);
+
+        //Process file and report results
+        FileInfoResponse infoResponse = this.processStatementsFileService.parseContent(prnFilename, userlog);
+        fileInfoResponse.setReplacedDetails(infoResponse.getReplacedDetails());
+        fileInfoResponse.setReplacedHeaders(infoResponse.getReplacedHeaders());
+        fileInfoResponse.setInsertedDetails(infoResponse.getInsertedDetails());
+        fileInfoResponse.setInsertedHeaders(infoResponse.getInsertedHeaders());
+        log.info("Saving Statements");
 
         String message = "There are " + fileInfoResponse.getReplacedHeaders() + " replaced headers,"
             + " " + fileInfoResponse.getErrorsHeaders() + " errors headers, "
