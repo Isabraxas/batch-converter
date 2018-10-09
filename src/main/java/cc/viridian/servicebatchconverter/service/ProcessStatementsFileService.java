@@ -98,7 +98,7 @@ public class ProcessStatementsFileService {
 
                     //Set Total amount
                     if (startReadDetails) {
-                        CommonProcessFileService.setBalanceEnd(line, statementHeader);
+                        statementHeader.setBalanceEnd(CommonProcessFileService.getBalanceEnd(line));
                     }
                 }
 

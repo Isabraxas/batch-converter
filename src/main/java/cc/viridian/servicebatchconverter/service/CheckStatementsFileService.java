@@ -7,7 +7,6 @@ import cc.viridian.servicebatchconverter.payload.StatementPayload;
 import cc.viridian.servicebatchconverter.utils.CommonUtils;
 import cc.viridian.servicebatchconverter.writer.Userlog;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import java.io.BufferedReader;
@@ -85,7 +84,7 @@ public class CheckStatementsFileService {
                     }
 
                     //Set Total amount
-                    //CommonProcessFileService.setBalanceEnd(line, statementHeader);
+                    //CommonProcessFileService.getBalanceEnd(line, statementHeader);
                 }
 
                 if (addHeader) {

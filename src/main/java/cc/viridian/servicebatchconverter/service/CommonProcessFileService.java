@@ -172,38 +172,42 @@ public class CommonProcessFileService {
         return detail;
     }
 
-    public static void setBalanceEnd(final String line, final HeaderPayload statementHeader) {
+    public static BigDecimal getBalanceEnd(final String line) {
+        BigDecimal balanceEnd = BigDecimal.ZERO;
         try {
             if (line.contains("Total") && !line.equals("")) {
                 log.debug("Starting to fill balance end");
                 Integer colSum = 0;
-
-                //TOTAL
-                colSum = 0;
                 colSum += dateSize + descSize + amountSize;
                 String colTotal = line.substring(colSum, line.length());
 
                 log.debug("TOTAL= " + Double.valueOf(colTotal));
-                statementHeader.setBalanceEnd(BigDecimal.valueOf(Double.valueOf(colTotal)));
-
+                balanceEnd.add(BigDecimal.valueOf(Double.valueOf(colTotal)));
                 log.debug("Ending to fill balance end");
             }
-        } catch (Exception e) {
-            log.error(e.getMessage() + " ---> line content : " + line);
-            userlog.error(e.getMessage() + " ---> line content : " + line);
+        } catch (NumberFormatException nfe) {
+            log.error(nfe.getMessage() + " ---> line content : " + line);
+            userlog.error(nfe.getMessage() + " ---> line content : " + line);
+            return balanceEnd;
         }
+
+        return balanceEnd;
     }
 
     public static BigDecimal verifyBalanceEnd(final StatementPayload statement) {
         if (statement.getHeader() == null) {
             return BigDecimal.ZERO;
         }
+        if (statement.getHeader().getBalanceEnd() == null || statement.getHeader().getBalanceInitial() == null) {
+            return BigDecimal.ZERO;
+        }
+
         log.debug("Starting to fill balance end");
         final BigDecimal[] debitAmount = {BigDecimal.ZERO};
         final BigDecimal[] creditAmount = {BigDecimal.ZERO};
+        BigDecimal balanceInitial = statement.getHeader().getBalanceInitial();
         BigDecimal fileBalanceEnd = statement.getHeader().getBalanceEnd();
         BigDecimal calcBalanceEnd;
-        BigDecimal balanceInitial = statement.getHeader().getBalanceInitial();
         statement.getDetails()
                  .stream()
                  .forEach(detail -> {
@@ -223,8 +227,9 @@ public class CommonProcessFileService {
                 , fileBalanceEnd
                 , calcBalanceEnd);
             userlog.warn(String.format("The end balance of the file %s does not correspond to calculated balance %s",
-                fileBalanceEnd,
-                calcBalanceEnd));
+                                       fileBalanceEnd,
+                                       calcBalanceEnd
+            ));
         }
 
         return calcBalanceEnd;
