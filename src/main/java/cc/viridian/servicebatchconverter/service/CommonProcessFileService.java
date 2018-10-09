@@ -109,7 +109,6 @@ public class CommonProcessFileService {
         throws StringIndexOutOfBoundsException {
         log.debug("Starting to fill one statement detail");
         DetailPayload detail = detailPayload;
-        HeaderPayload statementHeader = headerPayload;
         Integer colSum = 0;
         Integer res = 0;
 
@@ -163,7 +162,7 @@ public class CommonProcessFileService {
                 detail.setDebitCredit(colOperation);
 
                 //Account code
-                detail.setAccountCode(statementHeader.getAccountCode());
+                detail.setAccountCode(headerPayload.getAccountCode());
             }
         } else {
             detail = null;
