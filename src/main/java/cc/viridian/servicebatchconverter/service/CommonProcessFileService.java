@@ -109,7 +109,6 @@ public class CommonProcessFileService {
         throws StringIndexOutOfBoundsException {
         log.debug("Starting to fill one statement detail");
         DetailPayload detail = detailPayload;
-        HeaderPayload statementHeader = headerPayload;
         Integer colSum = 0;
         Integer res = 0;
 
@@ -163,7 +162,7 @@ public class CommonProcessFileService {
                 detail.setDebitCredit(colOperation);
 
                 //Account code
-                detail.setAccountCode(statementHeader.getAccountCode());
+                detail.setAccountCode(headerPayload.getAccountCode());
             }
         } else {
             detail = null;
@@ -182,7 +181,7 @@ public class CommonProcessFileService {
                 String colTotal = line.substring(colSum, line.length());
 
                 log.debug("TOTAL= " + Double.valueOf(colTotal));
-                balanceEnd.add(BigDecimal.valueOf(Double.valueOf(colTotal)));
+                balanceEnd = balanceEnd.add(BigDecimal.valueOf(Double.valueOf(colTotal)));
                 log.debug("Ending to fill balance end");
             }
         } catch (NumberFormatException nfe) {
@@ -223,9 +222,9 @@ public class CommonProcessFileService {
         log.debug("Ending to fill balance end");
         int comparison = calcBalanceEnd.compareTo(fileBalanceEnd);
         if (comparison != 0) {
-            //log.error("The end balance of the file {} does not correspond to calculated balance {}"
-            //    , fileBalanceEnd
-            //    , calcBalanceEnd);
+            log.error("The end balance of the file {} does not correspond to calculated balance {}"
+                , fileBalanceEnd
+                , calcBalanceEnd);
             //userlog.warn(String.format("The end balance of the file %s does not correspond to calculated balance %s",
             //                           fileBalanceEnd,
             //                           calcBalanceEnd
