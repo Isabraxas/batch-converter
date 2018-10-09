@@ -1,7 +1,6 @@
 package cc.viridian.servicebatchconverter.writer;
 
 import cc.viridian.servicebatchconverter.utils.CommonUtils;
-import org.slf4j.Logger;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
