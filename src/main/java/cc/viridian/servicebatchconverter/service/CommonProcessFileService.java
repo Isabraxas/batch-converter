@@ -222,8 +222,9 @@ public class CommonProcessFileService {
         log.debug("Ending to fill balance end");
         int comparison = calcBalanceEnd.compareTo(fileBalanceEnd);
         if (comparison != 0) {
-            log.error("The end balance of the file {} does not correspond to calculated balance {}"
+            log.error("The end balance {} of account: {} does not correspond to calculated balance {}"
                 , fileBalanceEnd
+                , statement.getHeader().getAccountCode()
                 , calcBalanceEnd);
             //userlog.warn(String.format("The end balance of the file %s does not correspond to calculated balance %s",
             //                           fileBalanceEnd,

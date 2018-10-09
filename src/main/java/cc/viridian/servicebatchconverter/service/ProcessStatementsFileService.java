@@ -146,25 +146,31 @@ public class ProcessStatementsFileService {
         //Set file hash code in header
         header.setFileHash(hash);
 
+        boolean existHeaderDB = headerDB != null;
+
         //Check if this header is null
         if (statement.getHeader() != null) {
             //Check if exist this header
-            if (statementHeaderService.exist(statement.getHeader())) {
-                fileInfoResponse.incrementDuplicatedHeaders();
-                log.warn("This header already exist: " + header.toString());
+            if (existHeaderDB) {
 
-                //Delete headers and details related
-                if (headerDB != null) {
-                    if (!header.getFileHash().equals(headerDB.getFileHash())) {
-                        log.warn("Deleting this header: " + headerDB.toString());
-                        userlog.warn("Deleting this header: " + headerDB.toString());
-                        this.statementHeaderService.delete(headerDB);
-                        fileInfoResponse.incremenDuplicatedDetails(headerDB.getDetailPayloads().size());
-                    }
+                if (!header.getFileHash().equals(headerDB.getFileHash())) {
+                    fileInfoResponse.incrementDuplicatedHeaders();
+                    log.warn("This header already exist: " + header.toString());
+
+                    log.warn("Deleting this header: " + headerDB.toString());
+                    userlog.warn("Deleting this header: "
+                                     + "account: " + headerDB.getAccountCode()
+                                     + ", customer: " + headerDB.getCustomerCode()
+                                     + ", date_from: " + headerDB.getDateFrom()
+                                     + ", date_to: " + headerDB.getDateTo()
+                    );
+                    this.statementHeaderService.delete(headerDB);
+                    fileInfoResponse.incremenDuplicatedDetails(headerDB.getDetailPayloads().size());
+                    existHeaderDB = !existHeaderDB;
                 }
             }
 
-            if (!statementHeaderService.exist(header)) {
+            if (!existHeaderDB) {
                 log.info("Saving Statements data");
                 statementHeaderService.insertOneInToDatabase(header, detailList);
                 fileInfoResponse.incrementInsertedHeaders();
