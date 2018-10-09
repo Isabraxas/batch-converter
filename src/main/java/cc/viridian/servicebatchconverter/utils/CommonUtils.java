@@ -137,14 +137,14 @@ public class CommonUtils {
         System.out.print(moveTo(1, 9));
     }
 
-    public static void showPercentageByBytes(final long myBytesRead) {
+    public static void showPercentageByBytes(final long myBytesRead, final int currentStatement) {
         long bytesRead = myBytesRead;
 
         long percent = (bytesRead * 100L / totalBytes);
 
         long expectedTime = ((getCurrentRunTime() * totalBytes) / myBytesRead);
 
-        System.out.println("  " + String.valueOf(percent) + "% " + (expectedTime / 1000) + " secs. ");
+        System.out.println("  " + currentStatement + " statements, estimated time " + String.valueOf(percent) + "% " + (expectedTime / 1000) + " secs. ");
     }
 
     public static void setTotalBytes(final String filePath) {
