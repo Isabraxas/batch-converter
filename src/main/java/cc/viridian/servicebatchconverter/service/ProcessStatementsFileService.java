@@ -66,11 +66,12 @@ public class ProcessStatementsFileService {
         CommonUtils.getInitTime();
 
         int currentLine = 0;
+        int currentStatement = 0;
         while ((line = b.readLine()) != null) {
             bytesRead += line.length();
 
-            if (currentLine % 500 == 0) {
-                CommonUtils.showPercentageByBytes(bytesRead);
+            if (currentLine % 1000 == 0) {
+                CommonUtils.showPercentageByBytes(bytesRead, currentStatement);
             }
 
             DetailPayload detail = new DetailPayload();
@@ -79,7 +80,7 @@ public class ProcessStatementsFileService {
             try {
 
                 if (!line.contains(separatorStatement) && !line.equals("")) {
-
+                    currentStatement++;
                     //Try fill the Header
                     statementHeader = CommonProcessFileService.fillStatementAccountHeader(line, statementHeader);
 
